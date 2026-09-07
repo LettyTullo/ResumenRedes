@@ -1,4 +1,3 @@
-
 # Capítulo 1: Empezando (Getting Started)
 
 Este capítulo introduce las herramientas y flujos de trabajo básicos para programar en C y C++ en el entorno Linux.
@@ -39,7 +38,7 @@ Este capítulo introduce las herramientas y flujos de trabajo básicos para prog
     - `break <ubicación>`: Establece un punto de interrupción (_breakpoint_).
     - `next` y `step`: Avanzan en la ejecución línea por línea; `next` pasa por encima de las llamadas a funciones (_step over_), mientras que `step` ingresa dentro de ellas (_step into_).
 
-###**Capítulo 2: Escribiendo Buen Software en GNU/Linux**
+# Capítulo 2: Escribiendo Buen Software en GNU/Linux
 
 Este capítulo detalla las mejores prácticas y API necesarias para interactuar adecuadamente con el sistema operativo y escribir programas robustos y profesionales.
 
@@ -70,7 +69,3 @@ Este capítulo detalla las mejores prácticas y API necesarias para interactuar 
     - **PIC (Position-Independent Code):** Los archivos objeto que las componen deben compilarse de manera independiente de su posición en memoria usando el parámetro **`-fPIC`**. El archivo final se enlaza con `gcc -shared -fPIC -o libtest.so test1.o test2.o`.
     - **Rutas de búsqueda:** En tiempo de ejecución, el sistema busca estas bibliotecas en `/lib` y `/usr/lib` por defecto. Rutas personalizadas pueden definirse en la compilación usando `-Wl,-rpath,<ruta>` o configurando la variable de entorno `LD_LIBRARY_PATH`.
 - **Carga Dinámica en Tiempo de Ejecución (Plugins):** Permite cargar código de forma dinámica sobre la marcha. Se implementa mediante las funciones **`dlopen()`** (para cargar el archivo `.so`), **`dlsym()`** (para obtener un puntero a una función o variable de la biblioteca) y **`dlclose()`** (para descargarla). En C++, las funciones expuestas para `dlsym` deben declararse con `extern "C"` para evitar la alteración de nombres (_name mangling_) por parte del compilador.
-
----
-
-🛠️ ¿Te gustaría que hagamos un repaso rápido de cómo estructurar un `Makefile` básico para compilar y enlazar tus propios ejercicios usando estas directivas que acabamos de ver?

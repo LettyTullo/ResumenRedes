@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/LP3/Capitulo 1 y 2.md",
+                "file": "5to semestre/LP3/Capitulo 5 - IPC.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Capitulo 1 y 2"
+              "title": "Capitulo 5 - IPC"
             }
           },
           {
@@ -253,10 +253,10 @@
   },
   "active": "4a17abf1d9759224",
   "lastOpenFiles": [
-    "5to semestre/LP3/Capitulo 5 - IPC.md",
-    "5to semestre/LP3/Capitulo 1 y 2.md",
     "5to semestre/LP3/Capitulo 4 - Hilos.md",
     "5to semestre/LP3/Capitulo 3 - Procesos.md",
+    "5to semestre/LP3/Capitulo 1 y 2.md",
+    "5to semestre/LP3/Capitulo 5 - IPC.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/Multidifusion en Internet.md",
     "5to semestre/LP3",
     "5to semestre/Redes II/Capitulo 5 pt 2/MPLS y OSPF.md",
