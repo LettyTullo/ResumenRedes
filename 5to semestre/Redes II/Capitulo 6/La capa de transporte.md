@@ -71,3 +71,5 @@ En la práctica, las aplicaciones de Internet que corren sobre TCP/IP no utiliza
 
 >[!success] ¿Por qué es tan importante esta estructura?
 La separación de estas primitivas garantiza el **aislamiento tecnológico**. Un desarrollador puede programar una aplicación compleja asumiendo que la red es un canal perfecto gracias a que las primitivas de la capa de transporte gestionan de forma totalmente invisible para el usuario detalles críticos como el control de errores (retransmisiones ARQ), control de flujo (búferes dinámicos) y el control de congestión de la red.
+
+[[Elementos de protocolo de transporte]]
