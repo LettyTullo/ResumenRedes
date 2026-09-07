@@ -21,7 +21,6 @@ Para facilitar la programación de aplicaciones robustas, la capa de transporte 
 - **Servicio Orientado a la Conexión (ej. TCP):** Está diseñado para modelar una "conexión perfecta". Oculta las pérdidas y retrasos de la red para ofrecer a la aplicación la abstracción de una **tubería de bits fiable al 100%**, donde los datos introducidos en un extremo salen exactamente en el mismo orden e íntegros en el otro extremo. Sigue tres fases estrictas: establecimiento, transferencia de datos y liberación de la conexión.
 - **Servicio Sin Conexión (ej. UDP):** No realiza configuraciones previas. Simplemente encapsula los paquetes IP añadiendo una pequeña cabecera para entregar datagramas de manera rápida, útil en aplicaciones cliente-servidor sencillas (como búsquedas DNS) o transmisiones multimedia en tiempo real donde un pequeño porcentaje de pérdida de paquetes es tolerable frente al costo de retardo de las retransmisiones.
 #### B. Direccionamiento (TSAPs / Puertos)
-
 Dado que un ordenador suele poseer una única dirección de red (NSAP o dirección IP), la capa de transporte introduce los **TSAP (Transport Service Access Points)**, conocidos en la práctica como **números de puerto**. Estos puertos permiten multiplexar la red para que múltiples procesos y aplicaciones en ejecución dentro de la misma máquina puedan enviar y recibir tráfico simultáneamente de forma diferenciada.
 #### C. Control de Errores y Confiabilidad Mejorada
 
@@ -30,7 +29,6 @@ A diferencia del control de errores de la capa de enlace (que solo protege un tr
 
 La capa de transporte evita que un emisor rápido sature a un receptor lento que carece de memoria temporal para procesar los datos. Para ello, utiliza mecanismos de **ventanas deslizantes dinámicas**, donde el receptor avisa activamente al emisor de cuántos bytes tiene de espacio en sus búferes (_buffers_) para recibir más información antes de verse obligado a pausar la transmisión.
 #### E. Control de Congestión
-
 Dado que los routers intermedios de la red pueden congestionarse si reciben demasiados paquetes con excesiva rapidez, la capa de transporte asume la responsabilidad de **regular el ritmo al que inyecta datos a la red**. Analizando pérdidas implícitas o marcas de notificación de los routers (ECN), disminuye temporalmente su velocidad de envío para prevenir un colapso generalizado de la red.
 
 ## Primitivas de servicios
@@ -72,5 +70,4 @@ En la práctica, las aplicaciones de Internet que corren sobre TCP/IP no utiliza
 - **CLOSE:** Libera la conexión de manera simétrica. TCP requiere que ambos extremos de la conexión ejecuten **CLOSE** de forma independiente (mediante el intercambio de segmentos con el bit `FIN`) para que la conexión se considere completamente cerrada y los recursos de memoria se liberen en los hosts.
 
 >[!success] ¿Por qué es tan importante esta estructura?
-
 La separación de estas primitivas garantiza el **aislamiento tecnológico**. Un desarrollador puede programar una aplicación compleja asumiendo que la red es un canal perfecto gracias a que las primitivas de la capa de transporte gestionan de forma totalmente invisible para el usuario detalles críticos como el control de errores (retransmisiones ARQ), control de flujo (búferes dinámicos) y el control de congestión de la red.
