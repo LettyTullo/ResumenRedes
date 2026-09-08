@@ -46,9 +46,10 @@ El algoritmo utiliza etiquetas en los nodos para rastrear el progreso. Estas eti
 >4. **Selección del mínimo**: Tras examinar a los vecinos, el algoritmo busca entre **todos** los nodos provisionales del grafo aquel que tenga la **etiqueta de distancia más pequeña**.
 >5. **Cierre de ciclo**: Ese nodo con la distancia mínima se convierte en **permanente** y pasa a ser el nuevo nodo de trabajo para la siguiente ronda.
 >6. **Finalización**: Los pasos 2 a 5 se repiten hasta que el nodo de destino se vuelve permanente o todos los nodos han sido procesados.
-La **inundación** (o _flooding_) es un algoritmo de enrutamiento estático y sencillo cuyo objetivo es hacer llegar un paquete a **todos los nodos** de la red.
 
 ## Inundacion
+La **inundación** (o _flooding_) es un algoritmo de enrutamiento estático y sencillo cuyo objetivo es hacer llegar un paquete a **todos los nodos** de la red.
+
 Bajo esta técnica, cada vez que un enrutador recibe un paquete entrante, lo retransmite por **todas sus líneas de salida**, excepto por aquella por la que el paquete llegó originalmente.
 
 Su principal problema es que genera una **gran cantidad de paquetes duplicados**, lo que puede saturar la red o incluso crear bucles infinitos. Para evitar esto, se utilizan dos métodos de control:
