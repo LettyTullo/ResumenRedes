@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
+                "file": "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2 Elementos de protocolo de transporte"
+              "title": "5 MPLS y OSPF"
             }
           },
           {
@@ -225,8 +225,8 @@
   },
   "active": "a1a15b18a4a9a16f",
   "lastOpenFiles": [
-    "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
+    "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
     "5to semestre/Redes II/Capitulo 5 pt 1/5 Calidad de servicio.md",
     "5to semestre/Redes II/Capitulo 5 pt 1/4 Manejo de trafico de la capa de red.md",
     "5to semestre/Redes II/Capitulo 5 pt 1/2 Algoritmos de enrutamiento pt1.md",
