@@ -5,6 +5,7 @@ En un enlace directo de capa de enlace, el destino del paquete es obvio. En camb
 - **TSAP (Transport Service Access Point):** Es el punto final específico dentro del host donde escucha un proceso (los conocidos **puertos** TCP/UDP). Los TSAPs permiten multiplexar la red para que múltiples aplicaciones independientes compartan de manera simultánea una única dirección IP.
 ##### El Proceso de Envío Paso a Paso (Anidamiento de Cabeceras)
 El viaje de un mensaje desde el origen hasta el destino se basa en el **anidamiento sucesivo de cabeceras** en el emisor y su posterior extracción en el receptor:
+![[Pasted image 20260908094250.png|399]]
 
 >[!info] **En el Host de Origen (Host 1):**
 >1. **Paso de Aplicación a Transporte:** Un proceso de aplicación (por ejemplo, un cliente de correo conectado al TSAP local de origen 1208) genera datos y los pasa a la **entidad de transporte**. Para ello, especifica el **TSAP de destino** (el puerto del servidor de correo, ej. 1522) y el **NSAP de destino** (la dirección IP del Host 2).
