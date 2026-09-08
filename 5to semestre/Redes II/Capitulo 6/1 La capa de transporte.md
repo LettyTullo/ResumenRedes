@@ -54,7 +54,7 @@ Este modelo teórico ilustra cómo interactúan un cliente y un servidor a trav�
 >4. **Transferencia de Datos:** Una vez conectados, ambos procesos pueden intercambiar datos de forma bidireccional invocando llamadas consecutivas a **SEND** y **RECEIVE**.
 >5. **Liberación:** Cuando terminan, ejecutan **DISCONNECT** para liberar los recursos asignados a esa conexión en las tablas de las entidades de transporte
 
-#### Primitivas Reales en Internet: Sockets de Berkeley
+#### 2. Primitivas Reales en Internet: Sockets de Berkeley
 En la práctica, las aplicaciones de Internet que corren sobre TCP/IP no utilizan el modelo simple anterior, sino la **API de Sockets de Berkeley** (estandarizada para UNIX en 1983). Las primitivas que un programador utiliza para la gestión de conexiones TCP son las siguientes:
 
 ##### A. Primitivas para la Inicialización (Servidor y Cliente)
