@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/Elementos de protocolo de transporte.md",
+                "file": "5to semestre/Redes II/Capitulo 6/1 Elementos de protocolo de transporte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Elementos de protocolo de transporte"
+              "title": "1 Elementos de protocolo de transporte"
             }
           },
           {
@@ -226,8 +226,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "lucide-ghost",
+              "title": "git-view"
             }
           }
         ],
@@ -251,11 +251,11 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "4a17abf1d9759224",
+  "active": "9be28b66b59e4e2c",
   "lastOpenFiles": [
-    "5to semestre/Redes II/Capitulo 6/La capa de transporte.md",
-    "5to semestre/Redes II/Capitulo 6/Elementos de protocolo de transporte.md",
-    "5to semestre/Redes II/Capitulo 6/este_no todavia.md",
+    "5to semestre/Redes II/Capitulo 6/0 La capa de transporte.md",
+    "5to semestre/Redes II/Capitulo 6/2 este_no todavia.md",
+    "5to semestre/Redes II/Capitulo 6/1 Elementos de protocolo de transporte.md",
     "5to semestre/LP3/Capitulo 5 - IPC.md",
     "5to semestre/Redes II/Sin título.md",
     "5to semestre/Redes II/Capitulo 6",
