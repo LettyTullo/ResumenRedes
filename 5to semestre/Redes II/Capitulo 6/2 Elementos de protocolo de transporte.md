@@ -25,16 +25,36 @@ Dado que un proceso cliente necesita saber de antemano en qué puerto está escu
 - **El Portmapper (Asociador de puertos):** Para servicios efímeros o dinámicos que no tienen un puerto fijo, se utiliza un proceso especial llamado **Portmapper** que escucha en un TSAP bien conocido. El cliente se conecta primero al Portmapper, envía el nombre del servicio en texto plano (ej. "BitTorrent") y el Portmapper le devuelve el TSAP dinámico actual donde está escuchando ese proceso.
 - **ICP (Initial Connection Protocol / inetd):** Mantener decenas de servidores escuchando de manera pasiva sus respectivos puertos individuales todo el día consume recursos del sistema. El ICP propone utilizar un **servidor de procesos especial** (como `inetd` en UNIX) que actúa como proxy y escucha de forma simultánea un conjunto de puertos. Cuando llega una solicitud `CONNECT` de un cliente a un puerto específico sin un servidor activo, `inetd` crea el proceso bajo demanda, le transfiere la conexión activa y vuelve a escuchar nuevas solicitudes
 #### B. Establecimiento de Conexión (Apretón de Manos de Tres Vías)
-El **apretón de manos de tres vías** (o _**three-way handshake**_, también denominado _acuerdo de tres vías_) es el método estándar y obligatorio que utilizan los protocolos de la capa de transporte (como **TCP**) para establecer de manera confiable una conexión bidireccional entre dos hosts.
-
-Fue propuesto originalmente por **Ray Tomlinson en 1975** para solucionar uno de los problemas más difíciles en redes de comunicaciones: el establecimiento de conexiones seguras sobre canales no confiables que pueden retrasar, duplicar, perder o almacenar paquetes temporalmente.
 ##### ¿Por qué es necesario? El problema de los duplicados retrasados
 
 En la capa de enlace (Capa 2), el establecimiento de conexión es sencillo porque los dispositivos están directamente conectados por un cable. Sin embargo, en la capa de transporte, los paquetes viajan a través de múltiples routers intermedios y redes heterogéneas.
 
 Si la red se congestiona, un paquete de "solicitud de conexión" puede quedar atrapado en la memoria de un router durante varios segundos. Si el host emisor no recibe respuesta, asume que el paquete se perdió, agota su temporizador y envía una nueva solicitud para abrir la conexión. Si tiempo después el paquete original atrapado se libera y llega al destino (un **duplicado antiguo retrasado**), el receptor podría pensar que es una nueva solicitud de conexión y abrir un canal fantasma, duplicando transacciones críticas o desperdiciando recursos.
+# Metodos de solucion a este problema
+##### 1. Direcciones de transporte desechables (Disposable transport addresses)
 
-El apretón de manos de tres vías está diseñado específicamente para que ambos hosts verifiquen que la solicitud de conexión es **actual** y se pongan de acuerdo en los **números de secuencia iniciales** que usarán para el flujo de datos.
+- **Concepto:** Cada vez que una aplicación necesita abrir una conexión, se genera una dirección de transporte (un TSAP o puerto) completamente nueva y única. Al finalizar y liberar la conexión, esa dirección específica **se descarta y no se vuelve a utilizar**.
+- **Cómo ataca el problema:** Si un paquete duplicado y retrasado de una conexión anterior reaparece flotando en la red mucho tiempo después, intentará entregarse a un puerto que ya fue descartado. Al no haber ningún proceso escuchando allí, el paquete se ignora y no puede causar ningún daño.
+- **Desventaja:** Complica enormemente el proceso de conexión inicial, ya que los hosts deben negociar dinámicamente y descubrir de manera constante qué nuevos TSAPs utilizar en cada intento.
+##### 2. Identificadores únicos de conexión con tablas de estado histórico
+
+- **Concepto:** Se asigna un **identificador único secuencial** a cada conexión establecida. Al cerrarse la conexión, las entidades de transporte guardan este identificador dentro de una tabla de conexiones obsoletas en su memoria local.
+- **Cómo ataca el problema:** Cuando llega una nueva solicitud de conexión, se compara su identificador con la tabla histórica. Si coincide con uno de la lista, se detecta de inmediato como un duplicado antiguo y se descarta.
+- **Desventaja:** Requiere que la entidad de transporte almacene y mantenga esta información histórica de manera **indefinida** tanto en el origen como en el destino. El gran peligro ocurre si un host sufre una caída (_crash_) y se reinicia: al perder la memoria volátil, **pierde la tabla histórica**, quedando vulnerable a aceptar duplicados antiguos porque ya no sabe qué identificadores se usaron previamente.
+##### 3. Limitar el tiempo de vida de los paquetes (Restricting packet lifetime)
+Para hacer que el problema sea manejable, se puede implementar un método que impida que los paquetes vivan eternamente en la red. Si se garantiza que ningún paquete puede sobrevivir más allá de un tiempo \(T\) (en Internet se toma arbitrariamente como 120 segundos), cualquier duplicado de un paquete o de su acuse de recibo habrá muerto con absoluta certeza al pasar ese periodo.
+Existen tres técnicas para restringir esta vida útil:
+1. **Diseño de red restringido:** Se evita la formación de ciclos y bucles de enrutamiento físicos, y se controla la congestión para acotar el retardo en el peor camino posible.
+2. **Contador de saltos (Hop limit / TTL):** Se añade un campo contador en la cabecera del paquete (como el TTL en IPv4 o Hop Limit en IPv6) que disminuye en cada enrutador. Si llega a cero, el paquete se descarta de inmediato.
+3. **Marca de tiempo (Timestamping):** Cada paquete lleva registrada su hora de creación, y los routers acuerdan descartar cualquier paquete que supere un umbral de antigüedad. _Desventaja:_ Requiere mantener los relojes de todos los routers de la red perfectamente sincronizados, lo cual es sumamente difícil.
+
+##### El método complementario: Relojes locales de Tomlinson (1975)
+Una vez que el tiempo de vida del paquete está acotado por un periodo \(T\), Ray Tomlinson propuso equipar a los hosts con **relojes locales basados en contadores binarios** que siguen funcionando incluso si el host falla.
+- Cuando se abre una conexión, se toman los \(k\) bits inferiores del reloj para usarlos como el **número de secuencia inicial**.
+- Como el reloj avanza constantemente, los números de secuencia iniciales varían en cada conexión.
+- El espacio de secuencia es tan grande que para cuando los números dan la vuelta y vuelven a empezar, cualquier segmento viejo con ese mismo número ya ha muerto de forma natural al superar el tiempo \(T\).
+- _Nota de diseño:_ Aunque este método basado en reloj soluciona la duplicación durante la transmisión de datos, el **apretón de manos de tres vías** se sigue necesitando obligatoriamente justo al inicio. Esto es porque el host de destino no recuerda de forma activa los números de secuencia de conexiones ya cerradas, por lo que necesita el intercambio de tres pasos para verificar que la solicitud basada en el reloj del emisor sea realmente actual y no un duplicado antiguo.
+#### Acuerdo de tres vias
 ##### El Proceso Paso a Paso (Funcionamiento Normal)
 En una arquitectura cliente-servidor típica (como un navegador web conectándose a un servidor), el proceso se ejecuta de la siguiente manera:
 
@@ -83,46 +103,7 @@ Para mitigar esto, los sistemas operativos modernos utilizan una técnica llamad
 
 
 
-#### C. Liberación de Conexión
-La desconexión puede ser **asimétrica** (se corta bruscamente una dirección, lo que puede provocar la pérdida de datos que estaban en tránsito) o **simétrica** (cada dirección de la comunicación bidireccional se cierra de manera independiente).
-En el ámbito de las redes de computadoras, este problema ilustra por qué es teóricamente imposible lograr una **liberación de conexión perfecta y sincronizada** en la capa de transporte sin el riesgo de perder datos o dejar conexiones "semiabiertas".
-##### La analogía del dilema militar
-La literatura de redes plantea el problema mediante la siguiente analogía:
-- Un **ejército blanco** (muy grande) se encuentra acampado en un valle.
-- En las laderas de las montañas que rodean al valle, se encuentran dos **ejércitos azules** (el ejército nº 1 y el ejército nº 2).
-- El ejército blanco es más fuerte que cualquiera de los dos ejércitos azules por separado. Por lo tanto, si un solo ejército azul ataca, será derrotado de forma inevitable. Sin embargo, si ambos ejércitos azules atacan de manera **simultánea**, vencerán al ejército blanco.
-- Para coordinar el momento del ataque, los comandantes azules deben comunicarse. Pero su único medio de comunicación es enviar mensajeros a pie a través del valle. Debido a que el valle está patrullado por el ejército blanco, los mensajeros corren un alto riesgo de ser capturados (es decir, el **canal de comunicación no es confiable**).
-##### ¿Por qué el problema no tiene solución teórica?
-Si intentamos diseñar un protocolo de comunicación para que se pongan de acuerdo, este falla sistemáticamente debido a la incertidumbre inherente del canal:
 
-1. **Propuesta inicial:** El comandante del ejército azul nº 1 envía un mensajero al ejército azul nº 2 que dice: _"Propongo que ataquemos al amanecer del 29 de marzo. ¿Qué te parece?"_.
-2. **Confirmación:** El mensajero logra cruzar el valle y el comandante nº 2 responde: _"De acuerdo. Atacaré"_.
-3. **La duda del receptor:** Aunque el mensaje de confirmación cruce de vuelta a salvo, el comandante nº 2 entrará en un dilema: él **no sabe si su confirmación llegó con éxito** al comandante nº 1. Si no llegó, el comandante nº 1 no atacará porque pensará que la propuesta fue rechazada o perdida. Por lo tanto, atacar para el comandante nº 2 sería un suicidio militar.
-4. **El acuse de recibo (Apretón de manos de tres vías):** Para dar tranquilidad al comandante nº 2, cambiamos el protocolo para que el comandante nº 1 deba enviar un acuse de recibo (_ACK_) de la confirmación.
-5. **Incertidumbre infinita:** Ahora la duda pasa al comandante nº 1, quien pensará: _"Sé que aceptó mi plan y sé que recibí su respuesta. Pero no sé si él recibió mi acuse de recibo final. Si no lo hizo, él no se arriesgará a atacar"_.
-
-Este ciclo de confirmaciones (_un acuse de recibo del acuse de recibo del acuse de recibo..._) se puede extender infinitamente sin llegar jamás a un acuerdo seguro. Se demuestra matemáticamente que **ningún protocolo con un número finito de mensajes funciona**:
-
-- Para que un protocolo funcione, el último mensaje enviado debe ser **esencial** para tomar la decisión.
-- Dado que el emisor de ese último mensaje nunca puede estar completamente seguro de que su envío llegó a destino (debido a la inestabilidad del canal), no se arriesgará a actuar.
-- Y como el otro ejército sabe que el emisor del último mensaje no se arriesgará, él tampoco actuará, frustrando el acuerdo.
-##### Su aplicación a la liberación de conexiones
-Para entender cómo afecta esto a las redes de datos, solo hace falta **sustituir la palabra "atacar" por "desconectar"** (liberación de la conexión).
-
-Cuando un cliente y un servidor deciden cerrar una conexión activa de forma simétrica (es decir, cerrando de forma independiente y segura cada sentido de la transmisión), **ninguna de las dos máquinas querrá borrarse de las tablas de la entidad de transporte hasta estar 100% segura de que la otra máquina también se ha desconectado**. Como la red intermedia puede perder paquetes, es teóricamente imposible alcanzar esa certeza absoluta.
-##### La solución práctica en la ingeniería de protocolos
-Dado que la teoría demuestra que no hay solución perfecta, la ingeniería de redes recurre a **soluciones prácticas aproximadas** para evitar que los sistemas se queden congelados indefinidamente en conexiones a medias:
-
-- **Handshake de 3 pasos con temporizadores (_timers_):** El host que inicia la desconexión envía un segmento de solicitud de desconexión (DR - _Disconnection Request_) y activa un temporizador local. Si tras enviar el paquete varias veces no recibe respuesta debido a pérdidas consecutivas en la red, el host **se rinde tras un número \(N\) de intentos y se desconecta de forma unilateral**. El otro extremo, al agotarse su propio temporizador por falta de actividad, eventualmente hará lo mismo, previniendo que los recursos queden bloqueados para siempre.
-- **Regla de desconexión automática por inactividad:** Para resolver el problema de las conexiones semiabiertas (donde un lado se desconecta pero el otro sigue activo sin saberlo), se establece que si un host no recibe ningún tipo de tráfico durante un número determinado de segundos, la conexión se aborta automáticamente. Para mantener conexiones legítimas abiertas durante periodos de silencio, las entidades de transporte envían de forma automática paquetes "ficticios" (_keep-alive_) de forma periódica.
-- **El cierre normal (Simétrico con FIN):** En el funcionamiento estándar de TCP, para cerrar una conexión de forma limpia y sin perder datos, se utiliza un **cierre simétrico**. Como la conexión es bidireccional (full-duplex), se trata como si fueran dos conexiones independientes de un solo sentido (simplex):
-	- El Host 1 envía un segmento **FIN** para avisar que terminó de enviar sus datos.
-	- El Host 2 responde con un **ACK** para confirmar que lo recibió. En este punto, el canal de Host 1 a Host 2 está cerrado, pero el Host 2 todavía puede seguir enviando datos en la otra dirección si lo necesita.
-	- Cuando el Host 2 también termina, envía su propio **FIN**, y el Host 1 responde con un **ACK**.
-	- Este proceso normal requiere obligatoriamente el intercambio de **4 segmentos**.
-##### El cierre abrupto con RST (Reset)
-En lugar de pasar por este intercambio lento de mensajes de FIN y ACK, algunos servidores (especialmente los **servidores web HTTP**) optan por un **cierre abrupto** utilizando un segmento con el bit **RST (Reset)** activado.
-El bit RST es un mensaje especial diseñado originalmente para restablecer de forma inmediata una conexión que se ha vuelto confusa o que ha sufrido un error grave (como la caída de un host). Sin embargo, se le da un uso estratégico para cerrar conexiones normales de forma más rápida.
 
 
 
