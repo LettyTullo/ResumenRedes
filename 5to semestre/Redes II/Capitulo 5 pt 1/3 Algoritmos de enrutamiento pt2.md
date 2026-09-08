@@ -96,4 +96,4 @@ En este modelo, un paquete se entrega al **miembro más cercano** de un grupo. E
     - **DNS:** Se usa para acceder a los servidores raíz, mejorando la fiabilidad y el rendimiento al dirigir al usuario al servidor físicamente más cercano.
     - **CDNs (Redes de Entrega de Contenido):** Empresas como Cloudflare lo usan para equilibrar la carga y dirigir el tráfico al punto de conexión de red más cercano al cliente.
 
-[[Manejo de trafico de la capa de red]]
+[[4 Manejo de trafico de la capa de red]]

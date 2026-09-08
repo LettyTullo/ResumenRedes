@@ -131,4 +131,4 @@ Los principales mecanismos de solución mencionados en las fuentes son los sigui
 - **Envenenamiento en reversa (Poison Reverse):** Es una variante o mejora del horizonte dividido. En este caso, el enrutador receptor envía una actualización de vuelta por la misma interfaz por la que aprendió la ruta, pero marcando la distancia como "infinito" para asegurar que no se creen rutas cíclicas.
 
 Es importante notar que, a pesar de estos mecanismos, estos no siempre funcionan perfectamente en la práctica, ya que el problema fundamental persiste: cuando un enrutador recibe una ruta de un vecino, no tiene forma de saber con certeza si él mismo forma parte de ese camino anunciado.
- [[Algoritmos de enrutamiento pt2]]
+ [[3 Algoritmos de enrutamiento pt2]]

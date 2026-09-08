@@ -22,7 +22,7 @@
             }
           },
           {
-            "id": "4a17abf1d9759224",
+            "id": "a1a15b18a4a9a16f",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -33,34 +33,6 @@
               },
               "icon": "lucide-file",
               "title": "2 Elementos de protocolo de transporte"
-            }
-          },
-          {
-            "id": "a1a15b18a4a9a16f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "5to semestre/Redes II/Capitulo 5 pt 2/IPV4.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "IPV4"
-            }
-          },
-          {
-            "id": "57447196c05b76ea",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "5to semestre/Redes II/Capitulo 5 pt 2/Internetworking.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Internetworking"
             }
           },
           {
@@ -251,37 +223,37 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "9be28b66b59e4e2c",
+  "active": "a1a15b18a4a9a16f",
   "lastOpenFiles": [
-    "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
     "5to semestre/Redes II/Capitulo 6/3 este_no todavia.md",
-    "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
+    "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
+    "5to semestre/Redes II/Capitulo 5 pt 2/6 Multidifusion en Internet.md",
+    "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
+    "5to semestre/Redes II/Capitulo 5 pt 2/4 IPV6.md",
+    "5to semestre/Redes II/Capitulo 5 pt 2/2 SDN (Software Defined Networking).md",
+    "5to semestre/Redes II/Capitulo 5 pt 2/1 Internetworking.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/5 Calidad de servicio.md",
+    "5to semestre/LP3/Capitulo 1 y 2.md",
+    "5to semestre/LP3/Capitulo 3 - Procesos.md",
+    "5to semestre/LP3/Capitulo 4 - Hilos.md",
     "5to semestre/LP3/Capitulo 5 - IPC.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/4 Manejo de trafico de la capa de red.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/3 Algoritmos de enrutamiento pt2.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/2 Algoritmos de enrutamiento pt1.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/1 La capa de red.md",
+    "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Redes II/Sin título.md",
     "5to semestre/Redes II/Capitulo 6",
-    "5to semestre/LP3/Capitulo 4 - Hilos.md",
-    "5to semestre/LP3/Capitulo 3 - Procesos.md",
-    "5to semestre/LP3/Capitulo 1 y 2.md",
-    "5to semestre/Redes II/Capitulo 5 pt 2/6 Multidifusion en Internet.md",
     "5to semestre/LP3",
-    "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
-    "5to semestre/Redes II/Capitulo 5 pt 2/1 Internetworking.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/3 IPV4.md",
-    "5to semestre/Redes II/Capitulo 5 pt 2/4 IPV6.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/La capa de red.md",
     "4to semestre/Redes/Capitulo 5/Capa de Red parte 1.md",
-    "5to semestre/Redes II/Capitulo 5 pt 2/2 SDN (Software Defined Networking).md",
     "_Imagenes/Pasted image 20260830181115.png",
     "_Imagenes/Pasted image 20260830171232.png",
     "_Imagenes/Pasted image 20260830162547.png",
     "4to semestre/Redes/Capitulo 5/Capa de Red parte 2.md",
     "Sin título.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/Calidad de servicio.md",
     "5to semestre/Redes II/Capitulo 5 pt 2",
-    "5to semestre/Redes II/Capitulo 5 pt 1/Algoritmos de enrutamiento pt1.md",
     "4to semestre/Redes/Capitulo 3/Tipos de Ventanas.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/Algoritmos de enrutamiento pt2.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/Manejo de trafico de la capa de red.md",
     "_Imagenes/Pasted image 20260816172639.png",
     "4to semestre/Redes/Capitulo 3/Capa de enlace Parte 1.md",
     "_Imagenes/Pasted image 20260815174108.png",

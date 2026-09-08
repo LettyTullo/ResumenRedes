@@ -78,4 +78,4 @@ Es la solución de "último recurso" cuando todos los demás métodos fallan y e
     - **Vino (lo viejo es mejor):** Se priorizan los paquetes nuevos (útil en streaming de video/audio, donde lo viejo ya no sirve).
     - **Leche (lo nuevo es mejor):** Se priorizan los paquetes viejos (útil en transferencia de archivos, donde perder un paquete inicial obliga a retransmitir todo lo posterior).
 - **RED (Random Early Detection):** Técnica que descarta paquetes al azar cuando la cola promedio sobrepasa un umbral, avisando implícitamente al emisor (vía protocolos de transporte como TCP) que debe bajar la velocidad antes de que la red colapse totalmente.
-[[Calidad de servicio]]
+[[5 Calidad de servicio]]

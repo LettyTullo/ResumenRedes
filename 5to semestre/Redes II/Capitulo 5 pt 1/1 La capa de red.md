@@ -74,4 +74,4 @@ Las tablas ya no buscan destinos globales, sino coincidencias exactas entre la e
 | **Efecto de fallas del router** | Ninguno, excepto por los paquetes perdidos durante la caída.         | **Fatal.** Terminan todos los CV que pasaban por el router defectuoso.          |
 | **Calidad de Servicio (QoS)**   | **Difícil** de garantizar de forma estricta.                         | **Fácil**, si se pueden asignar recursos (ancho de banda, buffers) de antemano. |
 | **Control de Congestión**       | Difícil de implementar proactivamente.                               | Fácil mediante el **control de admisión** al momento de crear el circuito.      |
-[[Algoritmos de enrutamiento pt1]]
+[[2 Algoritmos de enrutamiento pt1]]

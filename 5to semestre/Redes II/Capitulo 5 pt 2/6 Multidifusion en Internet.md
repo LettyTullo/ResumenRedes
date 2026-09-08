@@ -28,3 +28,6 @@ El protocolo estándar y más utilizado hoy en día dentro de las redes de los o
 - **Modo Denso (PIM-DM):** Se utiliza cuando los miembros del grupo están muy concentrados por toda la red (por ejemplo, al distribuir archivos a muchos servidores en un centro de datos). El router asume que todos quieren el paquete, lo envía a todas partes y luego "poda" (_prune_) recursivamente las ramas de la red donde los routers vecinos le avisen mediante mensajes `PRUNE` que no tienen hosts interesados.
 
 - **Modo Disperso (PIM-SM):** Se utiliza cuando los miembros están muy separados geográficamente en Internet (como los abonados de televisión de un ISP). En lugar de inundar la red, se utiliza un router central como **núcleo** (_core_ o punto de encuentro). Los routers de los usuarios interesados deben pedirle explícitamente al núcleo unirse al árbol, de modo que el tráfico solo viaja por las ramas que realmente lo solicitaron.
+
+[[1 La capa de transporte]]
+
