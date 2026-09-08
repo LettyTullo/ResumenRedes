@@ -105,8 +105,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 296.70001220703125,
-    "collapsed": true
+    "width": 296.70001220703125
   },
   "right": {
     "id": "a8447034352a9e85",
@@ -226,6 +225,10 @@
   },
   "active": "a1a15b18a4a9a16f",
   "lastOpenFiles": [
+    "5to semestre/Redes II/Capitulo 5 pt 1/5 Calidad de servicio.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/4 Manejo de trafico de la capa de red.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/3 Algoritmos de enrutamiento pt2.md",
+    "5to semestre/Redes II/Capitulo 5 pt 1/2 Algoritmos de enrutamiento pt1.md",
     "5to semestre/Redes II/Capitulo 5 pt 1/1 La capa de red.md",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
@@ -236,14 +239,10 @@
     "5to semestre/Redes II/Capitulo 5 pt 2/4 IPV6.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/2 SDN (Software Defined Networking).md",
     "5to semestre/Redes II/Capitulo 5 pt 2/1 Internetworking.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/5 Calidad de servicio.md",
     "5to semestre/LP3/Capitulo 1 y 2.md",
     "5to semestre/LP3/Capitulo 3 - Procesos.md",
     "5to semestre/LP3/Capitulo 4 - Hilos.md",
     "5to semestre/LP3/Capitulo 5 - IPC.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/4 Manejo de trafico de la capa de red.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/3 Algoritmos de enrutamiento pt2.md",
-    "5to semestre/Redes II/Capitulo 5 pt 1/2 Algoritmos de enrutamiento pt1.md",
     "5to semestre/Redes II/Sin título.md",
     "5to semestre/Redes II/Capitulo 6",
     "5to semestre/LP3",

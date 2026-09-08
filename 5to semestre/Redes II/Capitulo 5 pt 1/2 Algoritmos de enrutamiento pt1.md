@@ -1,4 +1,4 @@
-Los algoritmos de enrutamiento son la parte del software de la capa de red encargada de decidir por qué línea de salida debe transmitirse un paquete que llega a un enrutador. 
+ Los algoritmos de enrutamiento son la parte del software de la capa de red encargada de decidir por qué línea de salida debe transmitirse un paquete que llega a un enrutador. 
 # Propiedades 
 Independientemente de si las rutas se eligen para cada paquete por separado o solo al establecer una conexión, un algoritmo de enrutamiento debe poseer las siguientes propiedades:
 
