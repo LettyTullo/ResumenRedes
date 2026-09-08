@@ -111,6 +111,16 @@ Dado que la teoría demuestra que no hay solución perfecta, la ingeniería de r
 
 - **Handshake de 3 pasos con temporizadores (_timers_):** El host que inicia la desconexión envía un segmento de solicitud de desconexión (DR - _Disconnection Request_) y activa un temporizador local. Si tras enviar el paquete varias veces no recibe respuesta debido a pérdidas consecutivas en la red, el host **se rinde tras un número \(N\) de intentos y se desconecta de forma unilateral**. El otro extremo, al agotarse su propio temporizador por falta de actividad, eventualmente hará lo mismo, previniendo que los recursos queden bloqueados para siempre.
 - **Regla de desconexión automática por inactividad:** Para resolver el problema de las conexiones semiabiertas (donde un lado se desconecta pero el otro sigue activo sin saberlo), se establece que si un host no recibe ningún tipo de tráfico durante un número determinado de segundos, la conexión se aborta automáticamente. Para mantener conexiones legítimas abiertas durante periodos de silencio, las entidades de transporte envían de forma automática paquetes "ficticios" (_keep-alive_) de forma periódica.
+- **El cierre normal (Simétrico con FIN):** En el funcionamiento estándar de TCP, para cerrar una conexión de forma limpia y sin perder datos, se utiliza un **cierre simétrico**. Como la conexión es bidireccional (full-duplex), se trata como si fueran dos conexiones independientes de un solo sentido (simplex):
+	- El Host 1 envía un segmento **FIN** para avisar que terminó de enviar sus datos.
+	- El Host 2 responde con un **ACK** para confirmar que lo recibió. En este punto, el canal de Host 1 a Host 2 está cerrado, pero el Host 2 todavía puede seguir enviando datos en la otra dirección si lo necesita.
+	- Cuando el Host 2 también termina, envía su propio **FIN**, y el Host 1 responde con un **ACK**.
+	- Este proceso normal requiere obligatoriamente el intercambio de **4 segmentos**.
+##### El cierre abrupto con RST (Reset)
+En lugar de pasar por este intercambio lento de mensajes de FIN y ACK, algunos servidores (especialmente los **servidores web HTTP**) optan por un **cierre abrupto** utilizando un segmento con el bit **RST (Reset)** activado.
+El bit RST es un mensaje especial diseñado originalmente para restablecer de forma inmediata una conexión que se ha vuelto confusa o que ha sufrido un error grave (como la caída de un host). Sin embargo, se le da un uso estratégico para cerrar conexiones normales de forma más rápida.
+
+
 
 
 
