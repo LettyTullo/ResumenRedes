@@ -99,4 +99,4 @@ Los operadores utilizan técnicas indirectas para influir en cómo entra y sale 
 - **Ingeniería de tráfico saliente:** Se controla fácilmente ajustando de forma directa la _Preferencia Local_ en los routers internos.
 - **Ingeniería de tráfico entrante:** Es más compleja porque no se puede obligar directamente a otra red autónoma a elegir una ruta. Se usan estrategias indirectas como el **AS path prepending** (inflar artificialmente el camino repitiendo varias veces el número de AS propio en los anuncios de ruta para que parezca más largo y menos atractivo) o la **división de prefijos** para aprovechar la coincidencia de prefijo más largo (_longest prefix match_).
 
-[[Multidifusion en Internet]]
+[[6 Multidifusion en Internet]]

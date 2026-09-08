@@ -204,4 +204,4 @@ Las rutas en la tabla pueden originarse de tres maneras:
 3. **Rutas dinámicas:** Se generan mediante **protocolos de enrutamiento** (como **OSPF, RIP, BGP o EIGRP**) que intercambian información con otros routers para aprender la topología de la red y calcular los caminos más cortos o eficientes de forma automática.
 4. **Gateway: La puerta de enlace predeterminada (o _default gateway_) es la interfaz de un **router** que está conectada al mismo segmento de red o subred que un host. Su función principal es actuar como el punto de salida para que los dispositivos de una red local puedan comunicarse con destinos que se encuentran **fuera** de su propio segmento
 
-[[IPV6]]
+[[4 IPV6]]

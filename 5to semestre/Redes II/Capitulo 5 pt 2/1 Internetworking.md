@@ -134,4 +134,4 @@ En IPv6 se dio un paso más radical: **se eliminaron todos los campos de fragmen
 >[!warning] Desventaja de PMTUD:
 La única penalización de este mecanismo es el **retraso de inicio** (_startup delay_). Al principio de una conexión, puede tomar más de un viaje de ida y vuelta (RTT) simplemente sondear la ruta y ajustar el tamaño del paquete antes de que los datos reales empiecen a entregarse con éxito al destino.
 
-[[SDN (Software Defined Networking)]]
+[[2 SDN (Software Defined Networking)]]

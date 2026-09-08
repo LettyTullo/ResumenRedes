@@ -107,4 +107,4 @@ Es un esquema más elaborado (RFC 2597) que define niveles de prioridad y descar
 
 - **12 Clases de servicio:** Se definen **cuatro clases de prioridad** (frecuentemente llamadas Oro, Plata, Bronce y Estándar) y **tres probabilidades de descarte** (baja, media y alta).
 - **Mecanismo técnico:** Un clasificador identifica el tráfico; luego, un regulador (_policer_) marca los paquetes que exceden las ráfagas permitidas con una mayor probabilidad de descarte. Finalmente, el router utiliza algoritmos como **WFQ (Weighted Fair Queueing)** para asignar anchos de banda distintos a cada prioridad.
-[[Internetworking]]
+[[1 Internetworking]]

@@ -111,4 +111,4 @@ Cuando un dispositivo (cliente) se conecta a la red y no tiene una dirección IP
 
 _Nota: Si el servidor DHCP no está en la misma red local, los routers pueden configurarse para recibir estas difusiones y retransmitirlas hacia donde se encuentre el servidor._
 
-[[MPLS y OSPF]]
+[[5 MPLS y OSPF]]

@@ -45,4 +45,4 @@ Se considera una de las aplicaciones estrella de SDN. Supera las estadísticas a
 - **Algoritmos avanzados:** Facilita el uso de algoritmos de control de enrutamiento más complejos y exigentes computacionalmente.
 - **Lanzamiento rápido:** Reduce drásticamente los ciclos de lanzamiento de nuevos servicios de red.
 
-[[IPV4]]
+[[3 IPV4]]
