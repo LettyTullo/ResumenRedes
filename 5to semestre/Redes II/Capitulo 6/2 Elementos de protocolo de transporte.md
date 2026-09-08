@@ -80,6 +80,9 @@ Un atacante malicioso puede inundar un servidor web enviando miles de segmentos 
 Para mitigar esto, los sistemas operativos modernos utilizan una técnica llamada **cookies SYN**.
 - En lugar de almacenar el estado y reservar memoria al enviar el `SYN+ACK`, el servidor calcula un número de secuencia inicial \(y\) **criptográficamente generado** basándose en la IP de origen, puerto de origen, puerto de destino y un secreto local. El servidor envía este valor como su secuencia y se "olvida" de la conexión temporalmente.
 - Si el cliente es legítimo y responde con el `ACK` final (que contendrá \(y + 1\)), el servidor resta `1` a ese número, vuelve a ejecutar de forma local la función criptográfica y comprueba si coincide. Si es correcto, reconstruye la conexión en ese preciso instante en la memoria, frustrando por completo el ataque de denegación de servicio.
+
+
+
 #### C. Liberación de Conexión
 La desconexión puede ser **asimétrica** (se corta bruscamente una dirección, lo que puede provocar la pérdida de datos que estaban en tránsito) o **simétrica** (cada dirección de la comunicación bidireccional se cierra de manera independiente).
 En el ámbito de las redes de computadoras, este problema ilustra por qué es teóricamente imposible lograr una **liberación de conexión perfecta y sincronizada** en la capa de transporte sin el riesgo de perder datos o dejar conexiones "semiabiertas".
