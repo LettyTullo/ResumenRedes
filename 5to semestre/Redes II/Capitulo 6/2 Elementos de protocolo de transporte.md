@@ -57,7 +57,7 @@ En una arquitectura cliente-servidor típica (como un navegador web conectándos
 El cliente inicia activamente el proceso ejecutando la primitiva `CONNECT`. Su entidad de transporte envía un segmento especial con el bit de control **SYN (Synchronize)** activado en `1` (y el bit `ACK` en `0`).
 
 - Este segmento contiene el **número de secuencia inicial del cliente (\(x\))**, el cual se elige de manera pseudoaleatoria para evitar ataques de predicción.
-- _Nota:_ Este segmento SYN consume exactamente 1 byte del espacio de secuencia para poder recibir acuse de recibo de manera inequívoca. El cliente pasa al estado `SYN SENT`.
+- _Nota:_ Este segmento SYN consume exactamente 1 byte del espacio de secuencia para poder recibir acuse de recibo de manera clara. El cliente pasa al estado `SYN SENT`.
 #### **Paso 2: Confirmación y Respuesta (SYN + ACK)**
 El servidor, que se encuentra en estado `LISTEN` esperando conexiones entrantes, recibe el segmento. Si decide aceptar la conexión, la entidad de transporte del servidor pasa al estado `SYN RCVD` y responde enviando un segmento con los bits **SYN = 1 y ACK = 1**.
 
