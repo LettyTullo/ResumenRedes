@@ -50,12 +50,12 @@ A diferencia del anterior, este algoritmo permite un cierto grado de **tráfico 
     
 - **Encolamiento Justo (_Fair Queueing_):**
     - El enrutador mantiene colas separadas para cada flujo y las atiende de forma cíclica (**round-robin**).
-    - Para evitar que los flujos con paquetes más grandes tengan ventaja, se utiliza una mejora que simula un servicio **byte por byte** basándose en "tiempos de finalización virtuales". Esto asegura que cada flujo reciba una fracción igual del ancho de banda.\
+    - Para evitar que los flujos con paquetes más grandes tengan ventaja, se utiliza una mejora que simula un servicio **byte por byte** basándose en "tiempos de finalización virtuales". Esto asegura que cada flujo reciba una fracción igual del ancho de banda.
     
 - **Encolamiento Justo Ponderado (_Weighted Fair Queueing - WFQ_):**
     - Es la variante más utilizada en arquitecturas de red modernas (como en los Servicios Diferenciados).
     - Permite asignar un **peso (\(W\))** a cada flujo para darle prioridad. Por ejemplo, a una cola de video se le puede dar más peso que a una de transferencia de archivos para que reciba más ancho de banda por cada ronda.
-    - Utiliza la fórmula \(F_i = \max(A_i, F_{i-1}) + L_i/W\) para calcular el orden de salida, donde \(F\) es el tiempo de terminación, \(A\) la llegada y \(L\) la longitud del paquete.
+    - Utiliza la fórmula $(F_i = \max(A_i, F_{i-1}) + L_i/W)$ para calcular el orden de salida, donde \(F\) es el tiempo de terminación, \(A\) la llegada y \(L\) la longitud del paquete.
 ## Control de admision
 El **control de admisión** es una técnica utilizada en la capa de red para mantener a raya la **congestión** y garantizar la **Calidad de Servicio (QoS)**. Su principio fundamental es simple: la red **rechaza nuevas conexiones** o cargas si no tiene capacidad suficiente para transportarlas de forma segura sin comprometer el rendimiento de los flujos ya existentes.
 
