@@ -12,7 +12,7 @@ Para que este algoritmo funcione, cada enrutador debe ejecutar los siguientes **
 >- **Edad (`Edad`):** Un contador hacia atrás. Si llega a 0, la información se borra para no mantener datos viejos si un router se apaga.
 >- **Lista de vecinos:** El paquete del **nodo B** dice únicamente: _"Mis vecinos directos son A (costo 4), C (costo 2) y F (costo 6)"_. El nodo B **no** opina sobre D ni E porque no son sus vecinos directos.
 
-4. **Distribuir los paquetes LSP:** Los LSP se envían a todos los demás enrutadores mediante un proceso de **inundación confiable**. Para evitar saturar la red, se usan los números de secuencia (para no procesar duplicados) y el campo de "edad" (que disminuye con el tiempo para descartar información obsoleta).
+4. **Distribuir los paquetes LSP:** Los LSP se envían a todos los demás enrutadores mediante un proceso de **inundación confiable**. Para evitar saturar la red, se usan los n  úmeros de secuencia (para no procesar duplicados) y el campo de "edad" (que disminuye con el tiempo para descartar información obsoleta).
 
 ![[Pasted image 20260815165831.png|368]]
 >[!info] Notas 
