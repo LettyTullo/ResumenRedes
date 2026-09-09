@@ -10,7 +10,7 @@ Para garantizar la calidad de servicio, la red debe abordar cuatro retos técnic
 1. **Requerimientos de la aplicación:** Identificar qué necesita cada tipo de tráfico (ej. la telefonía es sensible al retardo pero no requiere mucho ancho de banda),.
 2. **Regulación del tráfico (Modelado):** Controlar la tasa promedio y las ráfagas de los flujos que entran a la red mediante algoritmos como la **cubeta con goteo** (_leaky bucket_) o la **cubeta con tokens**,,.
 3. **Reserva de recursos:** Asignar ancho de banda, espacio de búfer y ciclos de CPU en los enrutadores para flujos específicos,.
-4. **Control de admisión:** Decidir si la red puede aceptar de forma segura más tráfico sin comprometer las garantías ya existentes\
+4. **Control de admisión:** Decidir si la red puede aceptar de forma segura más tráfico sin comprometer las garantías ya existentes
 ## Modelado de trafico 
 El **modelado de tráfico** (o _traffic shaping_) es una técnica de la capa de red diseñada para regular la tasa promedio y la intensidad de las ráfagas de un flujo de datos que entra a la red. Su funcionamiento se basa en un acuerdo previo entre el cliente y el proveedor sobre el patrón de tráfico que se va a transmitir.
 >[!info] Conceptos clave
