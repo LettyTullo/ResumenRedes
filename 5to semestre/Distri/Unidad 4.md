@@ -52,7 +52,7 @@ HTTP es un ejemplo práctico del estilo Petición-Respuesta (RR) sobre el protoc
     - `DELETE`: Solicita borrar el recurso especificado.
     - `OPTIONS`: Solicita la lista de métodos HTTP permitidos en esa URL.
     - `TRACE`: El servidor devuelve el mismo mensaje recibido (usado para depuración).
-- **Códigos de Estado HTTP:**
+- ## Códigos de Estado HTTP:
     - `100–199`: Respuestas informativas.
     - `200–299`: Respuestas satisfactorias (ej. `200 OK`).
     - `300–399`: Redirecciones (ej. `301 Moved Permanently`).
