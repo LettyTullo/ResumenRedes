@@ -39,14 +39,18 @@
             "id": "148e644e1caacc49",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "type": "markdown",
+              "state": {
+                "file": "5to semestre/Distri/Unidad 5.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Unidad 5"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -223,10 +227,10 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "a1a15b18a4a9a16f",
+  "active": "148e644e1caacc49",
   "lastOpenFiles": [
-    "5to semestre/Distri/Unidad 4.md",
     "5to semestre/Distri/Unidad 5.md",
+    "5to semestre/Distri/Unidad 4.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
     "5to semestre/Distri",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",

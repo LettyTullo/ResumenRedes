@@ -37,21 +37,21 @@ Se requiere sincronizar los relojes físicos de los procesos para asociar marcas
 - **Sincronización Externa:** Los relojes locales se sincronizan con una fuente externa de tiempo autorizada (UTC) con un límite de error \(D\):  
     $|S_i(t) - C_i(t)| < D$
 - **Sincronización Interna:** Los nodos se sincronizan entre sí con una precisión \(D\), sin depender de una fuente externa de tiempo real:  
-    \[|C_i(t) - C_j(t)| < D\]
-- **Monotonicidad:** Propiedad esencial que impide que un reloj "retroceda" en el tiempo (\(t' > t \Rightarrow C(t') > C(t)\)). Si un reloj está adelantado, se debe desacelerar gradualmente su ritmo software en lugar de atrasar la hora bruscamente.
+    $|C_i(t) - C_j(t)| < D$
+- **Monotonicidad:** Propiedad esencial que impide que un reloj "retroceda" en el tiempo $(t' > t \Rightarrow C(t') > C(t))$. Si un reloj está adelantado, se debe desacelerar gradualmente su ritmo software en lugar de atrasar la hora bruscamente.
 
 #### **B. Algoritmos de Sincronización Física**
 
 1. **Método de Cristian (Probabilístico / Servidor Central):**
     
-    - **Funcionamiento:** Un proceso cliente \(p\) solicita la hora a un **servidor de tiempo \(S\)** conectado a una fuente UTC. El cliente mide el tiempo total transcurrido de ida y vuelta (\(T_{round}\)) desde que envió la solicitud \(m_r\) hasta que recibió la respuesta \(m_t\).
-    - **Estimación:** El cliente ajusta su reloj a \(t_p = t_{server} + \frac{T_{round}}{2}\), asumiendo que el tiempo de tránsito fue simétrico en ambas direcciones.
-    - **Naturaleza probabilística:** Solo se logra el grado de precisión requerido si \(T_{round}\) es lo suficientemente corto.
+    - **Funcionamiento:** Un proceso cliente \(p\) solicita la hora a un **servidor de tiempo \(S\)** conectado a una fuente UTC. El cliente mide el tiempo total transcurrido de ida y vuelta $(T_{round}$  desde que envió la solicitud $m_r$ hasta que recibió la respuesta $m_t$.
+    - **Estimación:** El cliente ajusta su reloj a $t_p = t_{server} + \frac{T_{round}}{2}$, asumiendo que el tiempo de tránsito fue simétrico en ambas direcciones.
+    - **Naturaleza probabilística:** Solo se logra el grado de precisión requerido si $T_{round}$ es lo suficientemente corto.
 2. **Algoritmo de Berkeley (Sincronización Interna / Maestro-Esclavo):**
     
     - **Funcionamiento:** No utiliza un servidor UTC externo. Elige un nodo como **Maestro (_Time Daemon_)** que consulta periódicamente la hora a los demás nodos (**Esclavos**).
     - **Cálculo:** El maestro mide los retardos de red, calcula un **promedio de tiempo** (descartando lecturas con diferencias anómalas) y le responde a cada esclavo indicándole el **ajuste relativo (+/-)** que debe aplicar individualmente para alinearse.
-3. **NTP (_Network Time Protocol_):**
+3. ## NTP (_Network Time Protocol_):
     
     - **Propósito:** Diseñado para distribuir el tiempo UTC a escala global en Internet sobre el protocolo **UDP**.
     - **Estructura en Estratos (_Strata_):** Organiza los servidores de tiempo en una subred de jerarquía lógica:
