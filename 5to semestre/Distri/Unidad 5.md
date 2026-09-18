@@ -159,7 +159,7 @@ El algoritmo utiliza un mensaje de control especial llamado **Marcador (_Marker_
 La depuración distribuida analiza la secuencia de estados globales por los que atraviesa la aplicación $(S_0 \to S_1 \to S_2 \dots)$ para detectar errores.
 
 #### **A. Predicados de Estado Global $(\Phi)$**
-
+ 
 Un predicado es una función lógica que evalúa si una condición del sistema es verdadera o falsa sobre un estado global. Se caracterizan por:
 
 - **Estabilidad:** Si el predicado toma valor Verdadero en un estado, **permanecerá Verdadero** en todos los estados alcanzables posteriores (ejemplo: interbloqueo o terminación).
