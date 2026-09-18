@@ -87,11 +87,11 @@ Un reloj lógico de Lamport es un contador software mono-tónicamente creciente 
         - (b) Al recibir el mensaje \((m, t)\), el proceso receptor actualiza su contador local tomando el máximo entre su valor actual y el recibido, e incrementándolo en uno: $L_j = \max(L_j, t) + 1$.
 - **Propiedad y Deficiencia Clave:**
     - Si $e \to e' \Rightarrow L(e) < L(e')$ (**Cumple sentido directo**).
-    - **Deficiencia:** Del hecho que \(L(e) < L(e')\) **NO se puede inferir** que \(e \to e'\).
+    - **Deficiencia:** Del hecho que \(L(e) < L(e')\) **NO se puede inferir** que $e \to e'$.
 
 #### **C. Relojes Totalmente Ordenados**
 
-Para eliminar empates cuando eventos en procesos distintos obtienen la misma marca de tiempo \(L(e)\), se crea un **orden total** combinando el valor del reloj con el identificador del proceso: \((T_i, i)\). Se define que \((T_i, i) < (T_j, j)\) si y solo si \(T_i < T_j\), o si \(T_i = T_j\) siendo \(i < j\).
+Para eliminar empates cuando eventos en procesos distintos obtienen la misma marca de tiempo $L(e)$, se crea un **orden total** combinando el valor del reloj con el identificador del proceso: $T_i, i)$. Se define que $(T_i, i) < (T_j, j)$ si y solo si $T_i < T_j$, o si $T_i = T_j$ siendo $i < j$.
 
 #### **D. Relojes Vectoriales (Mattern y Fidge)**
 
