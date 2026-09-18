@@ -123,7 +123,7 @@ Un **estado global** representa una "fotografía" conjunta de los estados de tod
 
 - **Historia Global (\(H\)):** Es la unión de las historias individuales de todos los procesos: $H = h_1 \cup h_2 \dots \cup h_N$.
 - **Corte (\(C\)):** Es un subconjunto de la historia global formado por la unión de prefijos de las historias de cada proceso. La **frontera del corte** son los últimos eventos incluidos en cada proceso.
-- **Corte Consistente:** Un corte \(C\) se considera **consistente** si para cualquier evento \(e\) que pertenezca al corte, **todos los eventos que sucedieron antes que él (\(e' \to e\)) también están incluidos dentro del corte**.
+- **Corte Consistente:** Un corte \(C\) se considera **consistente** si para cualquier evento \(e\) que pertenezca al corte, **todos los eventos que sucedieron antes que él $(e' \to e$ también están incluidos dentro del corte**.
 - **Estado Global Consistente:** Es aquel estado que corresponde a un corte consistente. En él **no existen mensajes "huérfanos"** (mensajes recibidos en la frontera cuyo evento de envío no haya ocurrido antes del corte).
 
 ---
@@ -146,7 +146,7 @@ El algoritmo utiliza un mensaje de control especial llamado **Marcador (_Marker_
 
 1. **Regla de Recepción del Marcador (para el proceso \(p_i\) al recibirlo por el canal \(c\)):**
     
-    - **Si \(p_i\) AÚN NO ha grabado su estado:** Guarda su estado local inmediatamente, registra el estado del canal \(c\) como un conjunto vacío (\(\emptyset\)), y activa la grabación de todos los mensajes que lleguen por los demás canales entrantes.
+    - **Si \(p_i\) AÚN NO ha grabado su estado:** Guarda su estado local inmediatamente, registra el estado del canal \(c\) como un conjunto vacío $(\emptyset)$, y activa la grabación de todos los mensajes que lleguen por los demás canales entrantes.
     - **Si \(p_i\) YA HABÍA grabado su estado previamente:** Registra el estado del canal \(c\) guardando todos los mensajes que han llegado por \(c\) desde el momento en que salvó su propio estado local.
 2. **Regla de Envío del Marcador (para el proceso \(p_i\)):**
     
@@ -156,9 +156,9 @@ El algoritmo utiliza un mensaje de control especial llamado **Marcador (_Marker_
 
 ### **6. DEPURACIÓN DISTRIBUIDA Y EVALUACIÓN DE PREDICADOS**
 
-La depuración distribuida analiza la secuencia de estados globales por los que atraviesa la aplicación (\(S_0 \to S_1 \to S_2 \dots\)) para detectar errores.
+La depuración distribuida analiza la secuencia de estados globales por los que atraviesa la aplicación $(S_0 \to S_1 \to S_2 \dots)$ para detectar errores.
 
-#### **A. Predicados de Estado Global (\(\Phi\))**
+#### **A. Predicados de Estado Global $(\Phi)$**
 
 Un predicado es una función lógica que evalúa si una condición del sistema es verdadera o falsa sobre un estado global. Se caracterizan por:
 
