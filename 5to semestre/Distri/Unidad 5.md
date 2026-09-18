@@ -61,7 +61,9 @@ Se requiere sincronizar los relojes físicos de los procesos para asociar marcas
         - **Estrato 3:** Servidores sincronizados con los del Estrato 2, y así sucesivamente.
     - **Objetivos:** Resistir pérdidas prolongadas de conectividad, soportar resincronizaciones frecuentes y proteger el servicio contra interferencias o ataques maliciosos.
 
----
+
+**Web Service:**
+Son aplicaciones o interfaces que permiten la comunicación e intercambio de datos entre sistemas heterogéneos a través de una red
 
 ### **3. TIEMPOS Y RELOJES LÓGICOS**
 
