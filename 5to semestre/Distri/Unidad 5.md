@@ -70,11 +70,11 @@ Dado que los relojes físicos no pueden sincronizarse perfectamente en un sistem
 
 Determina la relación de causalidad potencial entre dos eventos \(e\) y \(e'\) mediante tres reglas esenciales:
 
-1. **Regla SA1 (Secuencia local):** Si \(e\) y \(e'\) ocurren dentro del mismo proceso \(p_i\) y \(e\) ocurre antes que \(e'\), entonces \(e \to e'\).
-2. **Regla SA2 (Paso de mensajes):** Para cualquier mensaje \(m\), el evento de enviarlo siempre precede al evento de recibirlo: \(\text{envía}(m) \to \text{recibe}(m)\).
-3. **Regla SA3 (Transitividad):** Si \(e \to e'\) y \(e' \to e''\), entonces \(e \to e''\).
+1. **Regla SA1 (Secuencia local):** Si \(e\) y \(e'\) ocurren dentro del mismo proceso \(p_i\) y \(e\) ocurre antes que \(e'\), entonces $e \to e'$.
+2. **Regla SA2 (Paso de mensajes):** Para cualquier mensaje \(m\), el evento de enviarlo siempre precede al evento de recibirlo: $text{envía}(m) \to \text{recibe}(m)$.
+3. **Regla SA3 (Transitividad):** Si $e \to e'$ y $e' \to e''$, entonces $e \to e''$.
 
-- **Eventos Concurrentes (\(e \parallel e'\)):** Si no existe una relación de causa-efecto entre dos eventos (es decir, ni \(e \to e'\) ni \(e' \to e\)), se afirma que \(e\) y \(e'\) son concurrentes.
+- **Eventos Concurrentes (\(e \parallel e'\)):** Si no existe una relación de causa-efecto entre dos eventos (es decir, ni $e \to e'$ ni $e' \to e$, se afirma que $e$ y $e'$ son concurrentes.
 
 #### **B. Relojes Lógicos de Lamport**
 
@@ -84,9 +84,9 @@ Un reloj lógico de Lamport es un contador software mono-tónicamente creciente 
     - **RL1:** Antes de que ocurra cualquier evento en \(p_i\), el proceso incrementa su contador: \(L_i = L_i + 1\).
     - **RL2:**
         - (a) Al enviar un mensaje \(m\), el proceso le adjunta la marca de tiempo \(t = L_i\).
-        - (b) Al recibir el mensaje \((m, t)\), el proceso receptor actualiza su contador local tomando el máximo entre su valor actual y el recibido, e incrementándolo en uno: \(L_j = \max(L_j, t) + 1\).
+        - (b) Al recibir el mensaje \((m, t)\), el proceso receptor actualiza su contador local tomando el máximo entre su valor actual y el recibido, e incrementándolo en uno: $L_j = \max(L_j, t) + 1$.
 - **Propiedad y Deficiencia Clave:**
-    - Si \(e \to e' \Rightarrow L(e) < L(e')\) (**Cumple sentido directo**).
+    - Si $e \to e' \Rightarrow L(e) < L(e')$ (**Cumple sentido directo**).
     - **Deficiencia:** Del hecho que \(L(e) < L(e')\) **NO se puede inferir** que \(e \to e'\).
 
 #### **C. Relojes Totalmente Ordenados**
