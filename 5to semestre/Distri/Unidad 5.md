@@ -52,6 +52,7 @@ Se requiere sincronizar los relojes físicos de los procesos para asociar marcas
     - **Funcionamiento:** No utiliza un servidor UTC externo. Elige un nodo como **Maestro (_Time Daemon_)** que consulta periódicamente la hora a los demás nodos (**Esclavos**).
     - **Cálculo:** El maestro mide los retardos de red, calcula un **promedio de tiempo** (descartando lecturas con diferencias anómalas) y le responde a cada esclavo indicándole el **ajuste relativo (+/-)** que debe aplicar individualmente para alinearse.
 3. ## NTP (_Network Time Protocol_):
+		**NTP (Network Time Protocol):** Es un protocolo diseñado para sincronizar los relojes de los dispositivos en una red de computadoras, garantizando una referencia temporal uniforme[1]. Utiliza **3 modos de sincronización**: multidifusión, llamada a procedimiento y modo simétrico
     
     - **Propósito:** Diseñado para distribuir el tiempo UTC a escala global en Internet sobre el protocolo **UDP**.
     - **Estructura en Estratos (_Strata_):** Organiza los servidores de tiempo en una subred de jerarquía lógica:
