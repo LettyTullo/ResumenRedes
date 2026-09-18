@@ -99,13 +99,13 @@ Diseñados para corregir la deficiencia de los relojes de Lamport y permitir ded
 
 - **Estructura:** Para un sistema de \(N\) procesos, cada proceso \(p_i\) mantiene un vector \(V_i\) de \(N\) enteros.
 - **Reglas de Actualización (RV1–RV4):**
-    1. **RV1:** Inicialmente, \(V_i[j] = 0\) para todo \(j = 1, \dots, N\).
-    2. **RV2:** Justo antes de registrar un evento local, \(p_i\) incrementa su propio componente: \(V_i[i] = V_i[i] + 1\).
+    1. **RV1:** Inicialmente, \(V_i[j] = 0\) para todo $j = 1, \dots, N$.
+    2. **RV2:** Justo antes de registrar un evento local, \(p_i\) incrementa su propio componente: $V_i[i] = V_i[i] + 1$.
     3. **RV3:** Al enviar un mensaje, \(p_i\) incluye en él su vector completo \(t = V_i\).
-    4. **RV4:** Al recibir un mensaje con marca \(t\), el proceso \(p_i\) combina elemento por elemento tomando el máximo: \(V_i[j] = \max(V_i[j], t[j])\) para todo \(j\), e incrementa su componente local \(V_i[i]\).
+    4. **RV4:** Al recibir un mensaje con marca t, el proceso \(p_i\) combina elemento por elemento tomando el máximo: $V_i[j] = \max(V_i[j], t[j])$ para todo \(j\), e incrementa su componente local \(V_i[i]\).
 - **Propiedad Bidireccional:**  
-    \[e \to e' \iff V(e) < V(e')\]  
-    Si los vectores no se pueden comparar (\(V(e) \not\le V(e')\) y \(V(e') \not\le V(e)\)), se confirma de manera matemática que los eventos son concurrentes (\(e \parallel e'\)).
+    $e \to e' \iff V(e) < V(e')$ 
+    Si los vectores no se pueden comparar $(V(e) \not\le V(e')$ y $V(e') \not\le V(e)$, se confirma de manera matemática que los eventos son concurrentes $(e \parallel e')$.
 
 ---
 
@@ -121,7 +121,7 @@ Un **estado global** representa una "fotografía" conjunta de los estados de tod
 
 #### **B. Cortes de Ejecución y Consistencia**
 
-- **Historia Global (\(H\)):** Es la unión de las historias individuales de todos los procesos: \(H = h_1 \cup h_2 \dots \cup h_N\).
+- **Historia Global (\(H\)):** Es la unión de las historias individuales de todos los procesos: $H = h_1 \cup h_2 \dots \cup h_N$.
 - **Corte (\(C\)):** Es un subconjunto de la historia global formado por la unión de prefijos de las historias de cada proceso. La **frontera del corte** son los últimos eventos incluidos en cada proceso.
 - **Corte Consistente:** Un corte \(C\) se considera **consistente** si para cualquier evento \(e\) que pertenezca al corte, **todos los eventos que sucedieron antes que él (\(e' \to e\)) también están incluidos dentro del corte**.
 - **Estado Global Consistente:** Es aquel estado que corresponde a un corte consistente. En él **no existen mensajes "huérfanos"** (mensajes recibidos en la frontera cuyo evento de envío no haya ocurrido antes del corte).
