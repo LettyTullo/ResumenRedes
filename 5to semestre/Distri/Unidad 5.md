@@ -8,18 +8,18 @@ Para poder coordinar actividades, determinar el orden de los eventos, detectar b
 
 #### **A. Modelo de Procesos e Historias**
 
-- **Colección de Procesos (\(\Omega\)):** El sistema distribuido está formado por un conjunto \(\Omega = {p_1, p_2, \dots, p_N}\) de \(N\) procesos que se ejecutan en procesadores independientes sin memoria compartida.
+- **Colección de Procesos (\(\Omega\)):** El sistema distribuido está formado por un conjunto $\Omega = {p_1, p_2, \dots, p_N}$ de \(N\) procesos que se ejecutan en procesadores independientes sin memoria compartida.
 - **Estado Local (\(s_i\)):** Es el conjunto de valores de todas las variables locales del proceso \(p_i\), pudiendo incluir recursos del sistema operativo local (como archivos abiertos).
 - **Evento (\(e\)):** Ocurrencia de una única acción que realiza un proceso a medida que se ejecuta. Puede ser:
     1. Una acción de comunicación (`Envía` o `Recibe` un mensaje).
     2. Una acción de transformación de estado (cambia variables locales).
 - **Orden Local (\(\to_i\)):** En un único proceso \(p_i\), la secuencia de eventos está estrictamente ordenada en forma lineal: \(e \to_i e'\) significa que \(e\) ocurrió antes que \(e'\) en \(p_i\).
-- **Historia del Proceso (\(h_i\)):** La serie ordenada de todos los eventos que han tenido lugar en el proceso \(p_i\): \(h_i = \langle e_i^0, e_i^1, e_i^2, \dots \rangle\).
+- **Historia del Proceso (\(h_i\)):** La serie ordenada de todos los eventos que han tenido lugar en el proceso $p_i: h_i = \langle e_i^0, e_i^1, e_i^2, \dots \rangle$.
 
 #### **B. Relojes Físicos y sus Imperfecciones**
 
 - **Reloj Hardware (\(H_i(t)\)):** Contador basado en las oscilaciones de un cristal de cuarzo.
-- **Reloj Software (\(C_i(t)\)):** Escala el valor del reloj hardware y añade una compensación para aproximar el tiempo real físico \(t\): \(C_i(t) = \alpha H_i(t) + \beta\).
+- **Reloj Software (\(C_i(t)\)):** Escala el valor del reloj hardware y añade una compensación para aproximar el tiempo real físico $t: C_i(t) = \alpha H_i(t) + \beta$.
 - **Sesgo de Reloj (_Clock Skew_):** La diferencia instantánea entre las lecturas de tiempo de dos relojes cualesquiera.
 - **Deriva de Reloj (_Clock Drift_):** Fenómeno por el cual los relojes cuentan el tiempo a ritmos ligeramente distintos debido a diferencias físicas en sus cristales, haciendo que sus lecturas se diverjan progresivamente.
     - _Relojes de cuarzo comunes:_ Tasa de deriva típica de \(10^{-6}\) seg/seg (1 segundo de diferencia cada 11,6 días).
@@ -35,7 +35,7 @@ Se requiere sincronizar los relojes físicos de los procesos para asociar marcas
 #### **A. Tipos de Sincronización**
 
 - **Sincronización Externa:** Los relojes locales se sincronizan con una fuente externa de tiempo autorizada (UTC) con un límite de error \(D\):  
-    \[|S_i(t) - C_i(t)| < D\]
+    $|S_i(t) - C_i(t)| < D$
 - **Sincronización Interna:** Los nodos se sincronizan entre sí con una precisión \(D\), sin depender de una fuente externa de tiempo real:  
     \[|C_i(t) - C_j(t)| < D\]
 - **Monotonicidad:** Propiedad esencial que impide que un reloj "retroceda" en el tiempo (\(t' > t \Rightarrow C(t') > C(t)\)). Si un reloj está adelantado, se debe desacelerar gradualmente su ritmo software en lugar de atrasar la hora bruscamente.
