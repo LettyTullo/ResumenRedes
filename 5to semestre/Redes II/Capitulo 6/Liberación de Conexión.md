@@ -40,15 +40,33 @@ El bit RST es un mensaje especial diseñado originalmente para restablecer de fo
 En la capa de enlace se protege un tramo de cable individual. La capa de transporte realiza una verificación de extremo a extremo.
 
 - Esto responde al **argumento de extremo a extremo** (_end-to-end argument_): si un paquete se corrompe internamente en la memoria de un router intermedio, las capas de enlace individuales no lo detectarán porque la trama se recalcula en cada salto. Solo la suma de comprobación (_checksum_) de la capa de transporte, calculada en el emisor y verificada en el destino final, asegura la integridad del paquete. Para corregir fallas, utiliza retransmisiones automáticas (**ARQ** - _Automatic Repeat reQuest_).
-#### E. Control de Flujo y Asignación de Búferes (_Buffering_)
-Debido a que el transporte gestiona un número alto y dinámico de conexiones con anchos de banda muy fluctuantes, no es eficiente asignar búferes fijos para cada conexión.
+#### E. Control de Errores y Flujo
 
-- Los protocolos utilizan **ventanas deslizantes de tamaño variable**. El receptor y el emisor negocian dinámicamente el tamaño del búfer disponible mediante el intercambio continuo de mensajes, indicando al emisor cuándo debe detener la transmisión para no saturar al receptor.
+# 1. Control de Errores
+El **control de errores** busca garantizar que los datos se entreguen al proceso receptor con total fiabilidad, libres de corrupción, en orden y sin duplicados.
+
+- **Suma de comprobación de extremo a extremo (_End-to-End Checksum_):** En la capa de enlace, la detección de errores sólo protege la trama durante su trayecto por un único cable o enlace físico entre dos routers adyacentes. En cambio, en la capa de transporte la verificación es de **extremo a extremo** (_end-to-end_), protegiendo al segmento a lo largo de toda la ruta por la red.
+- **El argumento de extremo a extremo (_End-to-End Argument_):** Propuesto por Saltzer et al., este principio demuestra que el control de errores en cada enlace individual no es suficiente, ya que los paquetes pueden corromperse internamente dentro de la memoria RAM o las tablas de un enrutador intermedio. Aunque la capa de enlace de cada tramo no detecte fallos, la suma de comprobación de la capa de transporte en el receptor sí los identificará y solicitará la retransmisión.
+- **Mecanismos ARQ (_Automatic Repeat reQuest_):** Para corregir pérdidas o segmentos dañados, la entidad de transporte emisora mantiene un temporizador por segmento. Si el acuse de recibo (**ACK**) no llega antes de que el temporizador venza, el segmento se retransmite automáticamente.
+# 2. Control de Flujo y Gestión Dinámica de Búferes
+
+El **control de flujo** evita que un emisor rápido sobrepase a un receptor lento que carece de capacidad suficiente en sus búferes para procesar los datos a tiempo.
+
+- **Diferencia de grado con la capa de enlace:** A diferencia de la capa de enlace (donde los enlaces físicos suelen usar ventanas muy pequeñas como _stop-and-wait_ debido al bajo retardo), en transporte el producto ancho de banda-retardo es grande y se requieren **ventanas deslizantes mucho mayores**. Esto exige gestionar grandes cantidades de memoria (_buffers_) tanto en el emisor (para guardar copias por si se requiere reenviar) como en el receptor (para reordenar y almacenar antes de entregar a la aplicación).
+- **Organización de los Búferes en el Receptor:** La entidad receptora organiza sus búferes de tres formas principales según la variabilidad del tráfico:
+    1. _Pool de búferes de tamaño fijo:_ Se asigna un búfer idéntico por cada segmento. Es simple, pero desperdicia espacio si llegan segmentos pequeños.
+    2. _Búferes de distintos tamaños:_ Maneja mejor la mezcla de paquetes cortos y largos, aunque con mayor complejidad de gestión.
+    3. _Un solo búfer circular por conexión:_ Reserva un espacio contiguo para el flujo completo.
+- **Ventana de Tamaño Variable (Desacople del ACK):** A diferencia de los protocolos de ventana fija de capa 2, en transporte se desacopla la confirmación del segmento de la asignación de memoria. El receptor le informa activamente al emisor la cantidad de espacio libre en sus búferes mediante el campo **Tamaño de Ventana** (_Window size_) incluido en los ACKs devueltos (como hace TCP). Cada vez que el emisor transmite, descuenta ese espacio de su crédito autorizado hasta llegar a cero.
+- **Sondeos de Ventana (_Window Probes_):** Si el receptor anuncia una ventana de `0`, el emisor debe detener la transmisión. Para evitar que la pérdida de un posterior anuncio de ventana provoque un bloqueo permanente, el emisor transmite de forma periódica un **sondeo de ventana** de 1 byte para obligar al receptor a responder reanunciando su espacio de búfer.
+# 3. Diferencia entre Control de Flujo y Control de Congestión
+
+Es muy común confundir ambos términos, pero apuntan a cuellos de botella distintos:
+
+- **Control de flujo:** Relación directa entre **emisor y receptor** (evita ahogar al receptor por falta de búferes).
+- **Control de congestión:** Relación entre el **emisor y la red** (evita saturar la capacidad de transporte de los enrutadores intermedios).
+
+En la práctica (como en TCP), el emisor calcula una **ventana efectiva** tomando el valor mínimo entre lo que el receptor puede almacenar (ventana de control de flujo) y lo que la red puede transportar sin colapsar (ventana de congestión).
 #### F. Multiplexación y Multiplexación Inversa
 - **Multiplexación:** Permite que múltiples conexiones de transporte compartan una única interfaz y dirección IP de red.
 - **Multiplexación inversa:** Permite que una única conexión de transporte distribuya su tráfico a través de múltiples rutas de red físicas de forma paralela (como lo hace el protocolo SCTP) para incrementar el ancho de banda efectivo y la fiabilidad.
-#### G. Control de Congestión
-Mientras que el control de flujo evita que un emisor rápido sature a un receptor lento, el **control de congestión** evita que los emisores saturen a los routers de tránsito de la propia red. Los hosts deben regular su velocidad de inyección de paquetes basándose en la retroalimentación que reciben:
-
-- **Explícita y precisa:** Cuando los enrutadores informan la tasa exacta a usar (por ejemplo, en el protocolo XCP).
-- **Implícita o imprecisa:** Deduciendo la saturación a través de la pérdida de paquetes o el incremento en los retardos de ida y vuelta (como en las distintas leyes de control AIMD de TCP).
