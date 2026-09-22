@@ -66,7 +66,38 @@ Es muy común confundir ambos términos, pero apuntan a cuellos de botella disti
 - **Control de flujo:** Relación directa entre **emisor y receptor** (evita ahogar al receptor por falta de búferes).
 - **Control de congestión:** Relación entre el **emisor y la red** (evita saturar la capacidad de transporte de los enrutadores intermedios).
 
-En la práctica (como en TCP), el emisor calcula una **ventana efectiva** tomando el valor mínimo entre lo que el receptor puede almacenar (ventana de control de flujo) y lo que la red puede transportar sin colapsar (ventana de congestión).
+# Manejo dinámico del tamaño de ventana
+Es el mecanismo mediante el cual la capa de transporte (como en TCP) regula de forma flexible la cantidad de datos que un emisor puede transmitir sin quedarse esperando una confirmación.
+#### 1. Desacople entre Acuses de Recibo y Búferes
+La clave de la gestión dinámica es que el protocolo **desacopla el acuse de recibo de la concesión de crédito para enviar más datos**.
+
+En cada segmento de retorno, el receptor le comunica al emisor dos cosas distintas:
+1. **Acuse de recibo (ACK):** Indica hasta qué byte ha recibido los datos de forma correcta.
+2. **Tamaño de ventana (_Window Size_):** Informa de manera independiente cuántos bytes adicionales tiene espacio para almacenar en sus búferes en ese preciso instante.
+
+>[!info]Proceso de Intercambio y Flujo Dinámico
+>1. **Anuncio Inicial:** Durante el establecimiento de la conexión o en el envío de datos, el emisor transmite segmentos y el receptor responde con un tamaño de ventana proporcional a la memoria libre que le queda.
+>2. **Consumo de Crédito:** Cada vez que el emisor transmite un segmento, descuenta esa cantidad de bytes de su asignación o crédito permitido.
+>3. **Bloqueo por Ventana Cero:** Si el proceso de aplicación en el receptor no lee los datos a tiempo y los búferes se llenan, el receptor envía un `WIN = 0`. Al recibir esto, el emisor **se detiene de inmediato** y no envía más datos normales.
+>4. **Sondeos de Ventana (_Window Probes_):** Si se perdiera el paquete posterior donde el receptor avisa que volvió a liberar espacio, la conexión quedaría en un bloqueo permanente. Para evitarlo, el emisor transmite periódicamente un paquete especial de 1 byte denominado **sondeo de ventana** (_window probe_), forzando al receptor a responder re-anunciando su estado actual.
+
+ >[!success] La Ventana Efectiva: Control de Flujo vs. Control de Congestión
+En la práctica, el emisor mantiene **dos ventanas dinámicas simultáneas** para no saturar al receptor ni a los routers intermedios:
+>- **Ventana de Control de Flujo (\(WIN_{receptor}\)):** Dictada y anunciada explícitamente por el receptor según su memoria disponible.
+>- **Ventana de Congestión (\(cwnd\)):** Calculada dinámicamente por el propio emisor evaluando la capacidad de la red (mediante algoritmos como _Slow Start_ e _AIMD_ al detectar o evitar la pérdida de paquetes).
+>El emisor determina su **Ventana Efectiva** calculando el **mínimo entre ambas**: $\text{Ventana Efectiva} = \min(WIN_{receptor}, cwnd)\]
+
+De esta manera, el flujo de datos se adapta en todo momento al cuello de botella más estricto.
+
+
+### 4. Problemas de Eficiencia y Soluciones
+
+- **Síndrome de la Ventana Tonta (_Silly Window Syndrome_):** Ocurre si la aplicación receptora lee los datos de a 1 byte. El receptor enviaría actualizaciones constantes proponiendo `WIN = 1`, haciendo que el emisor mande paquetes pequeños llenos de cabeceras innecesarias.
+- **Solución (Regla de Clark):** Se prohíbe al receptor anunciar ventanas diminutas; debe esperar a tener libre al menos el tamaño de un segmento máximo (MSS) o la mitad de su búfer total antes de enviar una actualización.
+
+---
+
+💡 ¿Te gustaría que repasemos con un gráfico numérico de secuencia (como los de las diapositivas) cómo se calcula el crédito de ventana tras una retransmisión por tiempo de espera?
 #### F. Multiplexación y Multiplexación Inversa
 - **Multiplexación:** Permite que múltiples conexiones de transporte compartan una única interfaz y dirección IP de red.
 - **Multiplexación inversa:** Permite que una única conexión de transporte distribuya su tráfico a través de múltiples rutas de red físicas de forma paralela (como lo hace el protocolo SCTP) para incrementar el ancho de banda efectivo y la fiabilidad.
