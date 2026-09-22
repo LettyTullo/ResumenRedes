@@ -93,18 +93,13 @@ De esta manera, el flujo de datos se adapta en todo momento al cuello de botella
 #### F. Multiplexación y Multiplexación Inversa
 - **Multiplexación:** Permite que múltiples conexiones de transporte compartan una única interfaz y dirección IP de red.
 - **Multiplexación inversa:** Permite que una única conexión de transporte distribuya su tráfico a través de múltiples rutas de red físicas de forma paralela (como lo hace el protocolo SCTP) para incrementar el ancho de banda efectivo y la fiabilidad.
-#### G. Mul
+#### G. Recuperacion de fallos
 La **recuperación de fallos** (_crash recovery_) en la capa de transporte analiza cómo debe reaccionar el protocolo cuando ocurren interrupciones en la comunicación. Para comprender este proceso, es fundamental diferenciar entre dos tipos de fallos:
-
-### 1. Fallos de Red vs. Fallos de Host (_Crash_)
+##### 1. Fallos de Red vs. Fallos de Host (_Crash_)
 
 - **Fallos de Red:** Ocurren cuando un paquete se pierde, se corrompe o una ruta se interrumpe. La capa de transporte está diseñada para resolver esto de manera simple y transparente mediante **retransmisiones por temporizador (ARQ)** y el restablecimiento automático de rutas.
 - **Fallos de Host (_Crash_ del Servidor o Cliente):** Ocurren cuando la máquina completa sufre una caída o reinicio imprevisto. Este fallo es mucho más grave porque **se borra toda la memoria volátil del sistema**, perdiendo el estado de la conexión, las tablas de puertos y los punteros de los números de secuencia.
-
----
-
-### 2. El Escenario del Servidor y los Estados de Comunicación
-
+##### 2. El Escenario del Servidor y los Estados de Comunicación
 Supongamos que un servidor se cae mientras recibe un archivo y logra reiniciarse rápidamente. Para intentar reconstruir lo que estaba haciendo, el servidor transmite un mensaje preguntando a los clientes el estado de sus conexiones activas.
 
 Al recibir esta consulta, la entidad de transporte del cliente debe evaluar en qué estado quedó respecto al último paquete enviado:
@@ -117,21 +112,15 @@ Por su parte, la entidad de transporte del servidor puede tener programado el or
 1. **Primero ACK, luego WRITE:** Confirma la recepción al cliente y luego escribe los datos en la memoria de la aplicación.
 2. **Primero WRITE, luego ACK:** Escribe los datos en la aplicación y luego confirma al cliente.
 
----
-
-### 3. El Dilema Teórico: ¿Por qué la capa de transporte no puede resolverlo sola?
-
+##### 3. El Dilema Teórico: ¿Por qué la capa de transporte no puede resolverlo sola?
 Escribir un dato en la aplicación (`WRITE`) y enviar una confirmación (`ACK`) son dos eventos físicos separados que no ocurren de manera simultánea. Si el _crash_ ocurre exactamente en medio de ambos eventos, se presentan incoherencias:
 
 - **Si el servidor hace primero ACK y luego WRITE:** Si ocurre un _crash_ después de enviar el ACK pero antes de escribir en la aplicación, el cliente estará en **S0**. Si la regla del cliente es "retransmitir solo en S1", el cliente asumirá que el dato llegó bien y no lo reenviará, causando la **pérdida del segmento (`LOST`)** en la aplicación.
 - **Si el servidor hace primero WRITE y luego ACK:** Si ocurre el _crash_ después de escribir pero antes de enviar el ACK, el cliente estará en **S1**. Si el cliente decide retransmitir, el servidor recibirá el paquete de nuevo y lo escribirá dos veces, generando un **mensaje duplicado (`DUP`)** en la aplicación.
 
 Al evaluar las 4 posibles estrategias del cliente (_siempre retransmitir_, _nunca retransmitir_, _retransmitir solo en S1_ o _retransmitir solo en S0_) frente a todos los órdenes de eventos posibles, se demuestra matemáticamente que **todas las combinaciones fallan en algún escenario**, provocando la pérdida de datos (`LOST`) o la duplicación de información (`DUP`).
-
-### 4. La Regla de la Capa N + 1 (Conclusión)
-
+##### 4. La Regla de la Capa N + 1 (Conclusión)
 Debido a esta limitación estructural, las fuentes formulan una regla fundamental de arquitectura de redes:
-
 > **"La recuperación de una caída de la capa \(N\) sólo puede ser realizada por la capa \(N+1\)"**.
 
 Dado que la entidad de transporte (capa \(N\)) no puede garantizar una recuperación \(100%\) transparente ante un _crash_ sin arriesgar duplicados o pérdidas, la responsabilidad de mantener la consistencia recae exclusivamente en la **capa de aplicación** (capa \(N+1\)). La aplicación debe implementar sus propios mecanismos de verificación, como registros de transacciones, confirmaciones de usuario o puntos de control (_checkpoints_).

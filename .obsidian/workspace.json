@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/Liberación de Conexión.md",
+                "file": "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Liberación de Conexión"
+              "title": "1 La capa de transporte"
             }
           }
         ],
@@ -229,9 +229,9 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
+    "5to semestre/Redes II/Capitulo 6/Liberación de Conexión.md",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
-    "5to semestre/Redes II/Capitulo 6/Liberación de Conexión.md",
     "5to semestre/Distri/Unidad 5.md",
     "5to semestre/Distri/Unidad 4.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
