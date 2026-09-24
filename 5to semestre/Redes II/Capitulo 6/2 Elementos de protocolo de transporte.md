@@ -47,7 +47,6 @@ Existen tres técnicas para restringir esta vida útil:
 1. **Diseño de red restringido:** Se evita la formación de ciclos y bucles de enrutamiento físicos, y se controla la congestión para acotar el retardo en el peor camino posible.
 2. **Contador de saltos (Hop limit / TTL):** Se añade un campo contador en la cabecera del paquete (como el TTL en IPv4 o Hop Limit en IPv6) que disminuye en cada enrutador. Si llega a cero, el paquete se descarta de inmediato.
 3. **Marca de tiempo (Timestamping):** Cada paquete lleva registrada su hora de creación, y los routers acuerdan descartar cualquier paquete que supere un umbral de antigüedad. _Desventaja:_ Requiere mantener los relojes de todos los routers de la red perfectamente sincronizados, lo cual es sumamente difícil.
-
 ##### El método complementario: Relojes locales de Tomlinson (1975)
 Una vez que el tiempo de vida del paquete está acotado por un periodo \(T\), Ray Tomlinson propuso equipar a los hosts con **relojes locales basados en contadores binarios** que siguen funcionando incluso si el host falla.
 - Cuando se abre una conexión, se toman los \(k\) bits inferiores del reloj para usarlos como el **número de secuencia inicial**.
