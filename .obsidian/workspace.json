@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
+                "file": "5to semestre/Redes II/Capitulo 6/5 6.5 Los protocolos de transporte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4 Seccion 6.3 Control de Congestion"
+              "title": "5 6.5 Los protocolos de transporte"
             }
           }
         ],
@@ -109,8 +109,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 296.70001220703125,
-    "collapsed": true
+    "width": 296.70001220703125
   },
   "right": {
     "id": "a8447034352a9e85",
@@ -230,14 +229,15 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
+    "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
+    "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
+    "5to semestre/Redes II/Capitulo 6/5 6.5 Los protocolos de transporte.md",
+    "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "_Imagenes/Pasted image 20260924115134.png",
     "_Imagenes/Pasted image 20260924114636.png",
     "_Imagenes/Pasted image 20260924114209.png",
     "_Imagenes/Pasted image 20260924114144.png",
-    "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
-    "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
     "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
-    "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Distri/Unidad 5.md",
     "5to semestre/Distri/Unidad 4.md",
     "5to semestre/Redes II/Capitulo 5 pt 2/5 MPLS y OSPF.md",
@@ -269,7 +269,6 @@
     "5to semestre/Redes II/Capitulo 5 pt 2",
     "_Imagenes/Pasted image 20260816172639.png",
     "_Imagenes/Pasted image 20260815174108.png",
-    "_Imagenes/Pasted image 20260815171529.png",
     "_Imagenes",
     "5to semestre/Redes II/Capitulo 5 pt 1",
     "5to semestre/Redes II",

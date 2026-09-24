@@ -101,11 +101,7 @@ Para mitigar esto, los sistemas operativos modernos utilizan una técnica llamad
 - En lugar de almacenar el estado y reservar memoria al enviar el `SYN+ACK`, el servidor calcula un número de secuencia inicial \(y\) **criptográficamente generado** basándose en la IP de origen, puerto de origen, puerto de destino y un secreto local. El servidor envía este valor como su secuencia y se "olvida" de la conexión temporalmente.
 - Si el cliente es legítimo y responde con el `ACK` final (que contendrá \(y + 1\)), el servidor resta `1` a ese número, vuelve a ejecutar de forma local la función criptográfica y comprueba si coincide. Si es correcto, reconstruye la conexión en ese preciso instante en la memoria, frustrando por completo el ataque de denegación de servicio.
 
-
-
-
-
-
+[[3 Liberación de Conexión]]
 
 
 

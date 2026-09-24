@@ -124,3 +124,6 @@ Debido a esta limitación estructural, las fuentes formulan una regla fundamenta
 > **"La recuperación de una caída de la capa \(N\) sólo puede ser realizada por la capa \(N+1\)"**.
 
 Dado que la entidad de transporte (capa \(N\)) no puede garantizar una recuperación \(100%\) transparente ante un _crash_ sin arriesgar duplicados o pérdidas, la responsabilidad de mantener la consistencia recae exclusivamente en la **capa de aplicación** (capa \(N+1\)). La aplicación debe implementar sus propios mecanismos de verificación, como registros de transacciones, confirmaciones de usuario o puntos de control (_checkpoints_).
+
+
+[[4 Seccion 6.3 Control de Congestion]]

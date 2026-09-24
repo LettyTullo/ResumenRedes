@@ -135,9 +135,7 @@ El diseño del encabezado se organiza en palabras de **32 bits** de la siguiente
 #### **Campos de tamaño variable (Opcionales):**
 
 10. **Identificadores de fuentes colaboradoras / CSRC (0 a 15 palabras de 32 bits):** Se utiliza cuando en la sesión hay un **mezclador**. En una multiconferencia donde un mezclador combina las señales de audio de varios participantes en un único flujo, el mezclador se convierte en la fuente de sincronización (SSRC) e inserta en este campo la lista de los identificadores SSRC originales de cada uno de los participantes que contribuyeron a ese paquete.
-
 #### B. RTCP (Real-time Transport Control Protocol)
-
 Es el protocolo hermano de RTP. No transporta muestras de medios, sino que se encarga de:
 
 1. **Retroalimentación de la calidad:** Informa sobre el retardo, la pérdida de paquetes, el _jitter_ y la congestión para que los códecs adapten su tasa de bits.
@@ -149,3 +147,31 @@ Debido a que la red introduce demoras variables (_jitter_), el receptor almacena
 
 - Un búfer más grande elimina las pausas o brechas en la reproducción pero incrementa el retardo (latencia).
 - Las aplicaciones en vivo (videoconferencias) requieren búferes pequeños para mantener baja la latencia, mientras que las de _streaming_ bajo demanda pueden usar búferes grandes para máxima fluidez.
+
+#### ¿Cómo se utiliza este campo de marca de tiempo junto con RTCP para mantener sincronizados los flujos independientes de audio y vídeo?
+##### 1. El reto técnico: ¿Por qué se desincronizan?
+En una transmisión multimedia (como una llamada o un video en vivo), el audio y el vídeo se capturan, codifican y transmiten como **flujos RTP independientes**, cada uno viajando en sus propios paquetes con su propio identificador de fuente (**SSRC**).
+Esto plantea dos problemas principales:
+- **Relojes físicos diferentes:** La tarjeta de sonido y la cámara de vídeo utilizan relojes de hardware distintos que funcionan a frecuencias diferentes (por ejemplo, el audio puede tomar muestras a 8 kHz o 44.1 kHz, mientras que el vídeo trabaja con un contador de 90 kHz o con frecuencias de fotogramas como 25/30/60 fps) y sufren pequeñas desviaciones (_clock drift_).
+- **Jitter de la red:** Los paquetes de cada flujo viajan por separado a través de la red y sufren variaciones de retardo variables (_jitter_), haciendo que los paquetes de vídeo y audio lleguen en momentos desincronizados al receptor.
+##### 2. Primer nivel: La Marca de Tiempo en RTP (_Intra-stream_)
+Cada paquete RTP lleva en su cabecera un campo de **Marca de tiempo de 32 bits**.
+- **Función:** Registra el instante exacto en que se tomó la **primera muestra de datos** contenida en ese paquete.
+- **Carácter relativo:** Esta marca de tiempo es **relativa** al inicio del propio flujo dentro de la escala de tiempo de su reloj local; no refleja una hora del día ni un tiempo real absoluto.
+- **Uso:** Le permite al receptor ordenar los paquetes dentro del _mismo flujo_ de audio o vídeo y colocarlos en un **búfer de reproducción** (_playout buffer_) para suavizar el _jitter_.
+##### 3. El límite: ¿Por qué las marcas de tiempo RTP solas no bastan?
+Debido a que cada flujo (audio y vídeo) inicia con un número de secuencia y una marca de tiempo inicial aleatorios, y utiliza frecuencias de muestreo distintas, **es imposible comparar directamente el número de marca de tiempo RTP de un paquete de audio con el de uno de vídeo**. Un valor de marca de tiempo `24000` en audio no corresponde al mismo instante físico que `24000` en vídeo.
+##### 4. Segundo nivel: RTCP y la sincronización inter-flujo (_Inter-stream_)
+Para resolver esta incompatibilidad y lograr que los labios de la persona en pantalla coincidan con su voz, entra en juego el protocolo hermano **RTCP**.
+1. **Informes del Emisor (RTCP Sender Reports):** De manera periódica, la fuente emisora transmite paquetes de control RTCP para cada flujo activo.
+2. **Emparejamiento de relojes (NTP + RTP):** Cada informe de emisor en RTCP incluye una **pareja de marcas de tiempo vinculadas**:
+    - La **hora real absoluta** (tiempo de pared o _wall-clock time_, utilizando el formato de reloj global NTP de 64 bits).
+    - La **marca de tiempo RTP correspondiente** en ese exacto instante para ese flujo en particular.
+3. **Mapeo a un tiempo de referencia común:** Al recibir los informes RTCP de ambos flujos (audio y vídeo), la aplicación receptora relaciona la marca de tiempo de RTP de cada flujo con la misma escala de tiempo real global (NTP).
+##### 5. Resultado final en el Búfer de Reproducción
+Con la relación matemática establecida por RTCP entre los contadores locales de RTP y el tiempo real común:
+- El receptor toma los paquetes de audio y vídeo que descansan en sus respectivos búferes de almacenamiento.
+- Calcula exactamente en qué milisegundo de tiempo real debe salir cada muestra de audio y cada fotograma de vídeo.
+- Extrae y reproduce de forma simultánea el fotograma de vídeo y la muestra de audio que comparten el mismo instante de tiempo real de origen, logrando una **reproducción fluida y perfectamente sincronizada**.
+
+[[5 6.5 Los protocolos de transporte]]
