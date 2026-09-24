@@ -65,11 +65,8 @@ UDP transfiere toda la responsabilidad del control a las aplicaciones superiores
 - **Sin control de flujo:** No limita la velocidad de envío hacia el receptor.
 - **Sin control de congestión:** No reduce la velocidad ante la saturación de los routers de la red.
 - **Sin retransmisión ni ordenamiento:** No reenvía segmentos perdidos/defectuosos ni garantiza que lleguen en el orden en que se enviaron.
-
 #### D. Casos de uso ideales
-
 UDP se utiliza cuando la velocidad y la baja latencia son preferibles a la fiabilidad absoluta:
-
 - **Aplicaciones Cliente-Servidor breves:** Como **DNS (Domain Name System)**, donde el cliente envía una consulta rápida de 1 paquete y espera 1 respuesta; si falla, simplemente vence un temporizador y reintenta.
 - **Transmisión multimedia y juegos en línea:** Donde la pérdida de un paquete ocasional es preferible a sufrir la latencia de una retransmisión.
 #### Ventajas y desventajas
@@ -80,26 +77,26 @@ UDP se utiliza cuando la velocidad y la baja latencia son preferibles a la fiabi
 **Desventajas**
 - Falta de fiabilidad
 - Ausencia de control de flujo y congestion
-# 2. Llamada a Procedimiento Remoto (RPC - Remote Procedure Call)
-
+# Llamada a Procedimiento Remoto (RPC - Remote Procedure Call)
 Propuesta por Birrell y Nelson (1984), **RPC** es una técnica que permite a un programa llamar a procedimientos o funciones ubicadas en máquinas remotas como si fueran llamadas locales ordinarias, ocultando los detalles del paso de mensajes de red.
-
 #### A. El mecanismo de los _Stubs_ (Talones)
-
 Para lograr la ilusión de una llamada local, RPC utiliza dos componentes cliente-servidor:
 
 - **Stub del Cliente:** Procedimiento de biblioteca en la máquina cliente que sustituye al procedimiento remoto.
 - **Stub del Servidor:** Procedimiento en la máquina remota que recibe el mensaje de red y llama al procedimiento real.
 
 #### B. Pasos para ejecutar una RPC
-![[Pasted image 20260924114636.png]]
+![[Pasted image 20260924114636.png|527]]
 1. El programa cliente hace una llamada local estándar al _stub_ del cliente.
 2. El _stub_ del cliente empaqueta los parámetros en un formato neutro para la red (proceso denominado _**marshaling**_ o serialización) y realiza una llamada al sistema operativo.
 3. El SO del cliente envía el mensaje por la red hacia el servidor.
 4. El SO del servidor entrega el paquete entrante al _stub_ del servidor.
 5. El _stub_ del servidor desempaqueta los parámetros (_unmarshaling_) y llama al procedimiento real en la CPU del servidor. La respuesta sigue la ruta inversa.
-
-#### C. Desafíos y limitaciones de RPC
+#### Ventajas de RPC
+- Simplificación del desarrollo al abstraer la complejidad de complejidad de la red.
+- Eficiencia en la comunicación entre sistemas distribuidos.
+- Flexibilidad para trabajar en la nube y con microservicios.
+#### Desafíos y limitaciones de RPC
 
 Aunque es un modelo elegante, presenta complicaciones técnicas en la práctica:
 
@@ -107,10 +104,7 @@ Aunque es un modelo elegante, presenta complicaciones técnicas en la práctica:
 - **Tipado Débil (ej. C):** Dificultad para determinar el tamaño de un arreglo sin un parámetro explícito para poder marshalizarlo.
 - **Variables Globales:** No se comparten entre máquinas distintas.
 - **Operaciones no Idempotentes:** Una operación es _idempotente_ si se puede repetir varias veces sin causar efectos secundarios no deseados (ej. consultar el DNS). Si la operación no es idempotente (ej. realizar un pago o incrementar un contador), la pérdida de un ACK o mensaje puede provocar ejecuciones duplicadas peligrosas si se retransmite a ciegas por UDP.
-
----
-
-### 3. Protocolos de Transporte en Tiempo Real: RTP y RTCP
+# Protocolos de Transporte en Tiempo Real: RTP y RTCP
 
 Para evitar que cada aplicación de streaming o telefonía reinvente su propio sistema sobre UDP, el IETF estandarizó **RTP** y **RTCP** (RFC 3550).
 
@@ -122,6 +116,26 @@ RTP se ejecuta normalmente en el **espacio de usuario sobre UDP**. Su función p
 - **Numeración de Secuencia:** Permite al receptor detectar si se han perdido paquetes o si llegaron fuera de orden. Si se pierde un paquete, no se retransmite (llegaría demasiado tarde), sino que la aplicación decide saltar un fotograma o interpolar el audio.
 - **Marcas de Tiempo (Timestamps):** Registran el momento en que se tomó la primera muestra del paquete. Permiten al receptor desacoplar el momento de reproducción del momento de llegada del paquete, reduciendo el efecto del _**jitter**_ (variación del retardo).
 
+##### Cabecera RTP
+El diseño del encabezado se organiza en palabras de **32 bits** de la siguiente manera:
+![[Pasted image 20260924115134.png|504]]
+#### **Primera palabra de 32 bits:**
+
+1. **Versión / Ver (2 bits):** Identifica la versión del protocolo RTP utilizada (la versión estándar actual es la 2).
+2. **Relleno / P - Padding (1 bit):** Si se establece en `1`, indica que el paquete contiene bytes de relleno adicionales al final para ajustar el tamaño a un múltiplo de 4 bytes (32 bits). El último byte de relleno indica la cantidad exacta de bytes añadidos.
+3. **Extensión / X (1 bit):** Si se activa en `1`, señala la presencia de una cabecera de extensión personalizada entre la cabecera fija y la carga útil de datos.
+4. **Contador de contribuyentes / CC (4 bits):** Indica cuántos identificadores de fuentes colaboradoras (CSRC) siguen a la cabecera principal (de 0 a 15 identificadores).
+5. **Marcador / M (1 bit):** Es un bit de interpretación específica para la aplicación. Se utiliza para señalar límites o eventos significativos en el flujo de medios; por ejemplo, el inicio de un fotograma de vídeo o el comienzo de un tramo de voz (_talkspurt_) tras un silencio en un canal de audio.
+6. **Tipo de carga útil / Payload Type (7 bits):** Especifica el algoritmo o formato de codificación utilizado para los datos multimedia (por ejemplo, audio comprimido, MP3, etc.). Como cada paquete lleva este campo, la aplicación puede **cambiar el tipo de codificación dinámicamente** en mitad de una transmisión si la red se congestiona.
+7. **Número de secuencia (16 bits):** Es un contador de 16 bits que se incrementa en `1` por cada paquete RTP transmitido. Permite al receptor **detectar paquetes perdidos** o reordenar aquellos que lleguen fuera de secuencia.
+#### **Segunda y tercera palabras de 32 bits:**
+
+8. **Marca de tiempo / Timestamp (32 bits):** Registra el instante exacto en que se tomó la primera muestra del paquete de datos. Sirve para que el receptor pueda **reproducir el contenido en el momento adecuado** y eliminar el efecto del _**jitter**_ (variación en el retardo de la red) mediante el uso de un búfer de reproducción.
+9. **Identificador de la fuente de sincronización / SSRC (32 bits):** Es un número elegido de forma aleatoria que identifica unívocamente la **fuente del flujo multimedia** (por ejemplo, el micrófono o la cámara de un participante en una conferencia). Esto evita que múltiples flujos enviados a una misma dirección IP y puerto se confundan entre sí.
+#### **Campos de tamaño variable (Opcionales):**
+
+10. **Identificadores de fuentes colaboradoras / CSRC (0 a 15 palabras de 32 bits):** Se utiliza cuando en la sesión hay un **mezclador**. En una multiconferencia donde un mezclador combina las señales de audio de varios participantes en un único flujo, el mezclador se convierte en la fuente de sincronización (SSRC) e inserta en este campo la lista de los identificadores SSRC originales de cada uno de los participantes que contribuyeron a ese paquete.
+
 #### B. RTCP (Real-time Transport Control Protocol)
 
 Es el protocolo hermano de RTP. No transporta muestras de medios, sino que se encarga de:
@@ -129,7 +143,6 @@ Es el protocolo hermano de RTP. No transporta muestras de medios, sino que se en
 1. **Retroalimentación de la calidad:** Informa sobre el retardo, la pérdida de paquetes, el _jitter_ y la congestión para que los códecs adapten su tasa de bits.
 2. **Sincronización inter-flujo:** Mantiene sincronizados los flujos independientes de audio y vídeo cuando usan relojes distintos.
 3. **Identificación:** Asocia nombres de usuario ASCII a las fuentes para mostrar en pantalla quién está hablando.
-
 #### C. Control de Jitter y Búfer en el Receptor
 
 Debido a que la red introduce demoras variables (_jitter_), el receptor almacena los paquetes en un **búfer de reproducción**.
