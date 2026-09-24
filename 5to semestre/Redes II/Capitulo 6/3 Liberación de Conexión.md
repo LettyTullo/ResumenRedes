@@ -36,10 +36,8 @@ Dado que la teoría demuestra que no hay solución perfecta, la ingeniería de r
 	- Este proceso normal requiere obligatoriamente el intercambio de **4 segmentos**.
 ##### El cierre abrupto con RST (Reset)
 En lugar de pasar por este intercambio lento de mensajes de FIN y ACK, algunos servidores (especialmente los **servidores web HTTP**) optan por un **cierre abrupto** utilizando un segmento con el bit **RST (Reset)** activado.
-El bit RST es un mensaje especial diseñado originalmente para restablecer de forma inmediata una conexión que se ha vuelto confusa o que ha sufrido un error grave (como la caída de un host). Sin embargo, se le da un uso estratégico para cerrar conexiones normales de forma más rápida.#### D. Control de Errores de Extremo a Extremo
-En la capa de enlace se protege un tramo de cable individual. La capa de transporte realiza una verificación de extremo a extremo.
+El bit RST es un mensaje especial diseñado originalmente para restablecer de forma inmediata una conexión que se ha vuelto confusa o que ha sufrido un error grave (como la caída de un host). Sin embargo, se le da un uso estratégico para cerrar conexiones normales de forma más rápida.
 
-- Esto responde al **argumento de extremo a extremo** (_end-to-end argument_): si un paquete se corrompe internamente en la memoria de un router intermedio, las capas de enlace individuales no lo detectarán porque la trama se recalcula en cada salto. Solo la suma de comprobación (_checksum_) de la capa de transporte, calculada en el emisor y verificada en el destino final, asegura la integridad del paquete. Para corregir fallas, utiliza retransmisiones automáticas (**ARQ** - _Automatic Repeat reQuest_).
 #### E. Control de Errores y Flujo
 
 # 1. Control de Errores
