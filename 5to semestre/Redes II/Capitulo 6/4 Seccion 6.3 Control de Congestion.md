@@ -32,3 +32,107 @@ Los protocolos de control de congestión de la capa de transporte asumen tradici
 
 Si un protocolo como TCP confunde un error de canal inalámbrico con congestión, reduce erróneamente su ventana de envío, lo que provoca una **degradación severa e innecesaria del rendimiento** en redes móviles o Wi-Fi.
 
+## Seccion 6.4 UDP 
+#  UDP: User Datagram Protocol (RFC 768)
+
+UDP es un protocolo de transporte **sin conexión, no confiable y de funcionalidad mínima**. Su objetivo principal no es garantizar la entrega, sino proporcionar una interfaz liviana sobre el protocolo IP agregando la capacidad de **multiplexar y demultiplexar múltiples procesos** mediante el uso de puertos.
+#### A. Estructura del Encabezado UDP (8 bytes)
+
+Un segmento UDP consta de una **cabecera fija de 8 bytes** seguida de la carga útil de datos. El encabezado se divide en 4 campos de 16 bits (2 bytes cada uno):
+![[Pasted image 20260924114144.png]]
+
+1. **Puerto de Origen (16 bits):** Identifica el proceso o aplicación que envía el paquete. Se utiliza principalmente cuando el receptor necesita devolver una respuesta.
+2. **Puerto de Destino (16 bits):** Identifica el proceso o aplicación receptora en la máquina de destino.
+3. **Longitud UDP (16 bits):** Indica la longitud total del segmento en bytes, incluyendo los 8 bytes de cabecera y los datos. La longitud mínima es de 8 bytes y el máximo teórico es de 65.515 bytes (limitado por el tamaño máximo del paquete IP).
+4. **Suma de Comprobación / Checksum (16 bits):** Campo opcional para verificar la integridad del segmento. Si no se calcula, se almacena como cero. Si detecta un error, el paquete se descarta sin enviar notificaciones.
+
+#### B. La Pseudocabecera IP
+
+Para calcular la suma de comprobación de manera más estricta, UDP incluye conceptualmente una **pseudocabecera IPv4** antes de los datos. Contiene:
+![[Pasted image 20260924114209.png|637]]
+
+- Dirección IP de origen (32 bits).
+- Dirección IP de destino (32 bits).
+- Un byte en cero y el número de protocolo (17 para UDP).
+- La longitud del segmento UDP.
+
+_Nota de diseño:_ Incluir la pseudocabecera permite detectar paquetes mal enrutados o entregados por error a una máquina equivocada, pero representa una **violación de la jerarquía de capas**, ya que la capa de transporte inspecciona campos pertenecientes a la capa de red (IP).
+
+#### C. Lo que UDP NO hace
+
+UDP transfiere toda la responsabilidad del control a las aplicaciones superiores:
+
+- **Sin control de flujo:** No limita la velocidad de envío hacia el receptor.
+- **Sin control de congestión:** No reduce la velocidad ante la saturación de los routers de la red.
+- **Sin retransmisión ni ordenamiento:** No reenvía segmentos perdidos/defectuosos ni garantiza que lleguen en el orden en que se enviaron.
+
+#### D. Casos de uso ideales
+
+UDP se utiliza cuando la velocidad y la baja latencia son preferibles a la fiabilidad absoluta:
+
+- **Aplicaciones Cliente-Servidor breves:** Como **DNS (Domain Name System)**, donde el cliente envía una consulta rápida de 1 paquete y espera 1 respuesta; si falla, simplemente vence un temporizador y reintenta.
+- **Transmisión multimedia y juegos en línea:** Donde la pérdida de un paquete ocasional es preferible a sufrir la latencia de una retransmisión.
+#### Ventajas y desventajas
+**Ventajas**
+- Simplicidad
+- Velocidad
+- Baja Sobrecarga 
+**Desventajas**
+- Falta de fiabilidad
+- Ausencia de control de flujo y congestion
+# 2. Llamada a Procedimiento Remoto (RPC - Remote Procedure Call)
+
+Propuesta por Birrell y Nelson (1984), **RPC** es una técnica que permite a un programa llamar a procedimientos o funciones ubicadas en máquinas remotas como si fueran llamadas locales ordinarias, ocultando los detalles del paso de mensajes de red.
+
+#### A. El mecanismo de los _Stubs_ (Talones)
+
+Para lograr la ilusión de una llamada local, RPC utiliza dos componentes cliente-servidor:
+
+- **Stub del Cliente:** Procedimiento de biblioteca en la máquina cliente que sustituye al procedimiento remoto.
+- **Stub del Servidor:** Procedimiento en la máquina remota que recibe el mensaje de red y llama al procedimiento real.
+
+#### B. Pasos para ejecutar una RPC
+![[Pasted image 20260924114636.png]]
+1. El programa cliente hace una llamada local estándar al _stub_ del cliente.
+2. El _stub_ del cliente empaqueta los parámetros en un formato neutro para la red (proceso denominado _**marshaling**_ o serialización) y realiza una llamada al sistema operativo.
+3. El SO del cliente envía el mensaje por la red hacia el servidor.
+4. El SO del servidor entrega el paquete entrante al _stub_ del servidor.
+5. El _stub_ del servidor desempaqueta los parámetros (_unmarshaling_) y llama al procedimiento real en la CPU del servidor. La respuesta sigue la ruta inversa.
+
+#### C. Desafíos y limitaciones de RPC
+
+Aunque es un modelo elegante, presenta complicaciones técnicas en la práctica:
+
+- **Parámetros Puntero:** No se pueden pasar direcciones de memoria directamente porque el cliente y el servidor tienen espacios de direcciones virtuales distintos. A veces se simula usando "copia y restauración", pero falla con estructuras de datos complejas como grafos.
+- **Tipado Débil (ej. C):** Dificultad para determinar el tamaño de un arreglo sin un parámetro explícito para poder marshalizarlo.
+- **Variables Globales:** No se comparten entre máquinas distintas.
+- **Operaciones no Idempotentes:** Una operación es _idempotente_ si se puede repetir varias veces sin causar efectos secundarios no deseados (ej. consultar el DNS). Si la operación no es idempotente (ej. realizar un pago o incrementar un contador), la pérdida de un ACK o mensaje puede provocar ejecuciones duplicadas peligrosas si se retransmite a ciegas por UDP.
+
+---
+
+### 3. Protocolos de Transporte en Tiempo Real: RTP y RTCP
+
+Para evitar que cada aplicación de streaming o telefonía reinvente su propio sistema sobre UDP, el IETF estandarizó **RTP** y **RTCP** (RFC 3550).
+
+#### A. RTP (Real-time Transport Protocol)
+
+RTP se ejecuta normalmente en el **espacio de usuario sobre UDP**. Su función principal es multiplexar varios flujos multimedia (audio, vídeo, texto) dentro de un único flujo de paquetes UDP.
+
+- **No ofrece garantías:** No reserva ancho de banda ni garantiza entregas en tiempo real por sí solo; depende de las capacidades de la red.
+- **Numeración de Secuencia:** Permite al receptor detectar si se han perdido paquetes o si llegaron fuera de orden. Si se pierde un paquete, no se retransmite (llegaría demasiado tarde), sino que la aplicación decide saltar un fotograma o interpolar el audio.
+- **Marcas de Tiempo (Timestamps):** Registran el momento en que se tomó la primera muestra del paquete. Permiten al receptor desacoplar el momento de reproducción del momento de llegada del paquete, reduciendo el efecto del _**jitter**_ (variación del retardo).
+
+#### B. RTCP (Real-time Transport Control Protocol)
+
+Es el protocolo hermano de RTP. No transporta muestras de medios, sino que se encarga de:
+
+1. **Retroalimentación de la calidad:** Informa sobre el retardo, la pérdida de paquetes, el _jitter_ y la congestión para que los códecs adapten su tasa de bits.
+2. **Sincronización inter-flujo:** Mantiene sincronizados los flujos independientes de audio y vídeo cuando usan relojes distintos.
+3. **Identificación:** Asocia nombres de usuario ASCII a las fuentes para mostrar en pantalla quién está hablando.
+
+#### C. Control de Jitter y Búfer en el Receptor
+
+Debido a que la red introduce demoras variables (_jitter_), el receptor almacena los paquetes en un **búfer de reproducción**.
+
+- Un búfer más grande elimina las pausas o brechas en la reproducción pero incrementa el retardo (latencia).
+- Las aplicaciones en vivo (videoconferencias) requieren búferes pequeños para mantener baja la latencia, mientras que las de _streaming_ bajo demanda pueden usar búferes grandes para máxima fluidez.
