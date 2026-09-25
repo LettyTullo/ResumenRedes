@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
+                "file": "5to semestre/Redes II/Capitulo 6/5 6.5 Los protocolos de transporte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4 Seccion 6.3 Control de Congestion"
+              "title": "5 6.5 Los protocolos de transporte"
             }
           }
         ],
@@ -229,8 +229,8 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
-    "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
     "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
+    "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
     "5to semestre/Distri/Unidad 5.md",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",
