@@ -49,11 +49,12 @@ Un segmento UDP consta de una **cabecera fija de 8 bytes** seguida de la carga �
 #### B. La Pseudocabecera IP
 
 Para calcular la suma de comprobación de manera más estricta, UDP incluye conceptualmente una **pseudocabecera IPv4** antes de los datos. Contiene:
+
 ![[Pasted image 20260924114209.png|637]]
 
 - Dirección IP de origen (32 bits).
 - Dirección IP de destino (32 bits).
-- Un byte en cero y el número de protocolo (17 para UDP).
+- Un byte en cero y el número de protocolo (17 para UDP) y (.
 - La longitud del segmento UDP.
 
 _Nota de diseño:_ Incluir la pseudocabecera permite detectar paquetes mal enrutados o entregados por error a una máquina equivocada, pero representa una **violación de la jerarquía de capas**, ya que la capa de transporte inspecciona campos pertenecientes a la capa de red (IP).
