@@ -54,7 +54,7 @@ Para calcular la suma de comprobación de manera más estricta, UDP incluye conc
 
 - Dirección IP de origen (32 bits).
 - Dirección IP de destino (32 bits).
-- Un byte en cero y el número de protocolo (17 para UDP) y (.
+- Un byte en cero y el número de protocolo (17 para UDP) y (6 para TCP).
 - La longitud del segmento UDP.
 
 _Nota de diseño:_ Incluir la pseudocabecera permite detectar paquetes mal enrutados o entregados por error a una máquina equivocada, pero representa una **violación de la jerarquía de capas**, ya que la capa de transporte inspecciona campos pertenecientes a la capa de red (IP).
