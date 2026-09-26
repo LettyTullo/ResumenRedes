@@ -45,7 +45,10 @@ Para mantener la eficiencia de la cabecera fija, las características que solo s
 4. **Fragmentación (_Fragmentation_):** Contiene la información de desplazamiento, el identificador de datagrama y el bit de finalización necesarios para que el destino final reensamble el paquete si el host emisor tuvo que fragmentarlo debido al Path MTU.
 5. **Autenticación (_Authentication_):** Proporciona un mecanismo de firma digital para verificar de forma segura la identidad del remitente e integridad del datagrama.
 6. **Carga útil de seguridad cifrada (_Encrypted security payload_):** Permite encriptar el contenido del paquete de manera que solo el receptor autorizado pueda descifrarlo y leerlo.
-
+##### SLAAC (Configuración automática de direcciones sinestado): 
+Este mecanismo permite que un dispositivo se conecte a una red y autogenere su propia dirección IPv6 sin necesidad de un servidor DHCP. Para hacerlo, toma el prefijo /64 que le asigna el router y le añade sus propios 64 bits de Identificador de Interfaz (basados en su dirección MAC o en algoritmos de privacidad). Si el prefijo no fuera /64, SLAAC simplemente no funciona.
+##### Descubrimiento de Vecinos (NDP): 
+El protocolo que sustituye a ARP en IPv6 se apoya en la estructura rígida de /64 para gestionar de forma óptima la resolución de direcciones y la detección de IPs duplicadas en el segmento local.
 ## Protocolo ICMP (Internet Control Message Protocol)
 El protocolo **ICMP es un subprotocolo fundamental de la capa de red que actúa como el mecanismo de **control y notificación de errores** para el Protocolo de Internet (IP).
 
