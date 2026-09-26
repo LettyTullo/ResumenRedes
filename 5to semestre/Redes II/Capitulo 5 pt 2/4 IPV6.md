@@ -45,6 +45,14 @@ Para mantener la eficiencia de la cabecera fija, las características que solo s
 4. **Fragmentación (_Fragmentation_):** Contiene la información de desplazamiento, el identificador de datagrama y el bit de finalización necesarios para que el destino final reensamble el paquete si el host emisor tuvo que fragmentarlo debido al Path MTU.
 5. **Autenticación (_Authentication_):** Proporciona un mecanismo de firma digital para verificar de forma segura la identidad del remitente e integridad del datagrama.
 6. **Carga útil de seguridad cifrada (_Encrypted security payload_):** Permite encriptar el contenido del paquete de manera que solo el receptor autorizado pueda descifrarlo y leerlo.
+# Prefijos en IPV6
+**Global Unicast Address (GUA):** Direcciones unicast enrutables en la Internet: 2000::/3
+**Unique Local (ULA)** Direcciones no enrutables equivalentes a lasdirecciones privadas IPv4: fc00::/7 (en la práctica fd00::/8)
+**Enlace local:** Se generan automáticamente en las interfaces, no se reenvían: fe80::/10
+**Tamaños comunes de prefijos:**
+- /64: Estandar para LANs, para el funcionamiento correcto de protocolos SLAAC y NDC. Cada subred tiene $2^(64)$ direcciones
+• /48: Sitios grandes u organizaciones
+• /56: Tamaño recomendado para abonados residenciales o redes pequeñas
 ##### SLAAC (Configuración automática de direcciones sinestado): 
 Este mecanismo permite que un dispositivo se conecte a una red y autogenere su propia dirección IPv6 sin necesidad de un servidor DHCP. Para hacerlo, toma el prefijo /64 que le asigna el router y le añade sus propios 64 bits de Identificador de Interfaz (basados en su dirección MAC o en algoritmos de privacidad). Si el prefijo no fuera /64, SLAAC simplemente no funciona.
 ##### Descubrimiento de Vecinos (NDP): 
