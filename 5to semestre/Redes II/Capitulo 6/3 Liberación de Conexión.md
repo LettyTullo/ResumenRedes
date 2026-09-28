@@ -1,4 +1,4 @@
-	La desconexión puede ser **asimétrica** (se corta bruscamente una dirección, lo que puede provocar la pérdida de datos que estaban en tránsito) o **simétrica** (cada dirección de la comunicación bidireccional se cierra de manera independiente).
+La desconexión puede ser **asimétrica** (se corta bruscamente una dirección, lo que puede provocar la pérdida de datos que estaban en tránsito) o **simétrica** (cada dirección de la comunicación bidireccional se cierra de manera independiente).
 En el ámbito de las redes de computadoras, este problema ilustra por qué es teóricamente imposible lograr una **liberación de conexión perfecta y sincronizada** en la capa de transporte sin el riesgo de perder datos o dejar conexiones "semiabiertas".
 ##### La analogía del dilema militar
 La literatura de redes plantea el problema mediante la siguiente analogía:
