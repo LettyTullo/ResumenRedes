@@ -89,8 +89,12 @@ De esta manera, el flujo de datos se adapta en todo momento al cuello de botella
 - **Síndrome de la Ventana Tonta (_Silly Window Syndrome_):** Ocurre si la aplicación receptora lee los datos de a 1 byte. El receptor enviaría actualizaciones constantes proponiendo `WIN = 1`, haciendo que el emisor mande paquetes pequeños llenos de cabeceras innecesarias.
 - **Solución (Regla de Clark):** Se prohíbe al receptor anunciar ventanas diminutas; debe esperar a tener libre al menos el tamaño de un segmento máximo (MSS) o la mitad de su búfer total antes de enviar una actualización.
 #### F. Multiplexación y Multiplexación Inversa
-- **Multiplexación:** Permite que múltiples conexiones de transporte compartan una única interfaz y dirección IP de red.
+- **Multiplexación:** Permite que múltiples aplicaciones o procesos de una misma máquina compartan una única IP, mediante puertos o direcciones TSAP.
+ En la Capa 4, se observan cuatro conexiones de transporte (TSAPs / puertos) distintas. Las cuatro líneas convergen hacia **una sola IP en la Capa 3** y continúan por una sola línea de router.- **Mecanismo:** La entidad de transporte recopila el tráfico de los distintos puertos, lo envía a través del único socket IP común y, al recibir la respuesta de la red, examina el número de puerto dentro de la cabecera del segmento para demultiplexar y saber a qué proceso entregárselo (parecido a lo que pasa en PAT).
 - **Multiplexación inversa:** Permite que una única conexión de transporte distribuya su tráfico a través de múltiples rutas de red físicas de forma paralela (como lo hace el protocolo SCTP) para incrementar el ancho de banda efectivo y la fiabilidad.
+En la Capa 4, hay **una sola dirección de transporte**. Pero en lugar de bajar por una sola vía, se divide y conecta a **múltiples IPs en la Capa 3,** enviando paquetes en paralelo a través de varias líneas físicas de enrutador.
+ Ocurre cuando un host cuenta con varias interfaces de red o rutas disponibles y decide **repartir el tráfico de una sola conexión entre múltiples caminos de red en formato por turno rotatorio (round-robin)**.
+**Beneficio:** más rendimiento y confiabilidad (ej. SCTP (Protocolo de Control de Transmisión de Flujo) puede usar varias interfaces, TCP solo usa una).
 #### G. Recuperacion de fallos
 La **recuperación de fallos** (_crash recovery_) en la capa de transporte analiza cómo debe reaccionar el protocolo cuando ocurren interrupciones en la comunicación. Para comprender este proceso, es fundamental diferenciar entre dos tipos de fallos:
 ##### 1. Fallos de Red vs. Fallos de Host (_Crash_)
