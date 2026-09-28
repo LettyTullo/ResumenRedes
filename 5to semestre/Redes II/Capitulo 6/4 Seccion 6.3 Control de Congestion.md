@@ -115,7 +115,7 @@ UDP se utiliza cuando la velocidad y la baja latencia son preferibles a la fiabi
 - Falta de fiabilidad
 - Ausencia de control de flujo y congestion
 # Llamada a Procedimiento Remoto (RPC - Remote Procedure Call)
-Propuesta por Birrell y Nelson (1984), **RPC** es una técnica que permite a un programa llamar a procedimientos o funciones ubicadas en máquinas remotas como si fueran llamadas locales ordinarias, ocultando los detalles del paso de mensajes de red.
+Propuesta por Birrell y Nelson (1984), **RPC** es una técnica que permite a los programas llamar a procedimientos ubicados en máquinas remotas, haciendo que las interacciones de interacciones de red sean más fáciles de programar, todos los detalles de la conectividad pueden ocultarse al programador.
 #### A. El mecanismo de los _Stubs_ (Talones)
 Para lograr la ilusión de una llamada local, RPC utiliza dos componentes cliente-servidor:
 
