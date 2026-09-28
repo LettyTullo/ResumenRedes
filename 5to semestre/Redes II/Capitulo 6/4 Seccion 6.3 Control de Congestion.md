@@ -26,13 +26,19 @@ El algoritmo debe converger rápidamente hacia el punto de operación ideal (jus
  Si el algoritmo no es estable, puede fracasar al tratar de converger hacia el punto correcto en algunos casos, o incluso puede oscilar alrededor del punto correcto.
 # Regulación de la tasa de envío (Sección 6.3.2)
 
-Para ajustar la velocidad de transmisión, la capa de transporte debe distinguir entre dos problemas que causan la pérdida de datos pero requieren soluciones opuestas:
+Para ajustar la velocidad de transmisión, la capa de transporte debe distinguir entre dos problemas que causan la pérdida de datos pero requieren soluciones opuestas que deben ser realizadas por el EMISOR:
 
 1. **Control de flujo:** La velocidad se limita porque el **receptor es lento** y no tiene espacio en sus búferes.
 2. **Control de congestión:** La velocidad se limita porque la **red intermedia es lenta** o está sobrecargada.
 #### Señales de retroalimentación
 
-Para saber cuándo frenar, la capa de transporte recopila señales de la red. Estas señales pueden ser explícitas (como bits **ECN** marcados por los routers en las cabeceras o mensajes de estrangulamiento) o implícitas (medición del aumento en el tiempo de ida y vuelta **RTT** o la detección de **pérdida de paquetes**).
+#### **Tipos de Señales de Retroalimentación:**
+
+1. **Explícita y precisa:** El enrutador indica explícitamente al emisor la velocidad exacta a la que debe transmitir (ejemplo: _XCP - eXplicit Congestion Protocol_).
+2. **Explícita e imprecisa:** El enrutador activa bits en las cabeceras de los paquetes para avisar de la congestión, pero no indica en cuánto debe reducirse la tasa (ejemplo: **ECN** - _Explicit Congestion Notification_).
+3. **Implícita y precisa:** El emisor mide variaciones continuas en el retardo de ida y vuelta (RTT) para anticipar la congestión antes de que ocurran pérdidas (ejemplo: _FAST TCP_, _BBR_).
+4. **Implícita e imprecisa:** El emisor deduce la congestión únicamente mediante la **pérdida de paquetes** (ejemplo: _TCP Tahoe_, _TCP Reno_, _TCP CUBIC, TCP con routers que aplican RED_).
+Cuando se proporcione una señal de congestión, los emisores deben reducir sus tasas. La forma en que se deben aumentar o reducir las tasas se proporciona mediante una ley de control. Puede aumentar la tasa en forma aditiva (sumando una cantidad fija) o multiplicativa (sumando un porcentaje) y puede reducirla también de manera aditiva o multiplicativa
 #### La ley de control AIMD (_Additive Increase, Multiplicative Decrease_)
 
 Chiu y Jain (1989) demostraron que ante señales de congestión binarias, la única ley de control que garantiza la **convergencia hacia una asignación equitativa y eficiente** es **AIMD**:
@@ -42,12 +48,25 @@ Chiu y Jain (1989) demostraron que ante señales de congestión binarias, la ún
 - Las alternativas como incrementar o reducir de forma puramente multiplicativa o aditiva (AIAD, MIMD, MIAD) no logran converger al punto óptimo de la red.
 #### Aplicación en Internet y compatibilidad
 
-En Internet, el protocolo **TCP implementa AIMD de manera indirecta** ajustando el tamaño de una **ventana de congestión (\(cwnd\))** mediante un reloj impulsado por los acuses de recibo (ACKs). El mecanismo presenta un sesgo natural: las conexiones con un RTT más corto reciben confirmaciones más rápido y hacen crecer su ventana con mayor velocidad que las conexiones lejanas. Debido a que TCP domina el tráfico en la red, se exige que cualquier nuevo protocolo de transporte sea **compatible con TCP (_TCP-friendly_)** para evitar que acapare el ancho de banda al competir con flujos TCP estándar.
+TCP implementa una ley de control AIMD para ajustar la tasa de envío y proveer control de congestión. En vez de ajustar la tasa directamente, una estrategia de uso común en la práctica es ajustar el tamaño de una ventana deslizante. Si el tamaño de la ventana es W y el tiempo de ida y vuelta es RTT, la tasa equivalente es W/RTT. El tamaño de la ventana determina cuántos datos pueden estar en tránsito, y los ACK del receptor marcan el ritmo. Cuando los ACK dejan de llegar, TCP interpreta congestión y reduce el envío en un porcentaje.
+
+- Conexiones con un tiempo menor de ida y vuelta tienden a crecer más rápido.
+
+**Compatibilidad con TCP (** **TCP-friendly** **):** Como TCP es el protocolo predominante de control de congestión en Internet, cualquier nuevo protocolo de transporte debe comportarse de forma similar a AIMD para competir equitativamente por el ancho de banda y no acaparar los recursos frente a los flujos TCP existentes.
 # Cuestiones inalámbricas (Sección 6.3.3)
 
-Los protocolos de control de congestión de la capa de transporte asumen tradicionalmente que cualquier pérdida de paquetes es el síntoma de un router saturado. Sin embargo, en los **enlaces inalámbricos**, la mayoría de las pérdidas se deben a **errores de transmisión de radio o ruidos en el canal** y no a congestión en la red.
+Los protocolos de transporte como TCP que implementan control de congestión deben ser independientes de la red subyacente y de las tecnologías de capa de enlace. La cuestión principal es que la pérdida de paquetes se usa con frecuencia como señal de congestión. Las redes inalámbricas pierden paquetes todo el tiempo debido a errores de transmisión.
 
-Si un protocolo como TCP confunde un error de canal inalámbrico con congestión, reduce erróneamente su ventana de envío, lo que provoca una **degradación severa e innecesaria del rendimiento** en redes móviles o Wi-Fi.
+Los enlaces inalámbricos (como Wi-Fi 802.11) sufren con frecuencia pérdidas de tramas debido a **ruido, interferencias electromagnéticas o desvanecimiento de señal** (con tasas de pérdida comunes del 10% o más).
+
+Si TCP opera sobre un enlace inalámbrico sin modificaciones, interpretará estas pérdidas físicas como congestión y aplicará el decremento multiplicativo, reduciendo drásticamente su velocidad de transmisión aun cuando la red no esté congestionada
+
+La solución es que los dos mecanismos actúan en distintas escalas de tiempo. Las retransmisiones  
+de la capa de enlace ocurren en el orden de microsegundos a milisegundos para los enlaces inalámbricos. Los temporizadores de pérdidas en los protocolos de transporte se activan en el orden de milisegundos a segundos. La diferencia es de tres órdenes de magnitud.
+
+Esto permite a los enlaces inalámbricos detectar las pérdidas de tramas y retransmitirlas para reparar los errores de transmisión mucho antes de que la entidad de transporte deduzca la pérdida de paquetes.
+
+La estrategia de enmascaramiento es suficiente para permitir que la mayoría de los protocolos de transporte operen bien a través de la mayoría de los enlaces inalámbricos. Sin embargo, no siempre es una solución adecuada. Algunos enlaces inalámbricos tienen tiempos de ida y vuelta largos, como los satélites. Para estos enlaces se deben usar otras técnicas para enmascarar la pérdida, como FEC (forward error correction).
 
 ## Seccion 6.4 UDP 
 #  UDP: User Datagram Protocol (RFC 768)
