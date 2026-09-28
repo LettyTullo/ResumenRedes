@@ -5,13 +5,25 @@ El objetivo de un algoritmo de control de congestión no es solo evitar el colap
 
 >[!info] Explicacion de cada uno:
 >- **Eficiencia y Potencia:** - Una asignación eficiente del ancho de banda entre las entidades de transporte utilizará toda la capacidad disponible de la red. Sin embargo, no será la sumatoria de todas las tasas de bits máximas asignadas ya que el tráfico es en ráfagas, y normalmente no transmiten todos al máximo al mismo tiempo.
-    - **Caudal útil (goodput):** Es la tasa a la que se entregan paquetes útiles a la aplicación de destino.
-    - **Comportamiento:** A medida que la carga ofrecida aumenta, el _goodput_ crece proporcionalmente al inicio. Sin embargo, cuando la carga se aproxima a la capacidad de la red, los búferes de los enrutadores se llenan y comienzan a descartarse paquetes.
-    - **Colapso por congestión:** Si un protocolo de transporte retransmite agresivamente paquetes retardados (pensando erróneamente que se perdieron), la red entra en un estado donde los emisores transmiten a gran velocidad pero casi ningún trabajo útil se completa (_goodput_ cae en picado).
-    - **Retardo:** Se mantiene casi constante al inicio (retardo de propagación) y se dispara exponencialmente a medida que la carga roza la capacidad máxima
-    - **Potencia:** obtendremos el mejor desempeño de la red si asignamos ancho de banda hasta el punto en que el retardo empieza a aumentar con rapidez. Este punto está por debajo de la capacidad. Para identificarlo, Kleinrock (1979) propuso la métrica de potencia, en donde: POTENCIA = CARGA / RETARDO. En un principio la potencia aumentará con la carga ofrecida, mientras el retardo permanezca en un valor pequeño y aproximadamente constante, pero llegará a un máximo y caerá a medida que el retardo aumente con rapidez. La carga con la potencia más alta representa una carga eficiente para que la entidad de transporte la coloque en la red.
->- **Equidad Máxima-Mínima (_Max-Min Fairness_):** Es el criterio utilizado para dividir el ancho de banda entre flujos que compiten por los mismos enlaces. Una asignación es justa en sentido máximo-mínimo si **no es posible aumentar el ancho de banda de un flujo sin reducir el de otro flujo que tenga una asignación igual o menor**. En la práctica, este criterio garantiza que ninguna conexión se quede sin ancho de banda (_starvation_).
->- **Convergencia:** Debido a que las conexiones se abren, se cierran y cambian su demanda en el tiempo, la asignación ideal es dinámica. El algoritmo de control debe **converger rápidamente** al punto de operación óptimo y rastrearlo de forma estable sin oscilar drásticamente alrededor de él.
+ **Caudal útil (goodput):** Es la tasa a la que se entregan paquetes útiles a la aplicación de destino.
+**Comportamiento:** A medida que la carga ofrecida aumenta, el _goodput_ crece proporcionalmente al inicio. Sin embargo, cuando la carga se aproxima a la capacidad de la red, los búferes de los enrutadores se llenan y comienzan a descartarse paquetes.
+**Colapso por congestión:** Si un protocolo de transporte retransmite agresivamente paquetes retardados (pensando erróneamente que se perdieron), la red entra en un estado donde los emisores transmiten a gran velocidad pero casi ningún trabajo útil se completa (_goodput_ cae en picado).
+**Retardo:** Se mantiene casi constante al inicio (retardo de propagación) y se dispara exponencialmente a medida que la carga roza la capacidad máxima
+ **Potencia:** obtendremos el mejor desempeño de la red si asignamos ancho de banda hasta el punto en que el retardo empieza a aumentar con rapidez. Este punto está por debajo de la capacidad. Para identificarlo, Kleinrock (1979) propuso la métrica de potencia, en donde: POTENCIA = CARGA / RETARDO. En un principio la potencia aumentará con la carga ofrecida, mientras el retardo permanezca en un valor pequeño y aproximadamente constante, pero llegará a un máximo y caerá a medida que el retardo aumente con rapidez. La carga con la potencia más alta representa una carga eficiente para que la entidad de transporte la coloque en la red.
+ 
+>[!example] Equidad Máxima-Mínima (_Max-Min Fairness_):
+>Es el criterio utilizado para dividir el ancho de banda entre flujos que compiten por los mismos enlaces. Una asignación es justa en sentido máximo-mínimo si **no es posible aumentar el ancho de banda de un flujo sin reducir el de otro flujo que tenga una asignación igual o menor**. En la práctica, este criterio garantiza que ninguna conexión se quede sin ancho de banda (_starvation_).
+>**La regla dice que no se debe mejorar a una a costa de otra que está igual o peor.**
+ Esto busca ayudar a los más desfavorecidos y si sobra capacidad se asigna equitativamente respetando la idea anterior.
+ Se requiere un conocimiento global de la red
+ Es más importante en la práctica que ninguna conexión se quede sin ancho de banda a que todas reciban la misma cantidad de ancho de banda.
+ 
+>[!success] Convergencia:
+> El algoritmo de control de congestión debe converger rápidamente hacia una asignación equitativa y eficiente del ancho de banda.
+La demanda de red cambia de forma dinámica (las conexiones entran y salen constantemente).
+Debido a la variación en la demanda, el punto de operación ideal para la red varía con el tiempo.
+El algoritmo debe converger rápidamente hacia el punto de operación ideal (justo y eficiente) y rastrearlo sin oscilaciones inestables.
+ Si el algoritmo no es estable, puede fracasar al tratar de converger hacia el punto correcto en algunos casos, o incluso puede oscilar alrededor del punto correcto.
 # Regulación de la tasa de envío (Sección 6.3.2)
 
 Para ajustar la velocidad de transmisión, la capa de transporte debe distinguir entre dos problemas que causan la pérdida de datos pero requieren soluciones opuestas:
