@@ -19,7 +19,7 @@ El diseño del encabezado se organiza en palabras de **32 bits** de la siguiente
 3. **Extensión / X (1 bit):** Si se activa en `1`, señala la presencia de una cabecera de extensión personalizada entre la cabecera fija y la carga útil de datos.
 4. **Contador de contribuyentes / CC (4 bits):** Indica cuántos identificadores de fuentes colaboradoras (CSRC) siguen a la cabecera principal (de 0 a 15 identificadores).
 5. **Marcador / M (1 bit):** Es un bit de interpretación específica para la aplicación. Se utiliza para señalar límites o eventos significativos en el flujo de medios; por ejemplo, el inicio de un fotograma de vídeo o el comienzo de un tramo de voz (_talkspurt_) tras un silencio en un canal de audio.
-6. **Tipo de carga útil / Payload Type (7 bits):** Especifica el algoritmo o formato de codificación utilizado para los datos multimedia (por ejemplo, audio comprimido, MP3, etc.). Como cada paquete lleva este campo, la aplicación puede **cambiar el tipo de codificación dinámicamente** en mitad de una transmisión si la red se congestiona.
+6. **Tipo de carga útil / Payload Type (7 bits):** Especifica el algoritmo o formato de codificación utilizado para los datos multimedia (por ejemplo, audio comprimido, MP3, etc.). 
 7. **Número de secuencia (16 bits):** Es un contador de 16 bits que se incrementa en `1` por cada paquete RTP transmitido. Permite al receptor **detectar paquetes perdidos** o reordenar aquellos que lleguen fuera de secuencia.
 #### **Segunda y tercera palabras de 32 bits:**
 
