@@ -24,7 +24,7 @@ El diseño del encabezado se organiza en palabras de **32 bits** de la siguiente
 #### **Segunda y tercera palabras de 32 bits:**
 
 8. **Marca de tiempo / Timestamp (32 bits):** Registra el instante exacto en que se tomó la primera muestra del paquete de datos. Sirve para que el receptor pueda **reproducir el contenido en el momento adecuado** y eliminar el efecto del _**jitter**_ (variación en el retardo de la red) mediante el uso de un búfer de reproducción.
-9. **Identificador de la fuente de sincronización / SSRC (32 bits):** Es un número elegido de forma aleatoria que identifica unívocamente la **fuente del flujo multimedia** (por ejemplo, el micrófono o la cámara de un participante en una conferencia). Esto evita que múltiples flujos enviados a una misma dirección IP y puerto se confundan entre sí.
+9. **Identificador de la fuente de sincronización / SSRC (32 bits):** Es un número elegido de forma aleatoria que identifica la **fuente del flujo multimedia** (por ejemplo, el micrófono o la cámara de un participante en una conferencia). Esto evita que múltiples flujos enviados a una misma dirección IP y puerto se confundan entre sí.
 #### **Campos de tamaño variable (Opcionales):**
 
 10. **Identificadores de fuentes colaboradoras / CSRC (0 a 15 palabras de 32 bits):** Se utiliza cuando en la sesión hay un **mezclador**. En una multiconferencia donde un mezclador combina las señales de audio de varios participantes en un único flujo, el mezclador se convierte en la fuente de sincronización (SSRC) e inserta en este campo la lista de los identificadores SSRC originales de cada uno de los participantes que contribuyeron a ese paquete.
