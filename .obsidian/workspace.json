@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/5 RTP y RTCP.md",
+                "file": "5to semestre/Redes II/Capitulo 6/6 6.5 Los protocolos de transporte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "5 RTP y RTCP"
+              "title": "6 6.5 Los protocolos de transporte"
             }
           }
         ],
@@ -229,8 +229,8 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
-    "5to semestre/Redes II/Capitulo 6/6 6.5 Los protocolos de transporte.md",
     "5to semestre/Redes II/Capitulo 6/5 RTP y RTCP.md",
+    "5to semestre/Redes II/Capitulo 6/6 6.5 Los protocolos de transporte.md",
     "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
     "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
     "_Imagenes/Pasted image 20260928115300.png",
