@@ -72,12 +72,6 @@ En cada segmento de retorno, el receptor le comunica al emisor dos cosas distint
 1. **Acuse de recibo (ACK):** Indica hasta qué byte ha recibido los datos de forma correcta.
 2. **Tamaño de ventana (_Window Size_):** Informa de manera independiente cuántos bytes adicionales tiene espacio para almacenar en sus búferes en ese preciso instante.
 
->[!info] Proceso de Intercambio y Flujo Dinámico
->1. **Anuncio Inicial:** Durante el establecimiento de la conexión o en el envío de datos, el emisor transmite segmentos y el receptor responde con un tamaño de ventana proporcional a la memoria libre que le queda.
->2. **Consumo de Crédito:** Cada vez que el emisor transmite un segmento, descuenta esa cantidad de bytes de su asignación o crédito permitido.
->3. **Bloqueo por Ventana Cero:** Si el proceso de aplicación en el receptor no lee los datos a tiempo y los búferes se llenan, el receptor envía un `WIN = 0`. Al recibir esto, el emisor **se detiene de inmediato** y no envía más datos normales.
->4. **Sondeos de Ventana (_Window Probes_):** Si se perdiera el paquete posterior donde el receptor avisa que volvió a liberar espacio, la conexión quedaría en un bloqueo permanente. Para evitarlo, el emisor transmite periódicamente un paquete especial de 1 byte denominado **sondeo de ventana** (_window probe_), forzando al receptor a responder re-anunciando su estado actual.
-
  >[!success] La Ventana Efectiva: Control de Flujo vs. Control de Congestión
 En la práctica, el emisor mantiene **dos ventanas dinámicas simultáneas** para no saturar al receptor ni a los routers intermedios:
 >- **Ventana de Control de Flujo (\(WIN_{receptor}\)):** Dictada y anunciada explícitamente por el receptor según su memoria disponible.
