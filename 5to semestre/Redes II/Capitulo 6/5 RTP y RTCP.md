@@ -67,4 +67,4 @@ Con la relación matemática establecida por RTCP entre los contadores locales d
 - Calcula exactamente en qué milisegundo de tiempo real debe salir cada muestra de audio y cada fotograma de vídeo.
 - Extrae y reproduce de forma simultánea el fotograma de vídeo y la muestra de audio que comparten el mismo instante de tiempo real de origen, logrando una **reproducción fluida y perfectamente sincronizada**.
 
-[[6 6.5 Los protocolos de transporte]]
+[[6   6.5 Los protocolos de transporte]]
