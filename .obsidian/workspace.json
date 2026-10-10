@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5to semestre/Redes II/Capitulo 6/7   6.5.7 Modelado de la conexion TCP.md",
+                "file": "5to semestre/Redes II/Capitulo 6/9   6.6 Protocolos y control de congestion.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "7   6.5.7 Modelado de la conexion TCP"
+              "title": "9   6.6 Protocolos y control de congestion"
             }
           }
         ],
@@ -202,8 +202,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "git-view"
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
         ],
@@ -211,8 +211,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -229,10 +228,10 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
+    "5to semestre/Redes II/Capitulo 6/8  6.5.9 Temporizadores en TCP.md",
+    "5to semestre/Redes II/Capitulo 6/7   6.5.7 Modelado de la conexion TCP.md",
     "5to semestre/Redes II/Capitulo 6/6   6.5 Los protocolos de transporte.md",
     "5to semestre/Redes II/Capitulo 6/9   6.6 Protocolos y control de congestion.md",
-    "5to semestre/Redes II/Capitulo 6/7   6.5.7 Modelado de la conexion TCP.md",
-    "5to semestre/Redes II/Capitulo 6/8  6.5.9 Temporizadores en TCP.md",
     "_Imagenes/Pasted image 20261008162727.png",
     "_Imagenes/Pasted image 20261008154357.png",
     "_Imagenes/Pasted image 20261008153953.png",
