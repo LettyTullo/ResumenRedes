@@ -109,8 +109,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 296.70001220703125,
-    "collapsed": true
+    "width": 296.70001220703125
   },
   "right": {
     "id": "a8447034352a9e85",
@@ -230,19 +229,19 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
+    "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
+    "5to semestre/Redes II/Capitulo 6/5 RTP y RTCP.md",
+    "5to semestre/Redes II/Capitulo 6/6   6.5 Los protocolos de transporte.md",
+    "5to semestre/Redes II/Capitulo 6/8  6.5.9 Temporizadores en TCP.md",
     "5to semestre/Redes II/Capitulo 6/7   6.5.7 Modelado de la conexion TCP.md",
     "5to semestre/Redes II/Capitulo 6/9   6.6 Protocolos y control de congestion.md",
-    "5to semestre/Redes II/Capitulo 6/8  6.5.9 Temporizadores en TCP.md",
-    "5to semestre/Redes II/Capitulo 6/6   6.5 Los protocolos de transporte.md",
     "_Imagenes/Pasted image 20261008162727.png",
     "_Imagenes/Pasted image 20261008154357.png",
     "_Imagenes/Pasted image 20261008153953.png",
     "_Imagenes/Pasted image 20261008153818.png",
     "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
-    "5to semestre/Redes II/Capitulo 6/4 Seccion 6.3 Control de Congestion.md",
     "_Imagenes/Pasted image 20261008141549.png",
     "_Imagenes/Pasted image 20261008141142.png",
-    "5to semestre/Redes II/Capitulo 6/5 RTP y RTCP.md",
     "_Imagenes/Pasted image 20261008140449.png",
     "_Imagenes/Pasted image 20260928115300.png",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
