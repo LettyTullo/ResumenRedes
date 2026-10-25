@@ -53,34 +53,26 @@ Esta sección aborda el uso de herramientas de línea de comandos para inspeccio
 - **Cmdlets de PowerShell:**
     - `Resolve-DnsName`: Comando moderno de PowerShell equivalente a `dig` o `nslookup` para consultar registros DNS.
     - `Show-DnsServerCache`: Permite inspeccionar las entradas almacenadas en la caché del servidor o cliente de nombres.
-### Sección 7.1.7: Privacidad DNS
+# Sección 7.1.7: Privacidad DNS
 
 Esta sección analiza las vulnerabilidades de privacidad asociadas al diseño original del DNS y las innovaciones recientes desarrolladas para proteger el tráfico de consultas de los usuarios.
-
 #### 1. El problema histórico de la falta de privacidad
-
 - **Tráfico en texto plano:** Históricamente, las consultas y respuestas DNS no contaban con ningún tipo de cifrado, transmitiéndose en texto claro sobre UDP o TCP (puerto 53).
 - **Espionaje e inspección:** Cualquier intermediario en el camino de la red —como administradores de red local, proveedores de servicios de Internet (ISPs), operadores de redes Wi-Fi públicas o atacantes (_eavesdroppers_)— podía registrar y analizar todo el tráfico DNS de un usuario.
 - **Exposición de datos sensibles:** Las consultas DNS revelan los hábitos de navegación, intereses personales e investigaciones médicas (por ejemplo, consultas a `webmd.com`).
 - **Impacto en el Internet de las Cosas (IoT):** En hogares inteligentes, los dispositivos IoT (como cámaras de seguridad o monitores de sueño) emiten consultas DNS continuas que pueden identificar de forma única la presencia de dispositivos específicos y los patrones de actividad de los ocupantes dentro de la vivienda.
-
 #### 2. Migración hacia el Transporte Cifrado (DoT y DoH)
-
 Para prevenir el espionaje pasivo y la manipulación de datos, se desarrollaron protocolos de transporte cifrado entre el cliente (_stub resolver_) y el resolutor recursivo local:
 
 - **DoT (_DNS over TLS_):** Encapsula los mensajes DNS tradicionales dentro de un canal seguro cifrado con **TLS** utilizando el puerto dedicado `853`.
 - **DoH (_DNS over HTTPS_):** Encapsula las consultas DNS dentro de sesiones HTTP/2 o HTTP/3 sobre **HTTPS** (puerto `443`). Al camuflarse como tráfico web común, dificulta que terceros o cortafuegos puedan bloquear o diferenciar las búsquedas DNS.
-
 #### 3. Implicaciones operativas y el debate de centralización
-
 - **Pérdida de visibilidad para los ISPs:** Al estar cifrado el tráfico, los ISPs ya no pueden inspeccionar las consultas de sus clientes. Esto protege la privacidad del usuario, pero invalida mecanismos de red tradicionales administrados por el ISP, como el bloqueo de sitios maliciosos, el control de infecciones de _malware_ y los controles parentales basados en DNS.
 - **Riesgo de centralización y TRR (_Trusted Recursive Resolvers_):**
     - Al integrar DoH directamente en los navegadores web, la resolución DNS se traslada del sistema operativo al navegador.
     - Puesto que el mercado de navegadores está dominado por pocos actores (como Google), las configuraciones por defecto determinan qué empresa o resolutor público (como Google `8.8.8.8` o Cloudflare `1.1.1.1`) termina concentrando y observando el tráfico DNS global.
     - Esto motivó el establecimiento de políticas de **TRR (_Trusted Recursive Resolvers_)**, diseñadas para regular y seleccionar resolutores recursivos de confianza que operen bajo estrictas garantías de privacidad mediante DoT o DoH.
-
 #### 4. Privacidad de Próxima Generación: Oblivious DNS (ODNS / ODoH)
-
 Ni DoT ni DoH resuelven el problema de forma absoluta, ya que el operador del resolutor recursivo local todavía puede ver simultáneamente la dirección IP del usuario y el nombre de dominio consultado. Para eliminar este punto de confianza único, surgieron **ODNS (_Oblivious DNS_)** y **ODoH (_Oblivious DoH_)**:
 
 ```
@@ -94,3 +86,18 @@ Ni DoT ni DoH resuelven el problema de forma absoluta, ya que el operador del re
 3. **El Servidor Autoritativo / Destino ODNS:** Recibe la consulta, la descifra y la resuelve, pero **desconoce la dirección IP del cliente** que la originó.
 
 _Resultado:_ Ninguna entidad intermedia o servidor posee al mismo tiempo la identidad del cliente (su IP) y el contenido de su consulta (el dominio solicitado), logrando la desvinculación completa de los datos.
+# Seccion 7.1.8
+La sección **7.1.8 ("Contención y disputas por los nombres / Disputas por nombres")** de la bibliografía y las diapositivas analiza cómo los nombres de dominio trascendieron su función técnica original de traducir direcciones IP para convertirse en **activos comerciales, culturales y políticos de gran valor económico**.
+#### El Valor Comercial y la Especulación de Dominios
+- **Activos digitales cotizados:** Los nombres de dominio se han convertido en propiedades digitales extremadamente valiosas.
+- **Saturación de `.com`:** La elevada demanda comercial derivó en la ocupación de prácticamente todas las palabras comunes del idioma inglés, así como sus errores ortográficos habituales, nombres de productos, plantas y animales dentro del gTLD `.com`.
+- **Monetización de ccTLDs por países:** Ciertos países lograron capitalizar estratégicamente su código geográfico de dos letras. El caso más famoso es el de **Tuvalu**, una pequeña nación insular que arrendó el derecho de uso de su ccTLD **`.tv`** por más de 50 millones de dólares debido a su atractivo obvio para cadenas y plataformas de televisión.
+#### Debates Políticos y Criterios de Elegibilidad en la ICANN
+Como organismo supervisor global, la **ICANN** enfrenta constantes presiones al decidir sobre la creación o regulación de nuevos dominios de nivel superior (gTLDs):
+
+- **El debate del TLD `.xxx`:** La creación de este dominio para la industria de contenidos para adultos requirió **varios años de deliberaciones y demandas judiciales**. El conflicto enfrentó a quienes buscaban concentrar dicho material en un único dominio para facilitar el bloqueo mediante filtros parentales frente a quienes se oponían por motivos éticos o morales.
+- **Definición de restricciones (El caso `.pro`):** Diseñado originalmente para "profesionales cualificados", generó amplias controversias para determinar qué profesiones eran elegibles (mientras médicos y abogados eran admitidos sin discusión, surgió la duda de si aplicaba a fotógrafos autónomos, profesores de música, plomeros o artesanos).
+#### Ciberocupación (_Cybersquatting_)
+- **Concepto:** Es la práctica deliberada de registrar nombres de dominio —especialmente marcas reconocidas o corporativas que tardaron en ingresar al mundo digital— con la única intención de **revenderlos posteriormente a sus dueños o empresas interesadas a precios muy elevados**.
+- **Regla de asignación general:** Por principio operativo básico, la adjudicación de nombres en los registradores se rige bajo el criterio de **"primer llegado, primer servido"** (_first-come, first-served_).
+- **Infracciones y marcas registradas:** La regla de prioridad no aplica cuando existe fraude directo o violación de marcas registradas (_trademarks_). En estos casos, las empresas recurren a políticas formalizadas de arbitraje (como la política UDRP de la ICANN) para recuperar el dominio registrado con mala fe.

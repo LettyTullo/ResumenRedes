@@ -114,3 +114,4 @@ En DNSSEC, los registros del mismo tipo para un dominio se agrupan en conjuntos 
 #### Zona DNS 
 Zonas DNS DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
 
+[[DNS seccion 7.1.5 hasta 7.1.8]]
