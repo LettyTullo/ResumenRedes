@@ -1,5 +1,4 @@
 # Capítulo 7: La Capa de Aplicación (Visión General)
-
 La **Capa de Aplicación** es el nivel superior de la arquitectura de red donde residen las aplicaciones reales con las que interactúan los usuarios. Todas las capas inferiores existen exclusivamente para proporcionar servicios de transporte confiables o no confiables, pero no realizan el trabajo directo que requieren los usuarios.
 
 Incluso en este nivel, existen **protocolos de apoyo** fundamentales que permiten el funcionamiento global de las aplicaciones. El más importante es el **Sistema de Nombres de Dominio (DNS)**, el cual asigna nombres de Internet a direcciones IP. A partir de este servicio de soporte se estructuran las aplicaciones reales de la red, como el correo electrónico, la _World Wide Web_ (WWW), la transmisión de multimedia (_video streaming_) y las redes de distribución de contenidos (CDNs y P2P).
@@ -7,14 +6,12 @@ Incluso en este nivel, existen **protocolos de apoyo** fundamentales que permite
 
 El **DNS** (_Domain Name System_) es un esquema de nombres jerárquico implementado sobre una base de datos distribuida. Está especificado principalmente en las RFC 1034, RFC 1035 y RFC 2181.
 #### 7.1.1 Historia y Visión General
-
 - **Contexto histórico:** Antes de 1983, la red ARPANET mantenía un archivo de texto centralizado denominado `hosts.txt` que contenía el listado de todos los nombres de las máquinas con sus correspondientes direcciones IP. Cada noche, los _hosts_ de la red descargaban una copia actualizada de este archivo. Sin embargo, el crecimiento exponencial de la red provocó la saturación del sistema, retrasos en las descargas y frecuentes conflictos de nombres al carecer de una administración descentralizada.
 - **Creación y propósito:** En 1983 se creó el DNS para resolver estos problemas. Su función principal es **traducir nombres de dominio legibles por humanos a direcciones IP numéricas**.
 - **Ventajas operativas:**
     1. Desvincula el nombre del servidor de su ubicación física o dirección IP, lo que permite cambiar de servidor o de proveedor sin alterar el nombre del dominio.
     2. Facilita el **equilibrio de carga** (_load balancing_) al mapear un único nombre de dominio hacia múltiples direcciones IP pertenecientes a _clusters_ de servidores distribuidos.
 #### 7.1.2 El Proceso de Búsqueda DNS
-
 El proceso de resolución abarca la interacción entre tres componentes clave:
 
 1. **Stub Resolver:** Es un procedimiento de biblioteca de la pila del sistema operativo (como `gethostbyname`) invocado por la aplicación del usuario pasándole el nombre de dominio como parámetro.
@@ -76,88 +73,44 @@ El funcionamiento operativo del árbol se rige por varios principios fundamental
     - Una vez registrado el dominio, la entidad obtiene **autonomía total para generar subdominios** (ej. `cs.unsd.edu`) sin requerir autorización de los niveles superiores del árbol.
 - **Límites Organizativos, No Físicos:** La estructura del árbol responde a divisiones administrativas y no a la topología física de la red. Varios departamentos situados en el mismo edificio compartiendo una misma red LAN pueden tener dominios DNS distintos, mientras que equipos geográficamente distantes pueden pertenecer al mismo dominio.
 #### 7.1.4 Consultas, Respuestas y Registros de Recursos
+##### Consultas y Usos Especiales del DNS
+- **Propósito de la Consulta:** La función fundamental del DNS es asignar nombres de dominio a sus correspondientes registros de recursos. El cliente o _stub resolver_ envía una solicitud a su resolutor local, el cual realiza búsquedas iterativas hasta obtener la respuesta.
+- **Consulta de Registro A:** Es el tipo de consulta más frecuente y solicita la asignación de un nombre de dominio a una dirección IPv4 de 32 bits.
+- **Listas Negras Basadas en DNS (DNSBL):** Además de mapear nombres a direcciones IP, las consultas DNS se utilizan para consultar bases de datos como las **DNSBL**, que rastrean direcciones IP asociadas a _spammers_ o _malware_. Para consultar una IP en una DNSBL (como la lista de políticas `pbl.spamhaus.org`), el cliente invierte los octetos de la dirección IP y los antepone al nombre de la lista negra.
+##### Ampliaciones y Mejoras en las Consultas
+Con el crecimiento de la red y las exigencias de rendimiento y seguridad, se introdujeron extensiones para sofisticar las consultas:
+- **EDNS Client Subnet (EDNS0 CS):** En esta extensión, el resolutor recursivo local incluye la subred IP del cliente original (_stub resolver_) en la consulta enviada al servidor autoritativo. Esto permite al servidor de nombres autoritativo identificar la ubicación geográfica o topológica del cliente y devolver la dirección IP de un servidor réplica cercano, lo cual es fundamental para el funcionamiento de las Redes de Distribución de Contenidos (CDNs).
+- **Codificación 0x20:** El ID de transacción original de 16 bits del DNS era vulnerable a ataques de envenenamiento de caché como el ataque Kaminsky. Dado que los nombres en las consultas DNS no distinguen entre mayúsculas y minúsculas, los resolutores modernos alternan arbitrariamente entre mayúsculas y minúsculas en cada letra del nombre buscado (QNAME) para inyectar bits de entropía adicionales en la transacción sin alterar el protocolo.
+##### Estructura del Registro de Recurso (La 5-tupla)
+Los datos devueltos en las respuestas DNS se organizan en **registros de recursos**. Aunque internamente se codifican en formato binario, en texto se representan mediante una estructura de cinco campos o **5-tupla**:
 
-Cada dominio o _host_ tiene asociado un conjunto de **registros de recursos** que conforman la base de datos distribuida de DNS.
+$[{DomainName} | {Timetolive} | {Class} |{Type} | {Value}]$
 
-- **Estructura del Registro de Recurso (5-tupla):** Todos los registros se representan conceptualmente mediante la tupla: \[\text{Domain_name} \mid \text{Time_to_live} \mid \text{Class} \mid \text{Type} \mid \text{Value}\]
-    
-    1. **Domain_name:** Clave principal de búsqueda que indica a qué dominio aplica el registro.
-    2. **Time_to_live (TTL):** Tiempo en segundos que el registro puede almacenarse en caché.
-    3. **Class:** Indica la clase de red (para tráfico de Internet es casi siempre `IN`).
-    4. **Type:** Especifica el tipo de registro y el formato de los datos contenidos.
-    5. **Value:** Valor asociado (dirección IP, nombre de dominio o cadena de texto).
-- **Principales Tipos de Registros:**
-    
+1. **Domain_name (Nombre de Dominio):** Indica el dominio al que aplica el registro y funciona como la clave principal de búsqueda en la base de datos.
+2. **Time_to_live (TTL):** Expresa la estabilidad del registro mediante la cantidad de segundos que una entrada puede ser conservada en una memoria caché remota antes de ser descartada. Para datos estables se asignan valores elevados (como 86400 segundos = 1 día), mientras que para información volátil o balanceo de carga se usan valores reducidos (como 60 segundos).
+3. **Class (Clase):** Especifica la clase de red; para el tráfico de Internet adopta prácticamente siempre el valor `IN`.
+4. **Type (Tipo):** Define el tipo de registro y la estructura de los datos contenidos.
+5. **Value (Valor):** Es la carga útil o contenido del registro, el cual varía entre enteros de 32/128 bits, nombres de dominio o cadenas ASCII según el tipo.
+##### Principales Tipos de Registros de Recursos
 
 |Tipo|Significado|Valor y Descripción|
 |:--|:--|:--|
-|**SOA**|_Start of Authority_|Proporciona parámetros principales de la zona (administrador, número de serie, temporizadores).|
-|**A**|Dirección IPv4|Dirección IP binaria de 32 bits de un _host_.|
-|**AAAA**|Dirección IPv6|Dirección IP binaria de 128 bits de un _host_ (_quad A_).|
+|**SOA**|_Start of Authority_|Especifica la fuente principal de información sobre la zona, correo del administrador, número de serie y temporizadores.|
+|**A**|Dirección IPv4|Almacena una dirección IPv4 de 32 bits correspondiente a una interfaz del host.|
+|**AAAA**|Dirección IPv6|Almacena una dirección IPv6 de 128 bits (_quad A_).|
 |**NS**|_Name Server_|Especifica el nombre del servidor de nombres autoritativo para el dominio o subdominio.|
-|**MX**|_Mail Exchange_|Indica el nombre del servidor de correo dispuesto a recibir e-mails para el dominio, junto con su prioridad.|
-|**CNAME**|_Canonical Name_|Define un alias que apunta al nombre de dominio canónico o verdadero.|
-|**PTR**|_Pointer_|Apunta a un nombre de dominio; se utiliza para **búsquedas inversas** (asociar una dirección IP a su nombre).|
-|**SRV**|Servicio|Generaliza el registro MX permitiendo especificar _host_ y puerto para servicios arbitrarios.|
-|**SPF / TXT**|Texto|`SPF` define qué máquinas pueden enviar correo del dominio; `TXT` almacena texto ASCII legible por máquina (como políticas SPF).|
+|**MX**|_Mail Exchange_|Indica el nombre del host dispuesto a aceptar correo electrónico para el dominio, junto con un valor numérico de prioridad.|
+|**CNAME**|_Canonical Name_|Define un alias que apunta al nombre de dominio canónico o verdadero (por ejemplo, permitiendo que `www.cs.uchicago.edu` apunte a `hnd.cs.uchicago.edu`).|
+|**PTR**|_Pointer_|Apunta a otro nombre de dominio y se utiliza para **búsquedas inversas** (asociar una dirección IP a su nombre).|
+|**SRV**|Servicio|Identifica el host y puerto para un servicio determinado en el dominio, generalizando la función del registro MX.|
+|**SPF**|_Sender Policy Framework_|Codifica qué máquinas o direcciones IP tienen permitido enviar correo saliente del dominio para combatir el spam falsificado.|
+|**TXT**|Texto|Diseñado para texto ASCII descriptivo; actualmente almacena información estructurada legible por máquina, principalmente datos SPF.|
+##### Registros para la Seguridad (DNSSEC)
+Dado que el DNS original carecía de autenticación y permitía la manipulación de registros en tránsito, se desarrollaron las extensiones de seguridad **DNSSEC** (RFC 3833).
+En DNSSEC, los registros del mismo tipo para un dominio se agrupan en conjuntos denominados **RRSET** (_Resource Record Set_) y se firman criptográficamente mediante la clave privada de la zona autoritativa. Para gestionar las firmas y claves públicas, se introducen dos tipos de registros adicionales:
 
-- **Usos especiales y extensiones:**
-    
-    - **DNSBL (_DNS-based Blacklist_):** Listas negras para rastrear direcciones IP asociadas con _spammers_ o _malware_. Se consultan invirtiendo los octetos de la IP e invocando a dominios especiales como `pbl.spamhaus.org`.
-    - **EDNS0 CS (_Extended DNS Client Subnet_):** Permite al _local resolver_ transmitir la subred IP del cliente original al servidor autoritativo. Esto permite a las CDNs devolver la dirección IP de un servidor réplica geográficamente cercano al cliente.
-- **Registros de Seguridad DNSSEC (RFC 3833):** DNSSEC añade autenticación mediante firmas digitales firmadas con criptografía de clave pública para evitar la manipulación de datos:
-    
-    1. **RRSIG:** Contiene la firma digital calculada sobre un conjunto de registros del mismo tipo (**RRSET**), firmada con la clave privada de la zona.
-    2. **DNSKEY:** Almacena la clave pública de la zona para verificar los registros RRSIG; está firmada a su vez por la clave del dominio padre.
+1. **RRSIG (Resource Record Signature):** Almacena la firma digital calculada sobre un RRSET, generada con la clave privada del servidor autoritativo.
+2. **DNSKEY:** Almacena la clave pública utilizada para verificar las firmas RRSIG de los conjuntos RRSET; esta clave pública se encuentra firmada a su vez por la clave privada del dominio padre para establecer la cadena de confianza.
+## #Zona DNS 
+Zonas DNS DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
 
----
-
-#### 7.1.5 Zonas DNS y Resolución de Nombres
-
-Para garantizar la escalabilidad y tolerancia a fallos, la base de datos global de DNS se divide en **zonas delegadas**.
-
-- **Archivo de Zona:** Es el archivo que almacena físicamente el conjunto de registros de recursos correspondientes a un dominio o subdominio.
-- **Servidor Primario y Secundarios:** Cada zona cuenta con un **servidor de nombres primario** (que lee los datos desde su disco local) y uno o varios **servidores secundarios** (que replican periódicamente la información desde el servidor primario).
-
-```
-                    [Cliente filts.cs.vu.nl]
-                               |
-                        (1)    |    (10) Respuesta IP
-                               v
-                     [Local Resolver cs.vu.nl]
-                       /       |       \
-            (2) query /        |        \ (8) query
-            (3) .edu v         | (5)     v (9) IP final
-            [Servidor Raíz]    | uchicago.edu
-                          (4)  |  (6) query
-                        query  v  (7) cs.uchicago.edu
-                     [Servidor TLD .edu] ---> [Servidor Autoritativo cs.uchicago.edu]
-```
-
-- **Pasos de la Resolución Iterativa (Ejemplo de 10 pasos):**
-    
-    1. El cliente `filts.cs.vu.nl` consulta a su _Local Resolver_ por el registro A de `noise.cs.uchicago.edu`.
-    2. El _Local Resolver_ consulta a uno de los **Servidores Raíz**.
-    3. El Servidor Raíz responde con una referencia al servidor del TLD `.edu`.
-    4. El _Local Resolver_ consulta al servidor TLD `.edu`.
-    5. El servidor `.edu` responde con la dirección del servidor de `uchicago.edu`.
-    6. El _Local Resolver_ consulta al servidor de `uchicago.edu`.
-    7. El servidor de `uchicago.edu` responde redirigiendo al servidor autoritativo de `cs.uchicago.edu`.
-    8. El _Local Resolver_ consulta al servidor autoritativo de `cs.uchicago.edu`.
-    9. El servidor autoritativo devuelve el registro A con la dirección IP final (`128.135.24.19`).
-    10. El _Local Resolver_ reenvía la dirección IP al cliente.
-- **Servidores Raíz:** Existen **13 servidores raíz** lógicos (denominados de `a.root-servers.net` a `m.root-servers.net`), los cuales están masivamente replicados en todo el mundo mediante enrutamiento _anycast_.
-    
-
----
-
-#### 7.1.6 a 7.1.8 Tendencias Modernas, Privacidad y Contención por Nombres
-
-- **Cifrado de DNS (DoT / DoH):** Para evitar que terceros o ISPs puedan espiar o manipular las consultas, se ha migrado progresivamente desde UDP en texto plano hacia transportes cifrados como **DoT** (_DNS over TLS_) y **DoH** (_DNS over HTTPS_).
-- **Resolutores Recursivos de Confianza (TRR):** Los navegadores modernos permiten redirigir todo el tráfico DNS del usuario hacia proveedores públicos de confianza (_Trusted Recursive Resolvers_) como Cloudflare o Google.
-- **Oblivious DNS (ODNS / ODoH):** Propuesta avanzada para preservar la privacidad en la que el cliente cifra la consulta; el _local resolver_ observa la dirección IP del cliente pero no puede leer el dominio consultado, mientras que el servidor autoritativo resuelve el dominio pero desconoce la IP del cliente.
-- **Contención por los Nombres:** Disputas políticas y comerciales administradas por ICANN relativas al control y creación de dominios de nivel superior (por ejemplo, los debates judiciales para la aprobación del gTLD `.xxx` o la definición de profesiones elegibles para el dominio `.pro`).
-
----
-
-💡 ¿Te gustaría que practiquemos con alguna pregunta de examen sobre los **tipos de registros de recursos (A, MX, CNAME, PTR)** o sobre el rastreo paso a paso de una **resolución iterativa**?
