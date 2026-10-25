@@ -101,3 +101,4 @@ Como organismo supervisor global, la **ICANN** enfrenta constantes presiones al 
 - **Concepto:** Es la práctica deliberada de registrar nombres de dominio —especialmente marcas reconocidas o corporativas que tardaron en ingresar al mundo digital— con la única intención de **revenderlos posteriormente a sus dueños o empresas interesadas a precios muy elevados**.
 - **Regla de asignación general:** Por principio operativo básico, la adjudicación de nombres en los registradores se rige bajo el criterio de **"primer llegado, primer servido"** (_first-come, first-served_).
 - **Infracciones y marcas registradas:** La regla de prioridad no aplica cuando existe fraude directo o violación de marcas registradas (_trademarks_). En estos casos, las empresas recurren a políticas formalizadas de arbitraje (como la política UDRP de la ICANN) para recuperar el dominio registrado con mala fe.
+[[3 Correo Electronico]]

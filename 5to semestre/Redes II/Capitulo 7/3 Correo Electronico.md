@@ -172,3 +172,34 @@ Listas de correo: se recibe un mensaje para la lista. Luego se expande como un m
 Reenvíos o alias: Por ejemplo, Bob tiene la dirección bob@alum.mit.edu, pero quiere que todos los correos lleguen a bob@ee.uwa.edu. En este caso: 
 1. Primero, el correo se envía al servidor de alum.mit.edu.
 2. Luego, ese servidor reenvía el mensaje al servidor de ee.uwa.edu.au. Cada una de estas etapas es una entrega completa y separada en cuanto a los agentes de transferencia de correo se refiere.
+# Seccion 7.2.5 Entrega Final
+
+#### El Desafío de la Entrega Final y la Limitación de SMTP
+- **Evolución del acceso:** En los inicios de Internet, el MUA y el servidor de correo (MTA) se ejecutaban localmente en el mismo ordenador; el MTA simplemente escribía los mensajes al final del archivo del buzón en disco y el MUA leía directamente dicho archivo.
+- **El escenario moderno:** Actualmente, los usuarios necesitan acceder a su correo desde **múltiples dispositivos** (smartphones, laptops, PCs de oficina) y ubicaciones geográficas diversas.
+- **¿Por qué no se utiliza SMTP para la entrega final?** SMTP es un protocolo basado exclusivamente en **push** (empujar datos conectándose a un servidor remoto que está continuamente encendido). No puede utilizarse para entregar correo al cliente final porque el dispositivo del usuario suele estar apagado, desconectado temporalmente o cambiando de dirección IP. Por ello, se requieren protocolos de gestión remota basados en **pull**.
+#### POP3 (_Post Office Protocol, versión 3_ — RFC 1939)
+
+- **Funcionamiento:** Es un protocolo de descarga antiguo y sencillo.
+- **Mecánica:** Se conecta al servidor, **descarga los mensajes** al ordenador del cliente y normalmente los elimina del servidor.
+- **Desventajas principales:**
+    1. Dificulta el acceso sincronizado desde múltiples dispositivos (si un mensaje se descarga en la laptop, desaparece del servidor y ya no estará disponible en el teléfono).
+    2. Riesgo de pérdida total de datos si el disco duro o dispositivo local del cliente sufre una avería.
+#### IMAP (_Internet Message Access Protocol, versión 4_ — RFC 3501)
+- **Concepto clave:** Diseñado para **manipular y gestionar el buzón de forma remota directamente en el servidor**.
+- **Mecánica de funcionamiento:**
+    - Escucha en el **puerto TCP 143**.
+    - El cliente se conecta, establece un transporte seguro (TLS/STARTTLS), se autentica con sus credenciales y emite comandos IMAP (como `SELECT`, `FETCH`, `SEARCH`, `DELETE`, `STORE`).
+- **Ventajas sobre POP3:**
+    1. **Sincronización multidispositivo:** Los mensajes permanecen centralizados en el servidor, por lo que los cambios de estado (mensajes leídos, carpetas, marcadores) se reflejan en todos los dispositivos.
+    2. **Descarga parcial:** Permite descargar solo las cabeceras o partes específicas de un mensaje (por ejemplo, el texto plano) sin descargar adjuntos pesados hasta que el usuario lo solicite explícitamente.
+    3. **Búsqueda en servidor:** Ejecuta búsquedas complejas en el servidor para evitar descargar miles de correos a la máquina local.
+#### Correo Web (_Webmail_)
+- **Arquitectura:** Es una alternativa donde la Web funciona como interfaz del Agente de Usuario (ejemplos populares: **Google Gmail, Microsoft Hotmail/Outlook.com, Yahoo! Mail**).
+- **Mecanismo de funcionamiento:**
+    - El servidor de correo del proveedor recibe el correo entrante utilizando **SMTP tradicional en el puerto 25**.
+    - El usuario accede y se autentica mediante un formulario web en un navegador (sobre **HTTP/HTTPS**).
+    - El servidor genera dinámicamente páginas web (apoyadas en programas JavaScript en el cliente) que representan el contenido del buzón en tiempo real.
+    - El envío de mensajes se realiza mediante peticiones web comunes (como HTTP POST), y es el servidor web el que inyecta el correo al sistema de transferencia SMTP tradicional.
+- **Principal ventaja:** **Acceso universal** desde cualquier navegador web sin necesidad de instalar o configurar clientes de correo locales.
+
