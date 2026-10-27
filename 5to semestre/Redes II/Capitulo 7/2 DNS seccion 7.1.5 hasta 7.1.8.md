@@ -74,12 +74,8 @@ Para prevenir el espionaje pasivo y la manipulación de datos, se desarrollaron 
     - Esto motivó el establecimiento de políticas de **TRR (_Trusted Recursive Resolvers_)**, diseñadas para regular y seleccionar resolutores recursivos de confianza que operen bajo estrictas garantías de privacidad mediante DoT o DoH.
 #### 4. Privacidad de Próxima Generación: Oblivious DNS (ODNS / ODoH)
 Ni DoT ni DoH resuelven el problema de forma absoluta, ya que el operador del resolutor recursivo local todavía puede ver simultáneamente la dirección IP del usuario y el nombre de dominio consultado. Para eliminar este punto de confianza único, surgieron **ODNS (_Oblivious DNS_)** y **ODoH (_Oblivious DoH_)**:
-
-```
-[Cliente / Stub] --(1. Consulta cifrada)--> [Resolutor Recursivo] --(2. Reenvía cifrado)--> [Servidor Autoritativo ODNS]
-  (Sabe la consulta,                           (Ve la IP del cliente,                      (Descifra y resuelve la consulta;
-   sabe la IP)                                  NO sabe el dominio)                         NO sabe la IP del cliente)
-```
+![[Pasted image 20261027152547.png|589]]
+![[Pasted image 20261027152542.png]]
 
 1. **El Cliente:** Cifra la consulta DNS de origen y la envía al resolutor recursivo local.
 2. **El Resolutor Recursivo Local:** Ve la dirección IP del cliente para encaminar el paquete, pero **no puede descifrar la consulta** (desconoce qué sitio web se está buscando).
@@ -87,7 +83,7 @@ Ni DoT ni DoH resuelven el problema de forma absoluta, ya que el operador del re
 
 _Resultado:_ Ninguna entidad intermedia o servidor posee al mismo tiempo la identidad del cliente (su IP) y el contenido de su consulta (el dominio solicitado), logrando la desvinculación completa de los datos.
 # Seccion 7.1.8
-La sección **7.1.8 ("Contención y disputas por los nombres / Disputas por nombres")** de la bibliografía y las diapositivas analiza cómo los nombres de dominio trascendieron su función técnica original de traducir direcciones IP para convertirse en **activos comerciales, culturales y políticos de gran valor económico**.
+La sección **7.1.8 ("Contención y disputas por los nombres / Disputas por nombres")** analiza cómo los nombres de dominio trascendieron su función técnica original de traducir direcciones IP para convertirse en **activos comerciales, culturales y políticos de gran valor económico**.
 #### El Valor Comercial y la Especulación de Dominios
 - **Activos digitales cotizados:** Los nombres de dominio se han convertido en propiedades digitales extremadamente valiosas.
 - **Saturación de `.com`:** La elevada demanda comercial derivó en la ocupación de prácticamente todas las palabras comunes del idioma inglés, así como sus errores ortográficos habituales, nombres de productos, plantas y animales dentro del gTLD `.com`.
