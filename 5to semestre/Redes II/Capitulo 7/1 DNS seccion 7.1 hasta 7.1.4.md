@@ -80,7 +80,6 @@ El funcionamiento operativo del árbol se rige por varios principios fundamental
 ##### Ampliaciones y Mejoras en las Consultas
 Con el crecimiento de la red y las exigencias de rendimiento y seguridad, se introdujeron extensiones para sofisticar las consultas:
 - **EDNS Client Subnet (EDNS0 CS):** En esta extensión, el resolutor recursivo local incluye la subred IP del cliente original (_stub resolver_) en la consulta enviada al servidor autoritativo. Esto permite al servidor de nombres autoritativo identificar la ubicación geográfica o topológica del cliente y devolver la dirección IP de un servidor réplica cercano, lo cual es fundamental para el funcionamiento de las Redes de Distribución de Contenidos (CDNs).
-- **Codificación 0x20:** El ID de transacción original de 16 bits del DNS era vulnerable a ataques de envenenamiento de caché como el ataque Kaminsky. Dado que los nombres en las consultas DNS no distinguen entre mayúsculas y minúsculas, los resolutores modernos alternan arbitrariamente entre mayúsculas y minúsculas en cada letra del nombre buscado (QNAME) para inyectar bits de entropía adicionales en la transacción sin alterar el protocolo.
 ##### Estructura del Registro de Recurso (La 5-tupla)
 Los datos devueltos en las respuestas DNS se organizan en **registros de recursos**. Aunque internamente se codifican en formato binario, en texto se representan mediante una estructura de cinco campos o **5-tupla**:
 
