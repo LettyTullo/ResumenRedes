@@ -111,6 +111,6 @@ En DNSSEC, los registros del mismo tipo para un dominio se agrupan en conjuntos 
 1. **RRSIG (Resource Record Signature):** Almacena la firma digital calculada sobre un RRSET, generada con la clave privada del servidor autoritativo.
 2. **DNSKEY:** Almacena la clave pública utilizada para verificar las firmas RRSIG de los conjuntos RRSET; esta clave pública se encuentra firmada a su vez por la clave privada del dominio padre para establecer la cadena de confianza.
 #### Zona DNS 
-Zonas DNS DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
+Zonas DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
 
 [[2 DNS seccion 7.1.5 hasta 7.1.8]]
