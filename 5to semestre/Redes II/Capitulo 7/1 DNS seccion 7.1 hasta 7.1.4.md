@@ -52,11 +52,11 @@ El espacio de nombres está organizado como una estructura jerárquica en árbol
 - **Dominios de Nivel Superior (TLDs - _Top-Level Domains_):** Administrados a nivel global por la **ICANN**. Se dividen en dos categorías principales:
     1. **gTLDs (genéricos):** `.com`, `.edu`, `.org`, `.net`, `.gov`, `.biz`, entre otros.
     2. **ccTLDs (por país):** Códigos geográficos de dos letras basados en la norma ISO 3166 (ej. `.py`, `.us`, `.uk`, `.nl`).
-- **Dominios de Segundo Nivel y Subdominios:** Constituyen las ramas intermedias y hojas del árbol. Por ejemplo, en el nombre `cs.uchicago.edu`, `uchicago` es el dominio de segundo nivel registrado bajo `.edu`, mientras que `cs` es un subdominio administrado internamente por el departamento de informática de esa universidad[6][7].
+- **Dominios de Segundo Nivel y Subdominios:** Constituyen las ramas intermedias y hojas del árbol. Por ejemplo, en el nombre `cs.uchicago.edu`, `uchicago` es el dominio de segundo nivel registrado bajo `.edu`, mientras que `cs` es un subdominio administrado internamente por el departamento de informática de esa universidad.
 - **Delegación y límites:** Cada dominio tiene autoridad para administrar y delegar subdominios por debajo de él (ejemplo: `.edu.py` bajo el ccTLD `.py`). Una vez registrado un dominio de segundo nivel, la organización propietaria puede crear nuevos subdominios sin solicitar permisos adicionales. Los nombres siguen divisiones organizativas y no coinciden necesariamente con las fronteras de las redes físicas o LANs.
 
-![[Pasted image 20261025124343.png|456]]
-##### Cadena de Administración del Árbo
+![[Pasted image 20261025124343.png|528]]
+##### Cadena de Administración del Árbol
 La administración del espacio de nombres se distribuye en una cadena de tres niveles jerárquicos:
 1. **ICANN (_Internet Corporation for Assigned Names and Numbers_):** Organización internacional que supervisa el sistema global de nombres y delega la gestión de cada TLD.
 2. **Registry (Registro):** Entidad que administra un TLD específico. Por ejemplo, _Verisign_ administra el TLD `.com`, mientras que el _NIC Paraguay_ administra el ccTLD `.py`.
