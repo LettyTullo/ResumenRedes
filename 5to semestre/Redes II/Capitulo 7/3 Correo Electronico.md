@@ -87,7 +87,7 @@ Existen cabeceras adicionales utilizadas por los agentes de usuario:
 - **`Asunto:` (`Subject:`):** Breve resumen del contenido para la vista previa en el lector de correo.
 - **Cabeceras Privadas (`X-`):** El estándar permite a los usuarios o aplicaciones inventar cabeceras personalizadas. 
 #### MIME (_Multipurpose Internet Mail Extensions_)
-Inicialmente, el correo electrónico solo admitía texto plano en inglés codificado en **ASCII de 7 bits** con un límite máximo de 1000 caracteres por línea. En la década de 1990, la expansión global de Internet hizo necesario enviar textos con acentos/diacríticos, alfabetos no latinos (ruso, hebreo, japonés) y archivos binarios (imágenes, audio, ejecutable, documentos).
+Inicialmente, el correo electrónico solo admitía texto plano en inglés codificado en **ASCII de 7 bits** con un límite máximo de 1000 caracteres por línea. 
 
 Permite enviar archivos adjuntos (audio, video, imágenes,etc), además de permitir idiomas con marcas diacríticas (francés, alemán), idiomas no basados en el alfabeto latino.
 
