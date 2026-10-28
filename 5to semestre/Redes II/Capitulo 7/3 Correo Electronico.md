@@ -126,7 +126,7 @@ El protocolo SMTP (especificado originalmente en la RFC 821 y actualizado en la 
 SMTP es un protocolo sencillo basado en texto ASCII, lo que facilita su desarrollo, prueba y depuración (permitiendo incluso realizar pruebas manuales mediante la herramienta `telnet` al puerto 25 de un servidor).
 El proceso de transferencia sigue un diálogo cliente-servidor sobre una conexión **TCP en el puerto 25**:
 - **Establecimiento de la sesión:** El emisor (cliente) inicia una conexión TCP al puerto 25 del servidor receptor. El servidor responde primero enviando una línea de bienvenida con el código numérico `220` para anunciar su identidad y disponibilidad. Si el servidor no está preparado, el cliente cierra la conexión para reintentar más tarde.
-- **Saludo inicial (`HELO` / `EHLO`):** El cliente se identifica enviando el comando `HELO` seguido del nombre de su dominio.
+- **Saludo inicial (`HELO`):** El cliente se identifica enviando el comando `HELO` seguido del nombre de su dominio.
 - **Identificación del sobre:**
     - El cliente emite `MAIL FROM: <direccion_emisor>` para indicar la dirección del remitente.
     - A continuación, transmite uno o varios comandos `RCPT TO: <direccion_destino>` para especificar a los destinatarios. Cada destinatario es aceptado o rechazado individualmente por el servidor.
