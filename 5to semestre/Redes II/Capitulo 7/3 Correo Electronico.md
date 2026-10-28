@@ -104,7 +104,7 @@ La idea básica es mantener el formato RFC 822 añadiendo estructura al cuerpo d
 - **7-bit:** ASCII puro sin líneas superiores a 1000 caracteres.
 - **8-bit:** Permite caracteres extendidos de 8 bits (valores 0–255) respetando el límite de longitud de línea.
 - **Binary:** Permite datos binarios sin restricción de longitud de línea (ej. archivos ejecutables).
-- **Base64:** Divide grupos de 24 bits de datos binarios en cuatro unidades de 6 bits, representando cada una mediante 64 caracteres ASCII imprimibles. Añade un ~33% de sobrecarga pero garantiza la transmisión segura sobre cualquier servidor tradicional.
+- **Base64:** Divide grupos de 24 bits de datos binarios en cuatro unidades de 6 bits, representando cada una mediante 64 caracteres ASCII imprimibles. 
 - **Quoted-Printable:** Ideal para textos mayoritariamente ASCII con pocos caracteres especiales. Mantiene intactos los caracteres normales y codifica los especiales mediante su valor hexadecimal precedido de un signo igual (ej. la letra `ñ` se codifica como `=C3=B1`).
 #### Tipos de Contenido (_Content-Type_):
 Se definen mediante la sintaxis **`tipo/subtipo`** (administrados centralmente por la IANA):
