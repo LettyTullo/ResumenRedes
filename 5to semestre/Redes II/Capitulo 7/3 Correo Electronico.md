@@ -40,7 +40,7 @@ Para permitir el transporte y la lectura adecuada, el sistema establece una dist
     - **Cuerpo (_Body_):** Contiene el texto o material destinado exclusivamente al receptor humano.
 # Seccion 7.2.3 Agente de usuario
 
-	![[Pasted image 20261028104806.png|468]] 
+![[Pasted image 20261028104806.png|468]] 
 #### Elementos Principales de la Interfaz y Resumen del Buzón
 
 Al iniciar el agente de usuario, este presenta un **resumen formateado del contenido del buzón** (por lo general ordenado por fecha de recepción, mostrando los más recientes primero):
