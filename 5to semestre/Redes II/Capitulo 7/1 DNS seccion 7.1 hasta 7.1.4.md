@@ -85,7 +85,7 @@ Los datos devueltos en las respuestas DNS se organizan en **registros de recurso
 $[{DomainName} | {Timetolive} | {Class} |{Type} | {Value}]$
 
 1. **Domain_name (Nombre de Dominio):** Indica el dominio al que aplica el registro y funciona como la clave principal de búsqueda en la base de datos.
-2. **Time_to_live (TTL):** Expresa la estabilidad del registro mediante la cantidad de segundos que una entrada puede ser conservada en una memoria caché remota antes de ser descartada. Para datos estables se asignan valores elevados (como 86400 segundos = 1 día), mientras que para información volátil o balanceo de carga se usan valores reducidos (como 60 segundos).
+2. **Time_to_live (TTL):** Expresa la estabilidad del registro mediante la cantidad de segundos que una entrada puede ser conservada en una memoria caché remota antes de ser descartada. 
 3. **Class (Clase):** Especifica la clase de red; para el tráfico de Internet adopta prácticamente siempre el valor `IN`.
 4. **Type (Tipo):** Define el tipo de registro y la estructura de los datos contenidos.
 5. **Value (Valor):** Es la carga útil o contenido del registro, el cual varía entre enteros de 32/128 bits, nombres de dominio o cadenas ASCII según el tipo.
