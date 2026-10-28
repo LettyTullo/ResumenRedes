@@ -1,3 +1,4 @@
+# Resolucion de nombres 7.1.5
 #### Concepto y Servidores de Nombres
 El proceso de buscar un nombre y encontrar su dirección de red se denomina **resolución de nombres**. Para evitar un punto único de fallo y distribuir la carga, la base de datos DNS se divide en **zonas no solapadas**, asociadas a servidores de nombres:
 
@@ -10,6 +11,7 @@ Cuando se requiere resolver un dominio remoto que no está en caché ni en la zo
 - **Consultas Iterativas:** Como los servidores superiores (como los raíz) están demasiado ocupados para hacer búsquedas completas, devuelven respuestas parciales o referencias al siguiente nivel jerárquico. El _local resolver_ asume el trabajo duro ejecutando una serie de consultas iterativas paso a paso a través de la jerarquía.
 #### Los Servidores de Nombres Raíz (_Root Name Servers_)
 Cuando no existe información previa en la caché local, la búsqueda remota debe comenzar necesariamente en la cima de la jerarquía:
+
 
 - Existen **13 servidores raíz** lógicos, nombrados de `a.root-servers.net` a `m.root-servers.net`.
 - No son equipos aislados, sino infraestructura fuertemente replicada en múltiples ubicaciones geográficas globales que utiliza **enrutamiento _anycast_** para dirigir el tráfico a la instancia más cercana, aumentando la fiabilidad y el rendimiento.
