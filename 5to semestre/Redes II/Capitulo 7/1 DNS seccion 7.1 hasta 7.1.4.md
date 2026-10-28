@@ -1,10 +1,9 @@
 # Capítulo 7: La Capa de Aplicación (Visión General)
-La **Capa de Aplicación** es el nivel superior de la arquitectura de red donde residen las aplicaciones reales con las que interactúan los usuarios. Todas las capas inferiores existen exclusivamente para proporcionar servicios de transporte confiables o no confiables, pero no realizan el trabajo directo que requieren los usuarios.
-
+La **Capa de Aplicación** es el nivel superior de la arquitectura de red donde residen las aplicaciones reales con las que interactúan los usuarios. 
 Incluso en este nivel, existen **protocolos de apoyo** fundamentales que permiten el funcionamiento global de las aplicaciones. El más importante es el **Sistema de Nombres de Dominio (DNS)**, el cual asigna nombres de Internet a direcciones IP. A partir de este servicio de soporte se estructuran las aplicaciones reales de la red, como el correo electrónico, la _World Wide Web_ (WWW), la transmisión de multimedia (_video streaming_) y las redes de distribución de contenidos (CDNs y P2P).
 # Sección 7.1: El Sistema de Nombres de Dominio (DNS)
 
-El **DNS** (_Domain Name System_) es un esquema de nombres jerárquico implementado sobre una base de datos distribuida. Está especificado principalmente en las RFC 1034, RFC 1035 y RFC 2181.
+El **DNS** es un esquema de nombres jerárquico implementado sobre una base de datos distribuida. Está especificado principalmente en las RFC 1034, RFC 1035 y RFC 2181.
 #### 7.1.1 Historia y Visión General
 - **Contexto histórico:** Antes de 1983, la red ARPANET mantenía un archivo de texto centralizado denominado `hosts.txt` que contenía el listado de todos los nombres de las máquinas con sus correspondientes direcciones IP. Cada noche, los _hosts_ de la red descargaban una copia actualizada de este archivo. Sin embargo, el crecimiento exponencial de la red provocó la saturación del sistema, retrasos en las descargas y frecuentes conflictos de nombres al carecer de una administración descentralizada.
 - **Creación y propósito:** En 1983 se creó el DNS para resolver estos problemas. Su función principal es **traducir nombres de dominio legibles por humanos a direcciones IP numéricas**.
@@ -41,7 +40,7 @@ El proceso de resolución abarca la interacción entre tres componentes clave:
     - Para evitar repetir todo el proceso iterativo en cada consulta, tanto el _local resolver_ como el _stub resolver_ guardan las respuestas obtenidas en una memoria caché local.
     - Cada registro incluye un campo **Time-To-Live (TTL)** que indica la cantidad de segundos que esa información puede ser conservada en caché antes de ser descartada.
 - **Seguridad y Privacidad en la Búsqueda:**
-    - **Minimización de QNAME:** Para proteger la privacidad del usuario y evitar revelar el nombre completo consultado (_FQDN_) a todos los servidores de la cadena, el _local resolver_ envía a cada nivel jerárquico únicamente la etiqueta del nombre estrictamente necesaria para continuar la delegación (por ejemplo, envía solo `uchicago.edu` al servidor del TLD `.edu`).
+    - **Minimización de QNAME:** Para proteger la privacidad del usuario y evitar revelar el nombre completo consultado (_FQDN_) Fully Qualified Domain Name, a todos los servidores de la cadena, el _local resolver_ envía a cada nivel jerárquico únicamente la etiqueta del nombre estrictamente necesaria para continuar la delegación (por ejemplo, envía solo `uchicago.edu` al servidor del TLD `.edu`).
     - **Codificación 0x20:** Dado que los nombres en las consultas no distinguen entre mayúsculas y minúsculas, este mecanismo altera arbitrariamente las mayúsculas y minúsculas del nombre consultado (ej. `uCHicaGO.EDu`) para inyectar bits de entropía adicionales al ID de transacción de 16 bits, dificultando ataques de envenenamiento de caché como el ataque Kaminsky.
 #### 7.1.3 El Espacio de Nombres DNS y su Jerarquía
 
