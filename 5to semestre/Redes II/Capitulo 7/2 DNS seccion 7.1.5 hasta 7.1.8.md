@@ -70,7 +70,7 @@ Para prevenir el espionaje pasivo y la manipulación de datos, se desarrollaron 
 - **Pérdida de visibilidad para los ISPs:** Al estar cifrado el tráfico, los ISPs ya no pueden inspeccionar las consultas de sus clientes. Esto protege la privacidad del usuario, pero invalida mecanismos de red tradicionales administrados por el ISP, como el bloqueo de sitios maliciosos, el control de infecciones de _malware_ y los controles parentales basados en DNS.
 - **Riesgo de centralización y TRR (_Trusted Recursive Resolvers_):**
     - Al integrar DoH directamente en los navegadores web, la resolución DNS se traslada del sistema operativo al navegador.
-    - Puesto que el mercado de navegadores está dominado por pocos actores (como Google), las configuraciones por defecto determinan qué empresa o resolutor público (como Google `8.8.8.8` o Cloudflare `1.1.1.1`) termina concentrando y observando el tráfico DNS global.
+    - Puesto que el mercado de navegadores está dominado por pocos actores (como Google), las configuraciones por defecto determinan qué empresa o resolutor público (como Google `8.8.8.8` ) termina concentrando y observando el tráfico DNS global.
     - Esto motivó el establecimiento de políticas de **TRR (_Trusted Recursive Resolvers_)**, diseñadas para regular y seleccionar resolutores recursivos de confianza que operen bajo estrictas garantías de privacidad mediante DoT o DoH.
 #### 4. Privacidad de Próxima Generación: Oblivious DNS (ODNS / ODoH)
 Ni DoT ni DoH resuelven el problema de forma absoluta, ya que el operador del resolutor recursivo local todavía puede ver simultáneamente la dirección IP del usuario y el nombre de dominio consultado. Para eliminar este punto de confianza único, surgieron **ODNS (_Oblivious DNS_)** y **ODoH (_Oblivious DoH_)**:
@@ -87,7 +87,7 @@ La sección **7.1.8 ("Contención y disputas por los nombres / Disputas por nomb
 #### El Valor Comercial y la Especulación de Dominios
 - **Activos digitales cotizados:** Los nombres de dominio se han convertido en propiedades digitales extremadamente valiosas.
 - **Saturación de `.com`:** La elevada demanda comercial derivó en la ocupación de prácticamente todas las palabras comunes del idioma inglés, así como sus errores ortográficos habituales, nombres de productos, plantas y animales dentro del gTLD `.com`.
-- **Monetización de ccTLDs por países:** Ciertos países lograron capitalizar estratégicamente su código geográfico de dos letras. El caso más famoso es el de **Tuvalu**, una pequeña nación insular que arrendó el derecho de uso de su ccTLD **`.tv`** por más de 50 millones de dólares debido a su atractivo obvio para cadenas y plataformas de televisión.
+- **Monetización de ccTLDs por países:** Ciertos países lograron capitalizar estratégicamente su código geográfico de dos letras. 
 #### Debates Políticos y Criterios de Elegibilidad en la ICANN
 Como organismo supervisor global, la **ICANN** enfrenta constantes presiones al decidir sobre la creación o regulación de nuevos dominios de nivel superior (gTLDs):
 
