@@ -41,7 +41,7 @@ El proceso de resolución abarca la interacción entre tres componentes clave:
     - Cada registro incluye un campo **Time-To-Live (TTL)** que indica la cantidad de segundos que esa información puede ser conservada en caché antes de ser descartada.
 - **Seguridad y Privacidad en la Búsqueda:**
     - **Minimización de QNAME:** Para proteger la privacidad del usuario y evitar revelar el nombre completo consultado (_FQDN_) Fully Qualified Domain Name, a todos los servidores de la cadena, el _local resolver_ envía a cada nivel jerárquico únicamente la etiqueta del nombre estrictamente necesaria para continuar la delegación (por ejemplo, envía solo `uchicago.edu` al servidor del TLD `.edu`).
-    - **Codificación 0x20:** Dado que los nombres en las consultas no distinguen entre mayúsculas y minúsculas, este mecanismo altera arbitrariamente las mayúsculas y minúsculas del nombre consultado (ej. `uCHicaGO.EDu`) para inyectar bits de entropía adicionales al ID de transacción de 16 bits, dificultando ataques de envenenamiento de caché como el ataque Kaminsky.
+    - **Evolución del transporte:** Inicialmente el tráfico de DNS se realizaba solo sobre el protocolo UDP; sin embargo, existe una tendencia creciente a adoptar TCP para posibilitar implementaciones cifradas y más seguras como DNS over TLS (DoT) y DNS over HTTPS (DoH).
 #### 7.1.3 El Espacio de Nombres DNS y su Jerarquía
 
 El espacio de nombres está organizado como una estructura jerárquica en árbol, análoga al sistema postal:
@@ -79,6 +79,7 @@ El funcionamiento operativo del árbol se rige por varios principios fundamental
 ##### Ampliaciones y Mejoras en las Consultas
 Con el crecimiento de la red y las exigencias de rendimiento y seguridad, se introdujeron extensiones para sofisticar las consultas:
 - **EDNS Client Subnet (EDNS0 CS):** En esta extensión, el resolutor recursivo local incluye la subred IP del cliente original (_stub resolver_) en la consulta enviada al servidor autoritativo. Esto permite al servidor de nombres autoritativo identificar la ubicación geográfica o topológica del cliente y devolver la dirección IP de un servidor réplica cercano, lo cual es fundamental para el funcionamiento de las Redes de Distribución de Contenidos (CDNs).
+- **Codificación 0x20:** Dado que los nombres en las consultas no distinguen entre mayúsculas y minúsculas, este mecanismo altera arbitrariamente las mayúsculas y minúsculas del nombre consultado (ej. `uCHicaGO.EDu`) para inyectar bits de entropía adicionales al ID de transacción de 16 bits, dificultando ataques de envenenamiento de caché como el ataque Kaminsky.
 ##### Estructura del Registro de Recurso (La 5-tupla)
 Los datos devueltos en las respuestas DNS se organizan en **registros de recursos**. Aunque internamente se codifican en formato binario, en texto se representan mediante una estructura de cinco campos o **5-tupla**:
 
@@ -111,5 +112,11 @@ En DNSSEC, los registros del mismo tipo para un dominio se agrupan en conjuntos 
 2. **DNSKEY:** Almacena la clave pública utilizada para verificar las firmas RRSIG de los conjuntos RRSET; esta clave pública se encuentra firmada a su vez por la clave privada del dominio padre para establecer la cadena de confianza.
 #### Zona DNS 
 Zonas DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
+Conjunto de registros de recursos que se gestionan de manera independiente.
+- Archivo de Zona: Contiene los RR de esa zona.
+Cada zona DNS está asociada a uno o varios servidores de nombres autoritativos. Uno es el servidor primario, y otros son servidores secundarios.
+
+- Servidor primario → mantiene los datos originales de la zona
+- Servidor secundario → obtiene una copia sincronizada de esos datos
 
 [[2 DNS seccion 7.1.5 hasta 7.1.8]]

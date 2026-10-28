@@ -32,9 +32,7 @@ El material ilustra la resolución iterativa completa cuando el host `filts.cs.v
 # Sección 7.1.6: Manos a la obra con el DNS (Exploración Práctica)
 
 Esta sección aborda el uso de herramientas de línea de comandos para inspeccionar y diagnosticar de forma directa el funcionamiento del protocolo DNS, permitiendo verificar los registros de recursos, los tiempos de respuesta y el trazado de la resolución.
-
 #### 1. Herramienta principal en UNIX / Linux / macOS: `dig` (_Domain Information Groper_)
-
 - **Propósito:** Es la herramienta de exploración DNS estándar en sistemas basados en UNIX. Permite realizar consultas arbitrarias a cualquier servidor de nombres específico y mostrar la respuesta completa en texto.
 - **Ejemplo de uso práctico:**
     
