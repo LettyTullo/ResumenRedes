@@ -111,11 +111,5 @@ En DNSSEC, los registros del mismo tipo para un dominio se agrupan en conjuntos 
 2. **DNSKEY:** Almacena la clave pública utilizada para verificar las firmas RRSIG de los conjuntos RRSET; esta clave pública se encuentra firmada a su vez por la clave privada del dominio padre para establecer la cadena de confianza.
 #### Zona DNS 
 Zonas DNS se divide en zonas delegadas dentro de la jerarquía de dominios. Esto permite que distintas organizaciones o suborganizaciones gestionen sus propios registros, manteniendo el sistema distribuido, escalable y tolerante a fallos.
-Conjunto de registros de recursos que se gestionan de manera independiente.
-- Archivo de Zona: Contiene los RR de esa zona.
-Cada zona DNS está asociada a uno o varios servidores de nombres autoritativos. Uno es el servidor primario, y otros son servidores secundarios.
-
-- Servidor primario → mantiene los datos originales de la zona
-- Servidor secundario → obtiene una copia sincronizada de esos datos
 
 [[2 DNS seccion 7.1.5 hasta 7.1.8]]
