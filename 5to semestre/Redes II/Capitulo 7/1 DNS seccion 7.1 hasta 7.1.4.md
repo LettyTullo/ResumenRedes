@@ -39,7 +39,7 @@ El proceso de resolución abarca la interacción entre tres componentes clave:
     - Para evitar repetir todo el proceso iterativo en cada consulta, tanto el _local resolver_ como el _stub resolver_ guardan las respuestas obtenidas en una memoria caché local.
     - Cada registro incluye un campo **Time-To-Live (TTL)** que indica la cantidad de segundos que esa información puede ser conservada en caché antes de ser descartada.
 - **Seguridad y Privacidad en la Búsqueda:**
-    - **Minimización de QNAME:** Para proteger la privacidad del usuario y evitar revelar el nombre completo consultado (_FQDN_) Fully Qualified Domain Name, a todos los servidores de la cadena, el _local resolver_ envía a cada nivel jerárquico únicamente la etiqueta del nombre estrictamente necesaria para continuar la delegación (por ejemplo, envía solo `uchicago.edu` al servidor del TLD `.edu`).
+    - **Minimización de QNAME:** Para proteger la privacidad del usuario y evitar revelar el nombre completo consultado (_FQDN_) Fully Qualified Domain Name, a todos los servidores de la cadena, el _local resolver_ envía a cada nivel jerárquico únicamente la etiqueta del nombre estrictamente neces aria para continuar la delegación (por ejemplo, envía solo `uchicago.edu` al servidor del TLD `.edu`).
     - **Evolución del transporte:** Inicialmente el tráfico de DNS se realizaba solo sobre el protocolo UDP; sin embargo, existe una tendencia creciente a adoptar TCP para posibilitar implementaciones cifradas y más seguras como DNS over TLS (DoT) y DNS over HTTPS (DoH).
 #### 7.1.3 El Espacio de Nombres DNS y su Jerarquía
 
