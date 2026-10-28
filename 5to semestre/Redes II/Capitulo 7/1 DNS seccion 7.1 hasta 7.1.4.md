@@ -1,9 +1,8 @@
-# Capítulo 7: La Capa de Aplicación (Visión General)
+# Capítulo 7: La Capa de Aplicación 
 La **Capa de Aplicación** es el nivel superior de la arquitectura de red donde residen las aplicaciones reales con las que interactúan los usuarios. 
 Incluso en este nivel, existen **protocolos de apoyo** fundamentales que permiten el funcionamiento global de las aplicaciones. El más importante es el **Sistema de Nombres de Dominio (DNS)**, el cual asigna nombres de Internet a direcciones IP. A partir de este servicio de soporte se estructuran las aplicaciones reales de la red, como el correo electrónico, la _World Wide Web_ (WWW), la transmisión de multimedia (_video streaming_) y las redes de distribución de contenidos (CDNs y P2P).
 # Sección 7.1: El Sistema de Nombres de Dominio (DNS)
 
-El **DNS** es un esquema de nombres jerárquico implementado sobre una base de datos distribuida. Está especificado principalmente en las RFC 1034, RFC 1035 y RFC 2181.
 #### 7.1.1 Historia y Visión General
 - **Contexto histórico:** Antes de 1983, la red ARPANET mantenía un archivo de texto centralizado denominado `hosts.txt` que contenía el listado de todos los nombres de las máquinas con sus correspondientes direcciones IP. Cada noche, los _hosts_ de la red descargaban una copia actualizada de este archivo. Sin embargo, el crecimiento exponencial de la red provocó la saturación del sistema, retrasos en las descargas y frecuentes conflictos de nombres al carecer de una administración descentralizada.
 - **Creación y propósito:** En 1983 se creó el DNS para resolver estos problemas. Su función principal es **traducir nombres de dominio legibles por humanos a direcciones IP numéricas**.
