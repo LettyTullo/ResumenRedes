@@ -81,15 +81,17 @@ El RFC 5322 define un conjunto de cabeceras estándar orientadas a la entrega y 
 Existen cabeceras adicionales utilizadas por los agentes de usuario:
 
 - **`Date:`:** Fecha y hora de emisión del mensaje.
-- **`Respuesta a:` (`Reply-To:`):** Dirección a la que deben dirigirse las respuestas. Se utiliza cuando el emisor o redactor no desea recibir las respuestas en su propia cuenta.
+- **`Respuesta a:` (`Reply-To:`):** Dirección a la que deben dirigirse las respuestas.
 - **`Message-Id:`:** Identificador único generado automáticamente para enlazar mensajes en conversaciones y evitar entregas duplicadas.
 - **`In-Reply-To:`** y **`Referencias:`:** Almacenan el `Message-Id` del mensaje original al que se responde para agrupar correos por hilos.
 - **`Asunto:` (`Subject:`):** Breve resumen del contenido para la vista previa en el lector de correo.
-- **Cabeceras Privadas (`X-`):** El estándar permite a los usuarios o aplicaciones inventar cabeceras personalizadas. Por convención, deben comenzar con la cadena **`X-`** para garantizar que nunca colisionen con futuras cabeceras oficiales estandarizadas.
+- **Cabeceras Privadas (`X-`):** El estándar permite a los usuarios o aplicaciones inventar cabeceras personalizadas. 
 #### MIME (_Multipurpose Internet Mail Extensions_)
 Inicialmente, el correo electrónico solo admitía texto plano en inglés codificado en **ASCII de 7 bits** con un límite máximo de 1000 caracteres por línea. En la década de 1990, la expansión global de Internet hizo necesario enviar textos con acentos/diacríticos, alfabetos no latinos (ruso, hebreo, japonés) y archivos binarios (imágenes, audio, ejecutable, documentos).
 
-Para solucionar esto sin romper la infraestructura de servidores existente, se creó **MIME** (RFC 2045, RFC 4288, RFC 4289). MIME añade estructura al cuerpo del mensaje e introduce **cinco nuevas cabeceras**:
+Permite enviar archivos adjuntos (audio, video, imágenes,etc), además de permitir idiomas con marcas diacríticas (francés, alemán), idiomas no basados en el alfabeto latino.
+
+La idea básica es mantener el formato RFC 822 añadiendo estructura al cuerpo del mensaje y definiendo reglas de codificación para transferencia de mensajes no ASCII, manteniendo compatibilidad con la estructura actual. MIME añade estructura al cuerpo del mensaje e introduce **cinco nuevas cabeceras**:
 
 1. **`Versión MIME:` (`MIME-Version:`):** Identifica la versión de MIME utilizada (ej. `1.0`). Si esta cabecera no está presente, se asume texto plano en ASCII.
 2. **`Content-Description:`:** Cadena de texto legible que describe el contenido del mensaje.
