@@ -41,14 +41,7 @@ Para permitir el transporte y la lectura adecuada, el sistema establece una dist
     - **Cuerpo (_Body_):** Contiene el texto o material destinado exclusivamente al receptor humano.
 # Seccion 7.2.3 Agente de usuario
 
-El **agente de usuario** (conocido popularmente como **lector de correo** o MUA, _Mail User Agent_) es un programa que acepta una serie de comandos para redactar, recibir, responder y organizar mensajes, además de permitir la manipulación remota de los buzones de correo.
-
-- **Ejemplos populares:** Google Gmail, Microsoft Outlook, Mozilla Thunderbird y Apple Mail.
-- **Entorno de ejecución:** Se ejecuta localmente en el dispositivo del usuario (PC, laptop, smartphone) y solo funciona cuando el usuario lo inicia, a diferencia de los agentes de transferencia (MTA), que son procesos de servidor que se ejecutan continuamente en segundo plano.
-#### Tipos de Interfaz
-
-- **Gráficas y Táctiles (Modernas):** Basadas en menús, botones e iconos accionables mediante ratón o pantallas táctiles en dispositivos móviles.
-- **Basadas en Texto (Clásicas):** Lectores más antiguos como _Elm_, _mh_ y _Pine_, que funcionan en consola y responden a comandos de un solo carácter desde el teclado.
+	![[Pasted image 20261028104806.png|468]] 
 #### Elementos Principales de la Interfaz y Resumen del Buzón
 
 Al iniciar el agente de usuario, este presenta un **resumen formateado del contenido del buzón** (por lo general ordenado por fecha de recepción, mostrando los más recientes primero):
