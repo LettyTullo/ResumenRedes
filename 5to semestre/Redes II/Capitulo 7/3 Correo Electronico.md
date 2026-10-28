@@ -15,7 +15,6 @@ La arquitectura del sistema de correo electrónico se organiza en torno a dos su
     
     - Son procesos de servidor que se ejecutan continuamente en segundo plano en las máquinas servidoras de correo.
     - **Funciones:** Mueven automáticamente los mensajes a través de la red desde el origen hasta el destino utilizando el protocolo **SMTP** (_Simple Mail Transfer Protocol_, RFC 822 / RFC 5321) e informan el estado de entrega o errores.
-    - **Funciones avanzadas:** Gestionan listas de distribución masiva, copias carbón (Cc), copias ocultas (Bcc), prioridades y soporte para correo cifrado.
 3. **Buzones de Correo (_Mailboxes_):**
     
     - Son repositorios alojados en los servidores de correo que almacenan los mensajes entrantes de cada usuario.
