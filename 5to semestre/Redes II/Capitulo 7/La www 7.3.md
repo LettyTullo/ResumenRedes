@@ -79,3 +79,71 @@ Para resolver los bloqueos por E/S y atender miles de peticiones por segundo, la
 #### 3. Ventajas y Soluciones de Rendimiento en la Red
 - **Almacenamiento en Caché y Proxies:** El navegador y los servidores proxy intermedios guardan copias locales de recursos frecuentes para reducir la latencia, ahorrar ancho de banda y aliviar la carga de la red.
 - **Redes de Distribución de Contenido (CDNs):** En lugar de concentrar las respuestas en una única ubicación, las CDNs replican objetos en nodos perimetrales (_edge_) distribuidos geográficamente cerca del usuario final, optimizando los tiempos de RTT y absorbiendo posibles ataques masivos DDoS.
+# Seccion 7.3.2 Objetos web estaticos
+
+#### 1. Definición de Objetos Web Estáticos
+- **Concepto:** Son archivos almacenados en un servidor web que se presentan exactamente de la misma manera cada vez que son recuperados y visualizados por un cliente.
+- **Ejemplos comunes:** Incluyen el logotipo de un sitio, las hojas de estilo, los encabezados y pies de página (_headers/footers_), imágenes, gráficos, fuentes tipográficas, páginas de inicio en HTML y archivos de vídeo o audio precodificados.
+- **Presencia en la Web moderna:** Aunque casi cualquier página actual incluye contenido dinámico, una proporción significativa de los elementos visuales de una página sigue siendo estática. Cabe destacar que el carácter "estático" no significa que el elemento sea inerte dentro del navegador; por ejemplo, un archivo de vídeo grabado es técnicamente un objeto estático.
+#### Características Principales y Almacenamiento en Caché
+
+- **Consistencia:** Mantienen el mismo contenido y apariencia en cada descarga.
+- **Capacidad de almacenamiento en caché (_Cacheables_):** Dado que su contenido no varía frecuentemente, son idóneos para ser almacenados en la memoria caché local del navegador, en servidores proxy intermedios o en Redes de Distribución de Contenidos (CDNs).
+- **Reducción de latencia y tráfico:** Al ser servidos desde ubicaciones u objetos en caché cercanos al usuario (_edge nodes_), el almacenamiento de objetos estáticos disminuye drásticamente el tráfico en la red, reduce la latencia de carga y ahorra ancho de banda en el servidor de origen.
+#### 3. HTML (_HyperText Markup Language_)
+- **Lenguaje estándar (_Lingua Franca_):** Es el lenguaje de marcado fundamental sobre el cual se estructuran las páginas web.
+- **Etiquetas de marcado:** Combina el contenido del documento con etiquetas o comandos de marcado explícitos que indican cómo estructurar el texto. Por ejemplo:
+    - `<b>...</b>`: Inicia y finaliza el texto en negrita.
+    - `<h1>...</h1>`: Define un encabezado principal de nivel 1.
+- **Separación de contenido y formato:** La gran ventaja de un lenguaje de marcado (como HTML, TeX o LaTeX) frente a textos no marcados es que **separa el contenido estructural de la forma de presentación**. A diferencia de procesadores de texto como Microsoft Word, en HTML las órdenes de formato están explícitamente incrustadas dentro del propio código de texto.
+#### 4. CSS (_Cascading Style Sheets_)
+
+- **Rol de la presentación visual:** Es el lenguaje de hojas de estilo encargado de controlar la **apariencia visual y formato** de los elementos de la página.
+- **Propiedades controladas:** CSS define atributos como fuentes tipográficas, colores, tamaños de texto, márgenes, relleno (_padding_), espaciados y diagramación de tablas, listas y contenedores.
+- **Ventaja de la separación:** Al aislar las reglas de estilo (CSS) de la estructura del documento (HTML), se facilita el mantenimiento visual global de un sitio web y su coherencia gráfica.
+#### 5. Adaptabilidad a Dispositivos y Renderizado
+
+- **Interpretación por el navegador:** Escribir un navegador implica implementar un intérprete que aplique los comandos de marcado (HTML) y las hojas de estilo (CSS) sobre el contenido para renderizarlo en pantalla.
+- **Responsividad ante pantallas heterogéneas:** Estandarizar estos comandos permite que una página diseñada en un monitor de alta resolución (por ejemplo, 3840×2160 píxeles) pueda ser leída y reformateada por el navegador para visualizarse en la pantalla pequeña de un teléfono móvil (640×320 píxeles) sin forzar una reducción escalar simple que haría el texto ilegible.
+- **Herramientas de creación:** Los objetos estáticos en HTML y CSS se pueden crear manualmente mediante editores de texto plano o utilizando programas de diseño de páginas web como Adobe Dreamweaver.
+# 7.3.3 Páginas y aplicaciones web dinámicos
+
+#### 1. Evolución: De la Web Estática a las Aplicaciones Web
+- **Web Estática tradicional:** Trataba a las páginas como simples documentos multimedia enlazados entre sí que el servidor leía del disco y entregaba de forma idéntica a todos los visitantes.
+- **Aplicaciones Web modernas:** Los sitios funcionan como auténticas aplicaciones de software dentro del navegador (ejemplos: correo electrónico web, comercio electrónico, catálogos interactivos, servicios de mapas y herramientas de colaboración).
+- **Computación en la nube (_Cloud Computing_):** Representa una forma dominante de computación donde el procesamiento de la información se traslada desde las computadoras individuales hacia _clusters_ compartidos de servidores en centros de datos distribuidos.
+- **Ventajas operativas:** Los usuarios no necesitan instalar programas locales; los datos permanecen accesibles desde cualquier ordenador o dispositivo, y el operador del servicio se encarga de las copias de seguridad y actualizaciones de manera automática.
+#### 2. La Necesidad de Contenido Dinámico
+Para actuar como aplicaciones interactivas, las páginas no pueden ser estáticas. Requieren **contenido dinámico**, el cual se genera a petición del usuario y puede ser producido por programas que se ejecutan en el **servidor**, en el **navegador (cliente)**, o combinando ambos entornos.
+#### 3. Generación Dinámica en el Servidor (_Server-Side_)
+Se utiliza cuando el usuario envía información (por ejemplo, al completar un formulario de compra). La URL enviada identifica al programa que debe ejecutarse en el servidor, utilizando los datos proporcionados como entrada para consultar una base de datos y construir dinámicamente el documento HTML que se devolverá al cliente.
+Las dos interfaces y tecnologías estandarizadas en el servidor descritas en el material son:
+- **CGI (_Common Gateway Interface_, RFC 3875):** Es el método clásico disponible desde los inicios de la Web. Proporciona una interfaz para que el servidor web invoque programas o scripts externos (escritos en Python, Perl, Ruby, etc.) que residen convencionalmente en un directorio denominado `/cgi-bin`. El servidor ejecuta cada solicitud a este directorio iniciando un proceso separado en el sistema operativo y entrega el HTML generado como respuesta al cliente.
+- **PHP (_Hypertext Preprocessor_):** A diferencia de CGI, PHP permite incrustar código de scripting directamente dentro de las páginas HTML (identificadas por la extensión `.php`). El servidor web interpreta las instrucciones en PHP y genera la salida HTML final. Es de código abierto, muy extendido, fácil de integrar con bases de datos y diseñado para funcionar de manera óptima con servidores web como Apache.
+#### 4. Generación Dinámica en el Cliente (_Client-Side_)
+Los scripts del servidor (como PHP o CGI) pueden gestionar bases de datos, pero **no pueden responder a eventos en tiempo real ni a los movimientos del ratón** sin realizar un viaje completo de red de ida y vuelta al servidor. Para lograr interacción inmediata, el código debe ejecutarse directamente en la máquina cliente.
+
+- **Etiqueta `<script>` y HTML5:** A partir de HTML 4.0 se introdujo la etiqueta `<script>` para incrustar código ejecutable en el navegador. HTML5 añadió elementos multimedia y gráficos nativos como `<video>`, `<audio>` y **`<canvas>`** (diseñado para la representación dinámica de formas bidimensionales e imágenes de mapa de bits).
+    - _Consideración de Privacidad del `<canvas>`:_ Las propiedades de renderizado del elemento `<canvas>` suelen ser únicas en cada dispositivo, lo que permite a las redes de seguimiento generar una "huella digital" (_canvas fingerprinting_) para rastrear a los usuarios incluso si borran sus cookies.
+- **JavaScript:** Es el lenguaje de scripting de muy alto nivel dominante para el lado del cliente. Permite gestionar eventos de la interfaz, validar formularios, realizar animaciones y actualizar contenidos en tiempo real al instante sin contacto previo con el servidor.
+####Q
+#### 5. Ejemplo de Integración: Servicio de Mapas en Línea (Flujo en 7 Pasos)
+
+El material ilustra la interacción entre ambos modelos mediante un servicio interactivo de mapas:
+
+1. **Petición del usuario:** El navegador envía una solicitud con los parámetros o la dirección buscada.
+2. **Procesamiento en Servidor:** Un programa en el servidor recibe la petición y consulta la base de datos geográfica.
+3. **Respuesta inicial:** El servidor devuelve la página principal (HTML con enlaces a fuentes, CSS y scripts).
+4. **Interacción en Cliente:** El programa en el cliente (JavaScript) permite al usuario desplazarse, cambiar el zoom o filtrar la vista localmente.
+5. **Solicitud en segundo plano (AJAX / Fetch):** Si el usuario se mueve a una región no cargada, el programa del cliente pide más datos al servidor en segundo plano sin cambiar la URL ni recargar la página entera.
+6. **Consulta secundaria en Servidor:** El servidor recupera los datos adicionales de la base de datos.
+7. **Actualización:** El servidor responde y el programa cliente redibuja la vista de inmediato (volviendo al paso 4).
+![[Pasted image 20261030230658.png]]
+#### 6. Cuadro Comparativo: Servidor (PHP) vs. Cliente (JavaScript)
+
+|Característica|Procesamiento en Servidor (ej. PHP)|Procesamiento en Cliente (ej. JavaScript)|
+|:--|:--|:--|
+|**Ubicación de ejecución**|Se ejecuta en el servidor Web.|Se ejecuta en el navegador del usuario.|
+|**Flujo operativo**|Envía datos al servidor \(\rightarrow\) ejecuta script \(\rightarrow\) genera y devuelve un nuevo HTML.|Ejecuta una función local ante un evento \(\rightarrow\) actualiza la interfaz al instante.|
+|**Latencia**|Puede presentar demoras de varios segundos por el viaje de red.|Respuesta prácticamente instantánea sin retardo de red.|
+|**Caso de uso ideal**|Consultas a bases de datos y procesamiento seguro de lógica de negocio o transacciones.|Interacción inmediata de la interfaz de usuario, eventos del ratón y animaciones.|
