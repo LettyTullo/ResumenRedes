@@ -109,8 +109,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 296.70001220703125,
-    "collapsed": true
+    "width": 296.70001220703125
   },
   "right": {
     "id": "a8447034352a9e85",
@@ -230,6 +229,7 @@
   },
   "active": "148e644e1caacc49",
   "lastOpenFiles": [
+    "_Imagenes/Pasted image 20261030230855.png",
     "_Imagenes/Pasted image 20261030230658.png",
     "_Imagenes/Pasted image 20261030225739.png",
     "_Imagenes/Pasted image 20261030225355.png",
@@ -251,7 +251,6 @@
     "5to semestre/Redes II/Capitulo 6/6   6.5 Los protocolos de transporte.md",
     "_Imagenes/Pasted image 20261008162727.png",
     "_Imagenes/Pasted image 20261008154357.png",
-    "_Imagenes/Pasted image 20261008153953.png",
     "5to semestre/Redes II/Capitulo 6/3 Liberación de Conexión.md",
     "5to semestre/Redes II/Capitulo 6/2 Elementos de protocolo de transporte.md",
     "5to semestre/Redes II/Capitulo 6/1 La capa de transporte.md",

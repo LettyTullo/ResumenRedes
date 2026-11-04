@@ -126,7 +126,18 @@ Los scripts del servidor (como PHP o CGI) pueden gestionar bases de datos, pero 
 - **Etiqueta `<script>` y HTML5:** A partir de HTML 4.0 se introdujo la etiqueta `<script>` para incrustar código ejecutable en el navegador. HTML5 añadió elementos multimedia y gráficos nativos como `<video>`, `<audio>` y **`<canvas>`** (diseñado para la representación dinámica de formas bidimensionales e imágenes de mapa de bits).
     - _Consideración de Privacidad del `<canvas>`:_ Las propiedades de renderizado del elemento `<canvas>` suelen ser únicas en cada dispositivo, lo que permite a las redes de seguimiento generar una "huella digital" (_canvas fingerprinting_) para rastrear a los usuarios incluso si borran sus cookies.
 - **JavaScript:** Es el lenguaje de scripting de muy alto nivel dominante para el lado del cliente. Permite gestionar eventos de la interfaz, validar formularios, realizar animaciones y actualizar contenidos en tiempo real al instante sin contacto previo con el servidor.
-####Q
+#### Que pasa al enviar?
+##### PHP (servidor)
+1. Clic en Enviar → el navegador manda datos al servidor
+2. El servidor carga .php, ejecuta el script y genera HTML
+3. El servidor responde;
+4. el navegador muestra la nueva página
+- Ideal cuando se debe consultar una Base de Datos en el servidor
+##### JavaScript (cliente)
+1. Clic en Enviar → el navegador ejecuta una función JS local
+2. Actualiza la UI al instante (sin contactar al servidor)
+- Ideal para interacción inmediata de la interfaz- sin retardos.
+![[Pasted image 20261030230855.png]]
 #### 5. Ejemplo de Integración: Servicio de Mapas en Línea (Flujo en 7 Pasos)
 
 El material ilustra la interacción entre ambos modelos mediante un servicio interactivo de mapas:
