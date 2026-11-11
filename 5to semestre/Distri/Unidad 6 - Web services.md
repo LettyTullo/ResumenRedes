@@ -25,3 +25,32 @@ La utilidad principal de los servicios web es facilitar la integración y comuni
 - **URI (_Uniform Resource Identifier_):** Es el **identificador de recurso general**. Un URI es la categoría global cuyo valor puede ser una URL o una URN.
 - **URL (_Uniform Resource Locator_):** Es un tipo de URI que **incluye información de ubicación del recurso**, como por ejemplo el nombre de dominio del servidor (ejemplo: `https://www.paraguay.gov.py/`).
 - **URN (_Uniform Resource Name_):** Es un nombre de recurso uniforme que **no depende de la ubicación**. En su lugar, requiere de un servicio de búsqueda para mapearlo o asignarlo a las URLs correspondientes del recurso (ejemplos: `urn:isbn:0451450523` o `urn:ISSN:0167-6423`).
+#### Web Services SOAP
+
+![[Pasted image 20261111124702.png|510]]
+
+El diagrama adjunto describe el modelo conceptual estándar de arquitectura de servicios web del W3C y se articula directamente con los componentes técnicos de un servicio web SOAP.
+- **1. Descubrimiento y conocimiento mutuo (_Parties "become known" to each other_)**
+    - **En el diagrama:** La entidad cliente (_Requester Entity_) y la proveedora (_Provider Entity_) se reconocen mutuamente a nivel conceptual u organizacional.
+    - **En la técnica SOAP:** Este paso se logra mediante **UDDI** (Universal Description, Discovery and Integration), un catálogo basado en XML donde los proveedores registran sus servicios para que los clientes puedan descubrirlos.
+- **2. Acuerdo de semántica y contrato (_Agree on semantics & WSD_)**
+    - **En el diagrama:** Las partes definen y acuerdan las reglas semánticas (_Sem_) y la descripción del servicio (_WSD - Web Services Description_).
+    - **En la técnica SOAP:** Corresponde al archivo **WSDL** (Web Services Description Language), un documento XML que actúa como contrato público definiendo las operaciones disponibles, los formatos de los mensajes e interfaz de comunicación.
+- **3. Configuración de los agentes de software (_Input Semantics & WSD_)**
+    - **En el diagrama:** Las definiciones formales se introducen tanto en el agente del cliente (_Requester Agent_) como en el del servidor (_Provider Agent_).
+    - **En la técnica SOAP:** El cliente utiliza el WSDL para instanciar un _Web Service Proxy_ (encargado de serializar las peticiones XML), mientras que el servidor configura su _Web Service Stub_ (encargado de recibir, deserializar y ejecutar la lógica correspondiente).
+- **4. Interacción y ejecución (_Interact_)**
+    - **En el diagrama:** Intercambio directo de mensajes entre el _Requester Agent_ y el _Provider Agent_.
+    - **En la técnica SOAP:** El agente cliente empaqueta los datos dentro de un sobre XML con el formato **SOAP** (con encabezados y cuerpo) y lo transmite por la red mediante un protocolo de transporte (como HTTP/HTTPS, SMTP o FTP). El servidor procesa la solicitud (RPC) y devuelve la respuesta en otro mensaje XML/SOAP.
+#### Cuáles son los protocolos y tecnologías asociados?
+La arquitectura de los servicios web SOAP se fundamenta en un conjunto de tecnologías y protocolos abiertos:
+
+- **SOAP (** **Simple Object Access Protocol** **):** Es el protocolo estándar de mensajería encargado de definir la estructura, empaquetado y reglas de intercambio de datos entre objetos distribuidos.
+- **XML (** **Extensible Markup Language** **):** Es el lenguaje de etiquetas que proporciona el formato de datos estándar, flexible e intercambiable utilizado para construir el contenido de los mensajes SOAP.
+##### - Ventajas de XML
+- Ofrece un formato de datos estándar, flexible y extensible.
+- Reduce significativamente la carga de la implementación de las muchas tecnologías necesarias para garantizar el éxito de los servicios Web.
+- El conjunto de información XML no es un formato de datos en sí, sino un conjunto formal de elementos de información y sus propiedades asociadas que conforman una descripción abstracta de un documento XML.
+- **WSDL (** **Web Services Description Language** **):** Es el lenguaje de interfaz pública (IDL) que describe las capacidades funcionales y las especificaciones del servicio web. Describe servicios Web a partir de los mensajes que se intercambian entre los agentes del request (solicitante) y el provider (proveedor). El mensaje en sí se describe de forma abstracta y luego relacionado a un protocolo de red y formato de mensajes concreto. La aplicación puede ser implementada usando librerías como por ejemplo COM, JMS, CORBA, COBOL, etc. Mientras que el emisor y el receptor estén de acuerdo en la descripción del servicio (por ejemplo, el archivo WSDL), detrás de las implementaciones de los servicios Web pueden realizar las acciones que desean.
+- **UDDI (** **Universal Description, Discovery and Integration** **):** Es el estándar basado en XML que sirve como catálogo o registro para la publicación y búsqueda de servicios web.
+- **Protocolos de transporte y red:** Aunque típicamente los mensajes SOAP se transmiten a través de **HTTP** o **HTTPS**[5][11], SOAP es independiente de la capa de transporte y puede enviarse mediante **SMTP**, **FTP**, **RMI / IIOP** o sistemas propios de mensajería
