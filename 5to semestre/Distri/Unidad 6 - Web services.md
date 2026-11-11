@@ -87,4 +87,4 @@ Fielding sostiene que en Internet un conjunto mínimo y uniforme de operaciones 
 - **Comunicación bidireccional (Full-Duplex):** Permite que tanto el cliente como el servidor se envíen datos de manera simultánea e interactiva sobre la misma conexión.
 - **Superación de las limitaciones de HTTP:** Su objetivo principal es permitir la comunicación continua **sin necesidad de abrir múltiples conexiones HTTP** ni recurrir a técnicas pesadas como sondeos largos (_long polling_), `XMLHttpRequest` o marcos `<iframe>`.
 - **Arquitectura sobre TCP:** Se distribuye directamente en capas sobre **TCP**. Inicia con un **protocolo de enlace de apertura** (_handshake_) y prosigue con un entramado de mensajes básico (_message framing_).
-- **Modelo de seguridad:** Utiliza el modelo de seguridad basado en origen (_Origin-based security model_), estándar habitual en los navegadores web.
+- **Modelo de seguridad:** Utiliza el modelo de seguridad basado en origen (_Origin-based security model_), estándar habitual en los navegadores web.x
