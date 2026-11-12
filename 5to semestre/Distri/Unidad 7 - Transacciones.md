@@ -15,6 +15,24 @@ Para garantizar que el manejo de datos en un entorno distribuido sea confiable, 
 2. **Consistencia (_Consistency_):** Asegura que la transacción lleve al sistema de un estado válido a otro estado también válido, respetando en todo momento las reglas e invariantes del sistema (por ejemplo, evitar saldos negativos en una cuenta).
 3. **Aislamiento (_Isolation_):** Exige que cada transacción se ejecute de forma independiente sin interferencias de otras transacciones concurrentes. Los resultados intermedios no son visibles para otras operaciones hasta que la transacción se consuma por completo.
 4. **Durabilidad (_Durability_):** Asegura que una vez que la transacción ha sido confirmada (_commit_), sus cambios permanecen guardados en almacenamiento permanente, incluso si el servidor se apaga o sufre una caída inmediatamente después.
+#### Que es una sincronizacion simple?
+La **sincronización simple (sin transacciones)** es un mecanismo para asegurar que las operaciones ejecutadas en nombre de diferentes clientes no interfieran entre sí en un entorno multihilo, evitando que se generen valores incorrectos o inconsistentes en los objetos compartidos.
+
+Los aspectos clave de este mecanismo incluyen:
+##### Exclusión mutua y operaciones atómicas
+
+- **Interferencia en multihilo:** Cuando múltiples hilos acceden concurrentemente a métodos no diseñados para entornos multihilo, sus acciones pueden entremezclarse de forma arbitraria y alterar las variables de instancia de los objetos.
+- **Bloqueo con `synchronized`:** En Java, la palabra clave `synchronized` garantiza que **solo un hilo pueda acceder a un objeto a la vez**. Al invocar un método sincronizado, el hilo bloquea el objeto; otros hilos que intenten acceder deben esperar a que dicho bloqueo sea liberado.
+- **Ejecución atómica:** Esta separación en el tiempo garantiza que las variables de instancia se accedan de forma consistente. Las operaciones libres de interferencia por parte de otros hilos se consideran **operaciones atómicas**.
+##### Coordinación entre hilos (`wait` y `notify`)
+
+- **Colaboración de clientes:** En situaciones donde una operación requiere que otro hilo realice una acción previa (como en esquemas de _productor-consumidor_ o al liberar un recurso compartido), la exclusión mutua por sí sola no basta.
+- **`wait()`:** Permite que un hilo suspenda su propia ejecución dentro de un método sincronizado y **libere de forma atómica su bloqueo**, dando paso a que otro hilo ejecute.
+- **`notify()`:** Informa a los hilos en espera que los datos del objeto han cambiado, permitiéndoles activarse, adquirir un nuevo bloqueo y reanudar la ejecución.
+
+### **Diferencia con el manejo de transacciones**
+
+Mientras que la sincronización simple solo protege la integridad de las variables en la memoria volátil del servidor durante la ejecución, **las transacciones garantizan propiedades ACID completas**, asegurando además que los cambios se almacenen en memoria permanente y se puedan revertir en caso de caídas del servidor.
 
 ### **¿Qué es una Transacción Simple (Plana o _Flat Transaction_)?**
 
